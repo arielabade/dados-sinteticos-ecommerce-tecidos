@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_eventos
+    description: >
+      Eventos deduplicados (event_id e transaction_id) e com fuso corrigido.
+      A unicidade de evento_id e event_id é garantida pela construção do modelo
+      (um MIN(evento_id) por event_id); testá-la exigiria ordenar ~15 milhões de
+      linhas em disco, por isso não há teste unique aqui.
+    columns:
+      - name: evento_id
+        tests: [not_null]
+  - name: stg_clientes
+    columns:
+      - name: cliente_id
+        tests: [unique, not_null]
+      - name: email
+        tests: [unique]
+  - name: stg_pedidos
+    columns:
+      - name: pedido_id
+        tests: [unique, not_null]
+      - name: sessao_id
+        tests:
+          - relationships: {to: ref('stg_sessoes'), field: sessao_id}

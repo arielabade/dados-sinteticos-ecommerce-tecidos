@@ -1,0 +1,11 @@
+tecidos:
+  target: dev
+  outputs:
+    dev:
+      type: mysql
+      server: "{{ env_var('DBT_HOST', '127.0.0.1') }}"
+      port: "{{ env_var('DBT_PORT', '3336') | int }}"
+      username: "{{ env_var('DBT_USER', 'analista') }}"
+      password: "{{ env_var('DBT_PASSWORD', 'analista123') }}"
+      schema: tecidos_analytics
+      threads: 2

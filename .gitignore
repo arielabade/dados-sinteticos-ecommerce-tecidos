@@ -1,0 +1,23 @@
+# Dados gerados (recriados por `make dados`; passam de 4 GB)
+data/
+!data/.gitkeep
+
+# Ambientes e caches
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.env
+
+# dbt
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+logs/
+
+# Sistema/editor
+.DS_Store
+.vscode/
+.idea/
+dbt/.user.yml

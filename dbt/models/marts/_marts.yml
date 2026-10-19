@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: fct_pedidos
+    description: Um pedido real (sem testes) por linha, com sequência do cliente, coorte, margem e canal de last click.
+    columns:
+      - name: pedido_id
+        tests: [unique, not_null]
+      - name: cliente_id
+        tests:
+          - relationships: {to: ref('stg_clientes'), field: cliente_id}
+      - name: status
+        tests:
+          - accepted_values: {values: ['aguardando_pagamento','pago','enviado','entregue','cancelado','devolvido']}
+  - name: dim_clientes
+    description: Cliente unificado (contas duplicadas pelo CPF consolidadas).
+    columns:
+      - name: cliente_id
+        tests: [unique, not_null]
+  - name: fct_midia_diaria
+    description: Investimento ao lado de conversões reportadas e atribuídas, por dia e campanha.
+    tests:
+      - dbt_utils_like_unique_combination:
+          columns: [data, plataforma, campanha_id]
+  - name: fct_kpis_diarios
+    columns:
+      - name: data
+        tests: [unique, not_null]
+  - name: fct_funil_canal_diario
+    description: Funil GA4 (sessões por etapa) por dia, canal e dispositivo.

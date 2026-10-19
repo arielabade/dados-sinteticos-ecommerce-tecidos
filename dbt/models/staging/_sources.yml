@@ -1,0 +1,40 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: tecidos
+    description: Banco transacional + tracking + mídia carregado pelo docker-compose.
+    tables:
+      - {name: categorias}
+      - {name: fornecedores}
+      - {name: produtos}
+      - {name: variantes}
+      - {name: historico_precos}
+      - {name: estoque}
+      - {name: estoque_diario}
+      - {name: clientes}
+      - {name: enderecos}
+      - {name: cupons}
+      - {name: pedidos}
+      - {name: itens_pedido}
+      - {name: pagamentos}
+      - {name: fretes}
+      - {name: devolucoes}
+      - {name: avaliacoes}
+      - {name: movimentacoes_estoque}
+      - {name: sessoes}
+      - {name: eventos}
+      - {name: envios_conversao}
+      - {name: cliques_midia}
+      - {name: atribuicoes}
+      - {name: meta_contas}
+      - {name: meta_campanhas}
+      - {name: meta_conjuntos}
+      - {name: meta_anuncios}
+      - {name: meta_metricas_diarias}
+      - {name: google_contas}
+      - {name: google_campanhas}
+      - {name: google_grupos_anuncio}
+      - {name: google_palavras_chave}
+      - {name: google_metricas_diarias}
+      - {name: google_palavras_chave_metricas_diarias}

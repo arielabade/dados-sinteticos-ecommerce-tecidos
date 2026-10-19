@@ -1,0 +1,52 @@
+name: tecidos
+
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: tecidos-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-tecidos_root}
+      MYSQL_DATABASE: tecidos
+      MYSQL_USER: analista
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-analista123}
+      TZ: UTC
+    command:
+      - --default-time-zone=+00:00
+      - --secure-file-priv=  # vazio: permite LOAD DATA de /dados (montado só leitura)
+      - --innodb-buffer-pool-size=${MYSQL_BUFFER_POOL:-1G}
+      - --innodb-redo-log-capacity=1G
+      - --max-allowed-packet=256M
+      - --skip-log-bin
+    ports:
+      - "${MYSQL_PORT:-3336}:3306"
+    volumes:
+      - mysql_dados:/var/lib/mysql
+      - ./schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./docker/mysql/02_carregar.sh:/docker-entrypoint-initdb.d/02_carregar.sh:ro
+      - ./docker/mysql/03_permissoes.sql:/docker-entrypoint-initdb.d/03_permissoes.sql:ro
+      - ${DADOS_CSV:-./data/csv}:/dados:ro
+    healthcheck:
+      # só fica saudável depois que a carga inicial terminou
+      test: ["CMD-SHELL", "mysql -uroot -p$$MYSQL_ROOT_PASSWORD -h127.0.0.1 -N -e 'SELECT 1 FROM tecidos._carga_concluida' | grep -q 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 240
+      start_period: 60s
+
+  dbt:
+    build: ./dbt
+    profiles: ["dbt"]
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DBT_HOST: mysql
+      DBT_PORT: "3306"
+      DBT_USER: analista
+      DBT_PASSWORD: ${MYSQL_PASSWORD:-analista123}
+    volumes:
+      - ./dbt:/usr/app
+    working_dir: /usr/app
+
+volumes:
+  mysql_dados:
