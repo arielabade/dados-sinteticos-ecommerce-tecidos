@@ -13,7 +13,9 @@ midia as (
     select data,
            sum(investimento)                                        as investimento,
            sum(case when plataforma = 'meta' then investimento end)   as investimento_meta,
-           sum(case when plataforma = 'google' then investimento end) as investimento_google
+           sum(case when plataforma = 'google' then investimento end) as investimento_google,
+           sum(case when plataforma = 'tiktok' then investimento end) as investimento_tiktok,
+           sum(case when plataforma = 'afiliados' then investimento end) as investimento_afiliados
     from {{ ref('stg_midia_diaria') }}
     group by 1
 ),
@@ -29,6 +31,8 @@ select
     coalesce(m.investimento, 0)        as investimento,
     coalesce(m.investimento_meta, 0)   as investimento_meta,
     coalesce(m.investimento_google, 0) as investimento_google,
+    coalesce(m.investimento_tiktok, 0) as investimento_tiktok,
+    coalesce(m.investimento_afiliados, 0) as investimento_afiliados,
     s.sessoes,
     ped.receita / nullif(m.investimento, 0)       as mer,
     m.investimento / nullif(ped.novos_clientes, 0) as cac_blended,

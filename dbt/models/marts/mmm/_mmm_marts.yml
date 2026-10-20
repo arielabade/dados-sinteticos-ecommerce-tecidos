@@ -1,0 +1,73 @@
+version: 2
+
+models:
+  - name: fct_mmm_midia_canal_regiao_diario
+    description: Mídia por dia, canal e UF (fonte de mídia do repositório marketing-mix-modeling).
+    tests:
+      - dbt_utils_like_unique_combination:
+          columns: [data, canal_id, uf]
+    columns:
+      - name: data
+        tests: [not_null]
+      - name: uf
+        tests:
+          - not_null
+          - relationships: {to: ref('stg_regioes'), field: uf}
+      - name: canal_id
+        tests:
+          - relationships: {to: ref('stg_canais_midia'), field: canal_id}
+      - name: canal_mmm
+        tests:
+          - not_null
+          - accepted_values: {values: ['meta', 'tiktok', 'google_search', 'google_shopping', 'youtube', 'afiliados', 'email_crm']}
+      - name: investimento
+        tests:
+          - not_null
+          - valor_entre: {minimo: 0, maximo: 100000}
+      - name: impressoes
+        tests:
+          - valor_entre: {minimo: 0, maximo: 100000000}
+      - name: cliques
+        tests:
+          - not_null
+          - expressao_verdadeira: {expressao: "impressoes is null or cliques <= impressoes"}
+  - name: fct_mmm_vendas_regiao_diario
+    description: Pedidos e receita paga por dia e UF, grade completa.
+    tests:
+      - dbt_utils_like_unique_combination:
+          columns: [data, uf]
+    columns:
+      - name: data
+        tests: [not_null]
+      - name: uf
+        tests:
+          - not_null
+          - relationships: {to: ref('stg_regioes'), field: uf}
+      - name: pedidos
+        tests:
+          - not_null
+          - valor_entre: {minimo: 0, maximo: 100000}
+      - name: receita
+        tests:
+          - not_null
+          - valor_entre: {minimo: 0, maximo: 100000000}
+  - name: fct_mmm_controles_diario
+    description: Controles diários do MMM (calendário e preço).
+    columns:
+      - name: data
+        tests: [unique, not_null]
+      - name: indice_preco
+        tests:
+          - not_null
+          - valor_entre: {minimo: 0.5, maximo: 1.05}
+      - name: desconto_cupom
+        tests:
+          - valor_entre: {minimo: 0, maximo: 0.5}
+  - name: dim_testes_geo
+    tests:
+      - dbt_utils_like_unique_combination:
+          columns: [teste_id, uf]
+    columns:
+      - name: grupo
+        tests:
+          - accepted_values: {values: ['tratamento', 'controle']}

@@ -1,0 +1,84 @@
+version: 2
+
+models:
+  - name: stg_canais_midia
+    columns:
+      - name: canal_id
+        tests: [unique, not_null]
+      - name: canal
+        tests: [unique, not_null]
+      - name: canal_mmm
+        tests:
+          - not_null
+          - accepted_values: {values: ['meta', 'tiktok', 'google_search', 'google_shopping', 'youtube', 'afiliados', 'email_crm']}
+      - name: tipo_investimento
+        tests:
+          - accepted_values: {values: ['pago', 'proprio']}
+  - name: stg_regioes
+    columns:
+      - name: uf
+        tests: [unique, not_null]
+      - name: sigla_macrorregiao
+        tests:
+          - accepted_values: {values: ['SE', 'S', 'CO', 'NE', 'N']}
+      - name: peso_populacional
+        tests:
+          - valor_entre: {minimo: 0, maximo: 1}
+  - name: stg_midia_regional_diaria
+    tests:
+      - dbt_utils_like_unique_combination:
+          columns: [data, canal_id, uf]
+    columns:
+      - name: data
+        tests: [not_null]
+      - name: canal_id
+        tests:
+          - not_null
+          - relationships: {to: ref('stg_canais_midia'), field: canal_id}
+      - name: uf
+        tests:
+          - not_null
+          - relationships: {to: ref('stg_regioes'), field: uf}
+      - name: investimento
+        tests:
+          - not_null
+          - valor_entre: {minimo: 0, maximo: 100000}
+      - name: cliques
+        tests:
+          - not_null
+          - valor_entre: {minimo: 0, maximo: 1000000}
+      - name: conversoes_plataforma
+        tests:
+          - valor_entre: {minimo: 0, maximo: 1000000}
+          - expressao_verdadeira: {expressao: "conversoes_plataforma <= cliques"}
+  - name: stg_calendario_comercial
+    columns:
+      - name: data
+        tests: [unique, not_null]
+      - name: dia_semana
+        tests:
+          - valor_entre: {minimo: 1, maximo: 7}
+  - name: stg_testes_geo
+    columns:
+      - name: teste_id
+        tests: [unique, not_null]
+      - name: canal_id
+        tests:
+          - relationships: {to: ref('stg_canais_midia'), field: canal_id}
+      - name: multiplicador_investimento
+        tests:
+          - valor_entre: {minimo: 0, maximo: 5}
+  - name: stg_testes_geo_regioes
+    tests:
+      - dbt_utils_like_unique_combination:
+          columns: [teste_id, uf]
+    columns:
+      - name: teste_id
+        tests:
+          - relationships: {to: ref('stg_testes_geo'), field: teste_id}
+      - name: uf
+        tests:
+          - relationships: {to: ref('stg_regioes'), field: uf}
+      - name: grupo
+        tests:
+          - accepted_values: {values: ['tratamento', 'controle']}

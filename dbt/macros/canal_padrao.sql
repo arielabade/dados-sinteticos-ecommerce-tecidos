@@ -13,9 +13,10 @@ case
             when 'DEMAND_GEN' then 'Paid Video'
             else 'Paid Search' end
     when fbclid is not null
-      or (utm_source_norm in ('fb','ig','an','facebook','instagram','igshopping')
+      or (utm_source_norm in ('fb','ig','an','facebook','instagram','igshopping','tiktok','tiktok_ads')
           and utm_medium_norm in ('paid_social','paid','cpc')) then 'Paid Social'
     when utm_source_norm = 'google' and utm_medium_norm = 'cpc' then 'Paid Search'
+    when utm_medium_norm in ('afiliados','affiliate') then 'Affiliates'
     when utm_medium_norm = 'email' or utm_source_norm in ('newsletter','email','rdstation') then 'Email'
     when utm_source_norm in ('whatsapp','wpp') then 'WhatsApp'
     when utm_medium_norm in ('social','bio') or utm_source_norm in ('ig','instagram','linktree')

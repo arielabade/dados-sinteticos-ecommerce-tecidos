@@ -38,3 +38,14 @@ sources:
       - {name: google_palavras_chave}
       - {name: google_metricas_diarias}
       - {name: google_palavras_chave_metricas_diarias}
+      - {name: canais_midia}
+      - {name: regioes}
+      - {name: midia_regional_diaria}
+      - {name: calendario_comercial}
+      - {name: testes_geo}
+      - {name: testes_geo_regioes}
+      - {name: tiktok_campanhas}
+      - {name: tiktok_metricas_diarias}
+      - {name: afiliados_parceiros}
+      - {name: afiliados_metricas_diarias}
+      - {name: crm_disparos}
