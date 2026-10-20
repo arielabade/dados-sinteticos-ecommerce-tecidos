@@ -31,10 +31,12 @@ FAIXAS = [
     ("Taxa de devolução (pedidos entregues com devolução)",
      "SELECT COUNT(DISTINCT d.pedido_id) / (SELECT COUNT(*) FROM pedidos WHERE status IN ('entregue','devolvido')) FROM devolucoes d",
      0.01, 0.05),
-    ("MER (receita paga / investimento total)",
+    ("MER (receita paga / investimento total em mídia paga)",
      f"""SELECT (SELECT SUM(total) FROM pedidos WHERE status IN {PAGOS} AND pedido_teste = 0) /
-               ((SELECT SUM(investimento) FROM meta_metricas_diarias) + (SELECT SUM(investimento) FROM google_metricas_diarias))""",
-     5, 14),
+               ((SELECT SUM(investimento) FROM meta_metricas_diarias) + (SELECT SUM(investimento) FROM google_metricas_diarias)
+                + (SELECT SUM(investimento) FROM tiktok_metricas_diarias)
+                + (SELECT SUM(investimento) FROM afiliados_metricas_diarias))""",
+     4, 14),
     ("ROAS reportado pela Meta", "SELECT SUM(valor_compras) / SUM(investimento) FROM meta_metricas_diarias", 2.5, 9),
     ("ROAS reportado pelo Google", "SELECT SUM(valor_conversao) / SUM(investimento) FROM google_metricas_diarias", 3, 12),
     ("CPC médio Meta (R$, clique no link)", "SELECT SUM(investimento) / SUM(cliques_link) FROM meta_metricas_diarias", 0.6, 3.0),
@@ -78,6 +80,62 @@ REGRAS = [
         JOIN google_metricas_diarias m ON m.data = x.data AND m.grupo_id = x.grupo_id WHERE x.s > m.investimento + 0.05"""),
     ("Saldo final = inicial + entradas - saídas (estoque diário)",
      "SELECT COUNT(*) FROM estoque_diario WHERE ABS(saldo_final - (saldo_inicial + entradas - saidas)) > 0.02"),
+]
+
+    # ---- camada de MMM (gerador/regional.py)
+    ("Mídia regional soma o relatório nacional da plataforma (Meta, Google, TikTok, afiliados, CRM)",
+     """SELECT COUNT(*) FROM (
+          SELECT n.data, n.plat, n.inv, COALESCE(r.inv, 0) reg FROM (
+            SELECT data, 'meta' plat, SUM(investimento) inv FROM meta_metricas_diarias GROUP BY 1
+            UNION ALL SELECT data, 'google', SUM(investimento) FROM google_metricas_diarias GROUP BY 1
+            UNION ALL SELECT data, 'tiktok', SUM(investimento) FROM tiktok_metricas_diarias GROUP BY 1
+            UNION ALL SELECT data, 'afiliados', SUM(investimento) FROM afiliados_metricas_diarias GROUP BY 1
+            UNION ALL SELECT data, 'crm', SUM(custo) FROM crm_disparos GROUP BY 1) n
+          LEFT JOIN (SELECT m.data, c.plataforma plat, SUM(m.investimento) inv FROM midia_regional_diaria m
+                     JOIN canais_midia c USING (canal_id) GROUP BY 1, 2) r ON r.data = n.data AND r.plat = n.plat
+          WHERE n.inv > 0 AND ABS(n.inv - COALESCE(r.inv, 0)) > 0.011) x"""),
+    ("Conversões da plataforma por UF <= cliques",
+     "SELECT COUNT(*) FROM midia_regional_diaria WHERE conversoes_plataforma > cliques"),
+    ("Investimento só em UF com entrega",
+     """SELECT COUNT(*) FROM midia_regional_diaria m JOIN regioes r USING (uf)
+        WHERE m.investimento > 0 AND r.entrega_disponivel = 0"""),
+    ("Meta desligada nas UFs de tratamento durante o teste geográfico",
+     """SELECT COUNT(*) FROM midia_regional_diaria m JOIN canais_midia c USING (canal_id)
+        JOIN testes_geo t ON t.canal_mmm = c.canal_mmm
+        JOIN testes_geo_regioes g ON g.teste_id = t.teste_id AND g.uf = m.uf AND g.grupo = 'tratamento'
+        WHERE m.data BETWEEN t.inicio AND t.fim AND m.investimento > 0"""),
+    ("Calendário comercial cobre todos os dias com pedido",
+     """SELECT COUNT(DISTINCT DATE(criado_em)) FROM pedidos p
+        WHERE NOT EXISTS (SELECT 1 FROM calendario_comercial c WHERE c.data = DATE(p.criado_em))"""),
+]
+
+# Distribuições que a camada de MMM não pode deslocar. Referência: banco gerado
+# pela versão anterior do gerador (escala 1.0, mesmo seed), medida antes da
+# mudança. Tolerância: desvio relativo máximo (ou absoluto, para participações).
+REFERENCIA = [
+    # descrição, SQL, valor de referência, tolerância, tipo ('rel' ou 'abs')
+    ("Ticket médio dos pedidos pagos (R$)",
+     f"SELECT AVG(total) FROM pedidos WHERE status IN {PAGOS} AND pedido_teste = 0", 290.81, 0.08, "rel"),
+    ("Clientes com 2+ pedidos (recompra)",
+     "SELECT AVG(n >= 2) FROM (SELECT COUNT(*) n FROM pedidos WHERE pedido_teste = 0 GROUP BY cliente_id) x",
+     0.5744, 0.05, "abs"),
+    ("Pedidos por cliente", "SELECT AVG(n) FROM (SELECT COUNT(*) n FROM pedidos WHERE pedido_teste = 0 GROUP BY cliente_id) x",
+     2.928, 0.10, "rel"),
+    ("Itens por pedido", "SELECT AVG(k) FROM (SELECT COUNT(*) k FROM itens_pedido GROUP BY pedido_id) x", 1.867, 0.05, "rel"),
+    ("Taxa de cancelamento", "SELECT AVG(status = 'cancelado') FROM pedidos WHERE pedido_teste = 0", 0.0694, 0.02, "abs"),
+    ("Participação de pedidos de costureiras",
+     """SELECT AVG(c.tipo_cliente = 'costureira') FROM pedidos p JOIN clientes c USING (cliente_id)
+        WHERE p.pedido_teste = 0""", 0.4331, 0.03, "abs"),
+    ("Participação de pedidos de hobby",
+     """SELECT AVG(c.tipo_cliente = 'hobby') FROM pedidos p JOIN clientes c USING (cliente_id)
+        WHERE p.pedido_teste = 0""", 0.2937, 0.03, "abs"),
+    ("Participação do linho na receita de itens",
+     """SELECT SUM(CASE WHEN cp.slug = 'linho' THEN i.total_item END) / SUM(i.total_item)
+        FROM itens_pedido i JOIN variantes v USING (variante_id) JOIN produtos pr USING (produto_id)
+        JOIN categorias ca ON ca.categoria_id = pr.categoria_id JOIN categorias cp ON cp.categoria_id = ca.categoria_pai_id""",
+     0.2727, 0.03, "abs"),
+    ("Pedidos pagos (escala 1.0)",
+     f"SELECT COUNT(*) FROM pedidos WHERE status IN {PAGOS} AND pedido_teste = 0", 133649, 0.10, "rel"),
 ]
 
 # Imperfeições propositais: devem EXISTIR (documentadas em docs/imperfeicoes.md)
@@ -140,6 +198,18 @@ def main() -> int:
         ok = lo <= v <= hi
         falhas += not ok
         print(f"  [{'ok' if ok else 'FALHA'}] {desc}: {v:,.4f} (faixa {lo}–{hi})")
+
+    escala = float(os.environ.get("ESCALA", "1.0"))
+    print(f"\n== Distribuições preservadas em relação à versão anterior (tolerância declarada; escala {escala})")
+    for desc, sql, ref, tol, tipo in REFERENCIA:
+        if desc.startswith("Pedidos pagos"):
+            ref = ref * escala
+        v = float(um(sql) or 0)
+        desvio = abs(v / ref - 1) if tipo == "rel" else abs(v - ref)
+        ok = desvio <= tol
+        falhas += not ok
+        lim = f"±{tol:.0%}" if tipo == "rel" else f"±{tol:.3f}"
+        print(f"  [{'ok' if ok else 'FALHA'}] {desc}: {v:,.4f} (ref. {ref:,.4f}, {lim})")
 
     print("\n== Imperfeições propositais (devem existir)")
     for desc, sql in IMPERFEICOES:
