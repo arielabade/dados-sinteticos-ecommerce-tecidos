@@ -1,45 +1,70 @@
 # Tecelã Tecidos: dados sintéticos de um e-commerce de tecidos
 
+[![Modelo de dados da Tecelã Tecidos: visão geral e os diagramas das 7 áreas](docs/diagramas/modelo_de_dados_one_pager.svg)](docs/diagramas/modelo_de_dados_one_pager.svg)
+
+<sub>O modelo inteiro numa página. Clique para ampliar ou baixe em [PNG](docs/diagramas/modelo_de_dados_one_pager.png) e [PDF](docs/diagramas/modelo_de_dados_one_pager.pdf). Cada área tem o diagrama detalhado em [`docs/diagrama_er.md`](docs/diagrama_er.md).</sub>
+
 A **Tecelã Tecidos** é uma loja online brasileira de tecidos **fictícia**, que vende para pessoas que costuram por hobby, costureiras, ateliês e pequenas confecções. Este repositório gera o banco de dados completo da loja entre **01/10/2023 e 13/10/2026**:
 
 - catálogo, preços e estoque diário;
 - clientes, pedidos, pagamentos, fretes e devoluções;
 - tracking do site (sessões e eventos GA4 via GTM server-side, envios à Meta CAPI);
-- mídia paga (Meta Ads e Google Ads, até o nível de anúncio e de palavra-chave) e atribuição.
+- mídia paga (Meta, Google e TikTok Ads, até o nível de anúncio e de palavra-chave), afiliados, CRM e atribuição;
+- camada de MMM: mídia por UF, calendário comercial e testes geográficos.
 
 O objetivo é praticar análise de marketing e de e-commerce com dados que têm cara de produção: CAC, ROAS, MER, LTV, funil, RFM, previsão de demanda, churn e incrementalidade de mídia.
 
 Tudo é inventado: produtos, fornecedores, campanhas, pessoas, e-mails (domínio `example`), CPFs, telefones e endereços. Os dados pessoais foram gerados do zero com Faker `pt_BR` (CPFs e CNPJs têm o formato oficial, mas dígito verificador inválido de propósito), e `scripts/varredura_pii.py` confere que nenhum dado pessoal real foi parar no banco.
+
+**Dataset pronto para uso no Kaggle:** [ecommerce-sintetico-midia-paga](https://www.kaggle.com/datasets/arielabade/ecommerce-sintetico-midia-paga), com as 44 tabelas em Parquet e uma tabela de mídia consolidada (CPM, CTR, CPC, ROAS).
 
 ## Conteúdo
 
 | Caminho | O que é |
 |---|---|
 | `gerador/` | Processo gerador (Python). `python -m gerador` cria os CSVs. |
-| `schema.sql` | DDL MySQL 8: 33 tabelas, PKs, FKs e índices. |
+| `schema.sql` | DDL MySQL 8: 44 tabelas, PKs, FKs e índices. |
 | `docker-compose.yml`, `docker/mysql/` | Sobe o MySQL 8 e carrega os CSVs na primeira inicialização. |
-| `dbt/` | Modelos dbt: limpeza (`staging`), funil por sessão (`intermediate`) e tabelas analíticas (`marts`), com testes. |
-| `sql/analises/` | 9 consultas comentadas: CAC/ROAS/MER, coortes, funil, RFM, curva ABC, atribuição, limpeza do tracking, ruptura de estoque. |
-| `notebooks/` | 5 notebooks de modelagem (abaixo). |
+| `dbt/` ([README](dbt/README.md)) | Modelos dbt: limpeza (`staging`), funil por sessão (`intermediate`) e tabelas analíticas (`marts`), com testes. |
+| `sql/analises/` ([README](sql/analises/README.md)) | 9 consultas comentadas: CAC/ROAS/MER, coortes, funil, RFM, curva ABC, atribuição, limpeza do tracking, ruptura de estoque. |
+| `notebooks/` ([README](notebooks/README.md)) | 5 notebooks de modelagem (abaixo). |
 | `docs/dicionario_dados.md` | Dicionário de dados: grão e descrição de cada tabela e coluna. |
-| `docs/diagrama_er.md` | Diagrama entidade-relacionamento (Mermaid). |
+| `docs/diagrama_er.md`, `docs/diagramas/` | Diagramas entidade-relacionamento por área e o one-pager (SVG, PNG e PDF), gerados por `scripts/gerar_diagramas.py`. |
 | `docs/imperfeicoes.md` | Imperfeições inseridas de propósito, com como detectar e tratar cada uma. |
 | `scripts/validar.py` | Integridade referencial, regras de negócio e faixas de métricas. |
 | `data/verdade/` | **Gabarito** do gerador: efeito real de cada canal de mídia, motor de cada pedido, demanda perdida por ruptura. Não vai para o MySQL. |
 
+## Modelo de dados
+
+São **44 tabelas em 7 áreas**. Cada área tem um diagrama próprio, sem linhas cruzadas, com as chaves (PK/FK), os tipos e a cardinalidade em notação pé de galinha:
+
+| Área | Tabelas | Diagrama |
+|---|---|---|
+| Catálogo e estoque | categorias, fornecedores, produtos, variantes, historico_precos (SCD2), estoque, estoque_diario, movimentacoes_estoque | [1](docs/diagrama_er.md#1-catálogo-e-estoque) |
+| Clientes e pedidos | clientes, enderecos, cupons, pedidos, itens_pedido, pagamentos, fretes, devolucoes, avaliacoes | [2](docs/diagrama_er.md#2-clientes-pedidos-e-pós-venda) |
+| Tracking e atribuição | cliques_midia, sessoes, eventos, envios_conversao, atribuicoes | [3](docs/diagrama_er.md#3-tracking-do-site-e-atribuição) |
+| Meta Ads | meta_contas, meta_campanhas, meta_conjuntos, meta_anuncios, meta_metricas_diarias | [4](docs/diagrama_er.md#4-meta-ads) |
+| Google Ads | google_contas, google_campanhas, google_grupos_anuncio, google_palavras_chave e as duas tabelas de métricas diárias | [5](docs/diagrama_er.md#5-google-ads) |
+| MMM regional e outros canais | midia_regional_diaria, canais_midia, regioes, calendario_comercial, testes_geo, testes_geo_regioes, tiktok_*, afiliados_*, crm_disparos | [6](docs/diagrama_er.md#6-mmm-regional-testes-geográficos-e-outros-canais) |
+
+![Visão geral: as 7 áreas e as chaves que as ligam](docs/diagramas/00_visao_geral.svg)
+
+Os diagramas são gerados a partir do `schema.sql` por `python scripts/gerar_diagramas.py`, que falha se alguma linha cruzar outra ou atravessar uma tabela.
+
 ## Volume (escala 1.0)
 
 | Tabela | Linhas |
-|---|---|
-| `clientes` | 50 mil |
-| `pedidos` / `itens_pedido` | 144 mil / 268 mil |
-| `sessoes` | 5,2 milhões |
-| `eventos` | 15,7 milhões |
-| `cliques_midia` | 2,4 milhões |
-| `estoque_diario` | 2,3 milhões |
-| `meta_metricas_diarias` / `google_metricas_diarias` | 18 mil / 13 mil |
+|---|---:|
+| `clientes` | 51.179 |
+| `pedidos` / `itens_pedido` | 144.583 / 270.242 |
+| `sessoes` | 7.027.410 |
+| `eventos` | 20.450.741 |
+| `cliques_midia` | 2.758.328 |
+| `estoque_diario` | 2.275.191 |
+| `meta_metricas_diarias` / `google_metricas_diarias` / `tiktok_metricas_diarias` | 17.677 / 13.659 / 3.204 |
+| `midia_regional_diaria` | 255.096 |
 
-Receita paga de R$ 38,9 milhões, ticket médio de R$ 291, investimento em mídia de R$ 4,3 milhões (MER 9,1) e conversão de 2,75% das sessões.
+Receita paga de R$ 38,9 milhões, ticket médio de R$ 288 e investimento em mídia paga de R$ 6,0 milhões (Meta, Google, TikTok e afiliados), MER de 6,4.
 
 ## Como rodar
 

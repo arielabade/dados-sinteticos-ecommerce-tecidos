@@ -4,7 +4,7 @@ PY ?= .venv/bin/python
 ESCALA ?= 1.0
 
 .DEFAULT_GOAL := banco
-.PHONY: banco ambiente dados mysql recarregar dbt validar notebooks dicionario tudo limpar
+.PHONY: banco ambiente dados mysql recarregar dbt validar notebooks dicionario diagramas tudo limpar
 
 banco: dados recarregar dbt validar   ## do zero: gera, carrega, transforma e valida
 
@@ -32,6 +32,9 @@ notebooks:           ## executa os 5 notebooks do início ao fim
 
 dicionario:          ## regenera docs/dicionario_dados.md a partir do banco
 	$(PY) scripts/gerar_dicionario.py
+
+diagramas:           ## regenera docs/diagramas/*.svg a partir do schema.sql (falha se alguma linha cruzar)
+	$(PY) scripts/gerar_diagramas.py
 
 tudo: banco notebooks
 

@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1522" height="797" viewBox="0 0 1522 797" font-family="Helvetica, Arial, sans-serif" role="img" aria-label="4. Meta Ads">
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="36" y="32" font-size="19" font-weight="700" fill="#1F2328">4. Meta Ads</text>
+<text x="36" y="52" font-size="12.5" fill="#59636E">Conta → campanha → conjunto → anúncio, com insights diários por anúncio (como a API de Marketing exporta).</text>
+<polyline points="561.0,167.0 561.0,263.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="568.0" y1="175.0" x2="554.0" y2="175.0"/><line x1="568.0" y1="181.0" x2="554.0" y2="181.0"/>
+<line x1="554.0" y1="263.0" x2="561.0" y2="250.0"/><line x1="561.0" y1="263.0" x2="561.0" y2="250.0"/><line x1="568.0" y1="263.0" x2="561.0" y2="250.0"/><line x1="554.0" y1="246.0" x2="568.0" y2="246.0"/>
+</g>
+<rect x="536.8" y="207.0" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="218.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">contém</text>
+<polyline points="686.0,297.8 836.0,297.8" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="694.0" y1="290.8" x2="694.0" y2="304.8"/><line x1="700.0" y1="290.8" x2="700.0" y2="304.8"/>
+<line x1="836.0" y1="304.8" x2="823.0" y2="297.8"/><line x1="836.0" y1="297.8" x2="823.0" y2="297.8"/><line x1="836.0" y1="290.8" x2="823.0" y2="297.8"/><line x1="819.0" y1="304.8" x2="819.0" y2="290.8"/>
+</g>
+<rect x="736.8" y="289.8" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="301.3" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">contém</text>
+<polyline points="1086.0,297.8 1236.0,297.8" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1094.0" y1="290.8" x2="1094.0" y2="304.8"/><line x1="1100.0" y1="290.8" x2="1100.0" y2="304.8"/>
+<line x1="1236.0" y1="304.8" x2="1223.0" y2="297.8"/><line x1="1236.0" y1="297.8" x2="1223.0" y2="297.8"/><line x1="1236.0" y1="290.8" x2="1223.0" y2="297.8"/><line x1="1219.0" y1="304.8" x2="1219.0" y2="290.8"/>
+</g>
+<rect x="1136.8" y="289.8" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1161.0" y="301.3" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">contém</text>
+<polyline points="436.0,278.6 286.0,278.6" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="428.0" y1="285.6" x2="428.0" y2="271.6"/><circle cx="417.0" cy="278.6" r="4.5" fill="#FFFFFF"/>
+<line x1="286.0" y1="271.6" x2="299.0" y2="278.6"/><line x1="286.0" y1="278.6" x2="299.0" y2="278.6"/><line x1="286.0" y1="285.6" x2="299.0" y2="278.6"/><circle cx="308.0" cy="278.6" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="327.2" y="270.6" width="67.6" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="282.1" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">creditada</text>
+<polyline points="1361.0,379.0 1361.0,513.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1368.0" y1="387.0" x2="1354.0" y2="387.0"/><line x1="1368.0" y1="393.0" x2="1354.0" y2="393.0"/>
+<line x1="1354.0" y1="513.0" x2="1361.0" y2="500.0"/><line x1="1361.0" y1="513.0" x2="1361.0" y2="500.0"/><line x1="1368.0" y1="513.0" x2="1361.0" y2="500.0"/><circle cx="1361.0" cy="491.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="1317.6" y="438.0" width="86.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1361.0" y="449.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">insights/dia</text>
+<polyline points="1286.0,379.0 1286.0,465.0 961.0,465.0 961.0,513.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1293.0" y1="387.0" x2="1279.0" y2="387.0"/><circle cx="1286.0" cy="398.0" r="4.5" fill="#FFFFFF"/>
+<line x1="954.0" y1="513.0" x2="961.0" y2="500.0"/><line x1="961.0" y1="513.0" x2="961.0" y2="500.0"/><line x1="968.0" y1="513.0" x2="961.0" y2="500.0"/><circle cx="961.0" cy="491.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="1099.3" y="457.0" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1123.5" y="468.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">fbclid</text>
+<rect x="436" y="70" width="250" height="97" rx="6" fill="#FFFFFF" stroke="#0969DA" stroke-width="1.6"/>
+<path d="M436 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#0969DA"/>
+<text x="448" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">meta_contas</text>
+<text x="446" y="116" font-size="10" font-weight="700" fill="#0969DA">PK</text>
+<text x="482" y="116" font-size="12" font-weight="700" fill="#1F2328">conta_id</text>
+<text x="676" y="116" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="135" font-size="12" fill="#1F2328">nome</text>
+<text x="676" y="135" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="154" font-size="12" fill="#1F2328">fuso_horario</text>
+<text x="676" y="154" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<rect x="36" y="263" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="48" y="283" font-size="13" font-weight="700" fill="#59636E">atribuicoes</text>
+<text x="48" y="301" font-size="11" fill="#59636E">ver diagrama 3</text>
+<rect x="436" y="263" width="250" height="154" rx="6" fill="#FFFFFF" stroke="#0969DA" stroke-width="1.6"/>
+<path d="M436 293 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#0969DA"/>
+<text x="448" y="283" font-size="13.5" font-weight="700" fill="#FFFFFF">meta_campanhas</text>
+<text x="446" y="309" font-size="10" font-weight="700" fill="#0969DA">PK</text>
+<text x="482" y="309" font-size="12" font-weight="700" fill="#1F2328">campanha_id</text>
+<text x="676" y="309" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="446" y="328" font-size="10" font-weight="700" fill="#0969DA">FK</text>
+<text x="482" y="328" font-size="12" fill="#1F2328">conta_id</text>
+<text x="676" y="328" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="347" font-size="12" fill="#1F2328">nome</text>
+<text x="676" y="347" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="366" font-size="12" fill="#1F2328">objetivo</text>
+<text x="676" y="366" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="482" y="385" font-size="12" fill="#1F2328">estrategia</text>
+<text x="676" y="385" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="482" y="404" font-size="12" fill="#1F2328">status</text>
+<text x="676" y="404" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<rect x="836" y="263" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#0969DA" stroke-width="1.6"/>
+<path d="M836 293 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#0969DA"/>
+<text x="848" y="283" font-size="13.5" font-weight="700" fill="#FFFFFF">meta_conjuntos</text>
+<text x="846" y="309" font-size="10" font-weight="700" fill="#0969DA">PK</text>
+<text x="882" y="309" font-size="12" font-weight="700" fill="#1F2328">conjunto_id</text>
+<text x="1076" y="309" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="846" y="328" font-size="10" font-weight="700" fill="#0969DA">FK</text>
+<text x="882" y="328" font-size="12" fill="#1F2328">campanha_id</text>
+<text x="1076" y="328" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="882" y="347" font-size="12" fill="#1F2328">publico</text>
+<text x="1076" y="347" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="882" y="366" font-size="12" fill="#1F2328">otimizacao</text>
+<text x="1076" y="366" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<rect x="1236" y="263" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#0969DA" stroke-width="1.6"/>
+<path d="M1236 293 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#0969DA"/>
+<text x="1248" y="283" font-size="13.5" font-weight="700" fill="#FFFFFF">meta_anuncios</text>
+<text x="1246" y="309" font-size="10" font-weight="700" fill="#0969DA">PK</text>
+<text x="1282" y="309" font-size="12" font-weight="700" fill="#1F2328">anuncio_id</text>
+<text x="1476" y="309" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="1246" y="328" font-size="10" font-weight="700" fill="#0969DA">FK</text>
+<text x="1282" y="328" font-size="12" fill="#1F2328">conjunto_id</text>
+<text x="1476" y="328" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="1282" y="347" font-size="12" fill="#1F2328">formato</text>
+<text x="1476" y="347" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="1282" y="366" font-size="12" fill="#1F2328">tema_criativo</text>
+<text x="1476" y="366" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<rect x="836" y="513" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="848" y="533" font-size="13" font-weight="700" fill="#59636E">cliques_midia</text>
+<text x="848" y="551" font-size="11" fill="#59636E">ver diagrama 3</text>
+<rect x="1236" y="513" width="250" height="192" rx="6" fill="#FFFFFF" stroke="#0969DA" stroke-width="1.6"/>
+<path d="M1236 543 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#0969DA"/>
+<text x="1248" y="533" font-size="13.5" font-weight="700" fill="#FFFFFF">meta_metricas_diarias</text>
+<text x="1246" y="559" font-size="10" font-weight="700" fill="#0969DA">PK</text>
+<text x="1282" y="559" font-size="12" font-weight="700" fill="#1F2328">data</text>
+<text x="1476" y="559" font-size="11" fill="#59636E" text-anchor="end">date</text>
+<text x="1246" y="578" font-size="10" font-weight="700" fill="#0969DA">PK/FK</text>
+<text x="1282" y="578" font-size="12" font-weight="700" fill="#1F2328">anuncio_id</text>
+<text x="1476" y="578" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="1282" y="597" font-size="12" fill="#1F2328">investimento</text>
+<text x="1476" y="597" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="1282" y="616" font-size="12" fill="#1F2328">impressoes</text>
+<text x="1476" y="616" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="1282" y="635" font-size="12" fill="#1F2328">alcance</text>
+<text x="1476" y="635" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="1282" y="654" font-size="12" fill="#1F2328">cliques_link</text>
+<text x="1476" y="654" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="1282" y="673" font-size="12" fill="#1F2328">compras</text>
+<text x="1476" y="673" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="1282" y="692" font-size="12" fill="#1F2328">valor_compras</text>
+<text x="1476" y="692" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<g font-size="11.5" fill="#59636E"><line x1="36" y1="763" x2="80" y2="763" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="72.0" y1="770.0" x2="72.0" y2="756.0"/><line x1="66.0" y1="770.0" x2="66.0" y2="756.0"/></g><text x="88" y="767">exatamente um</text><line x1="205" y1="763" x2="249" y2="763" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="241.0" y1="770.0" x2="241.0" y2="756.0"/><circle cx="230.0" cy="763.0" r="4.5" fill="#FFFFFF"/></g><text x="257" y="767">zero ou um</text><line x1="353" y1="763" x2="397" y2="763" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="397.0" y1="770.0" x2="384.0" y2="763.0"/><line x1="397.0" y1="763.0" x2="384.0" y2="763.0"/><line x1="397.0" y1="756.0" x2="384.0" y2="763.0"/><line x1="380.0" y1="770.0" x2="380.0" y2="756.0"/></g><text x="405" y="767">um ou mais</text><line x1="501" y1="763" x2="545" y2="763" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="545.0" y1="770.0" x2="532.0" y2="763.0"/><line x1="545.0" y1="763.0" x2="532.0" y2="763.0"/><line x1="545.0" y1="756.0" x2="532.0" y2="763.0"/><circle cx="523.0" cy="763.0" r="4.5" fill="#FFFFFF"/></g><text x="553" y="767">zero ou mais</text><rect x="663" y="754" width="26" height="18" rx="4" fill="#F6F8FA" stroke="#8C959F" stroke-dasharray="4 3"/><text x="697" y="767">tabela de outra área</text><text x="857" y="767">campo? = aceita nulo</text></g>
+</svg>

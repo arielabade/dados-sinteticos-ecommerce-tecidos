@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1522" height="509" viewBox="0 0 1522 509" font-family="Helvetica, Arial, sans-serif" role="img" aria-label="Visão geral: 44 tabelas em 7 áreas">
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="36" y="32" font-size="19" font-weight="700" fill="#1F2328">Visão geral: 44 tabelas em 7 áreas</text>
+<text x="36" y="52" font-size="12.5" fill="#59636E">Cada área tem um diagrama próprio (1 a 6). As linhas mostram por quais chaves as áreas se ligam.</text>
+<polyline points="286.0,104.8 436.0,104.8" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<rect x="320.8" y="96.8" width="80.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="108.3" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">variante_id</text>
+<polyline points="561.0,186.0 561.0,301.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<rect x="488.8" y="235.5" width="144.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="247.0" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">sessao_id · pedido_id</text>
+<polyline points="236.0,205.0 236.0,253.0 486.0,253.0 486.0,301.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<rect x="320.8" y="245.0" width="80.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="256.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">variante_id</text>
+<polyline points="686.0,104.8 836.0,104.8" fill="none" stroke="#57606A" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="727.2" y="96.8" width="67.6" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="108.3" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">uf · data</text>
+<polyline points="1086.0,104.8 1236.0,104.8" fill="none" stroke="#57606A" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="1124.0" y="96.8" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1161.0" y="108.3" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">reconcilia</text>
+<polyline points="961.0,186.0 961.0,301.0" fill="none" stroke="#57606A" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="924.0" y="235.5" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="961.0" y="247.0" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">reconcilia</text>
+<polyline points="286.0,330.1 436.0,330.1" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<rect x="298.4" y="322.1" width="125.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="333.6" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">anúncio · campanha</text>
+<polyline points="836.0,335.8 686.0,335.8" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<rect x="708.0" y="327.8" width="106.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="339.3" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">grupo · palavra</text>
+<rect x="36" y="70" width="250" height="135" rx="6" fill="#FFFFFF" stroke="#24292F" stroke-width="1.6"/>
+<path d="M36 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#24292F"/>
+<text x="48" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">1 · Catálogo e estoque</text>
+<text x="50" y="116" font-size="12" fill="#1F2328">categorias · fornecedores</text>
+<text x="50" y="135" font-size="12" fill="#1F2328">produtos · variantes</text>
+<text x="50" y="154" font-size="12" fill="#1F2328">historico_precos (SCD2)</text>
+<text x="50" y="173" font-size="12" fill="#1F2328">estoque · estoque_diario</text>
+<text x="50" y="192" font-size="12" fill="#1F2328">movimentacoes_estoque</text>
+<rect x="436" y="70" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#24292F" stroke-width="1.6"/>
+<path d="M436 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#24292F"/>
+<text x="448" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">2 · Clientes e pedidos</text>
+<text x="450" y="116" font-size="12" fill="#1F2328">clientes · enderecos · cupons</text>
+<text x="450" y="135" font-size="12" fill="#1F2328">pedidos · itens_pedido</text>
+<text x="450" y="154" font-size="12" fill="#1F2328">pagamentos · fretes</text>
+<text x="450" y="173" font-size="12" fill="#1F2328">devolucoes · avaliacoes</text>
+<rect x="836" y="70" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#24292F" stroke-width="1.6"/>
+<path d="M836 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#24292F"/>
+<text x="848" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">6 · MMM regional</text>
+<text x="850" y="116" font-size="12" fill="#1F2328">midia_regional_diaria</text>
+<text x="850" y="135" font-size="12" fill="#1F2328">canais_midia · regioes</text>
+<text x="850" y="154" font-size="12" fill="#1F2328">calendario_comercial</text>
+<text x="850" y="173" font-size="12" fill="#1F2328">testes_geo · testes_geo_regioes</text>
+<rect x="1236" y="70" width="250" height="135" rx="6" fill="#FFFFFF" stroke="#24292F" stroke-width="1.6"/>
+<path d="M1236 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#24292F"/>
+<text x="1248" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">6 · TikTok, afiliados, CRM</text>
+<text x="1250" y="116" font-size="12" fill="#1F2328">tiktok_campanhas</text>
+<text x="1250" y="135" font-size="12" fill="#1F2328">tiktok_metricas_diarias</text>
+<text x="1250" y="154" font-size="12" fill="#1F2328">afiliados_parceiros</text>
+<text x="1250" y="173" font-size="12" fill="#1F2328">afiliados_metricas_diarias</text>
+<text x="1250" y="192" font-size="12" fill="#1F2328">crm_disparos</text>
+<rect x="36" y="301" width="250" height="97" rx="6" fill="#FFFFFF" stroke="#24292F" stroke-width="1.6"/>
+<path d="M36 331 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#24292F"/>
+<text x="48" y="321" font-size="13.5" font-weight="700" fill="#FFFFFF">4 · Meta Ads</text>
+<text x="50" y="347" font-size="12" fill="#1F2328">meta_contas · meta_campanhas</text>
+<text x="50" y="366" font-size="12" fill="#1F2328">meta_conjuntos · meta_anuncios</text>
+<text x="50" y="385" font-size="12" fill="#1F2328">meta_metricas_diarias</text>
+<rect x="436" y="301" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#24292F" stroke-width="1.6"/>
+<path d="M436 331 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#24292F"/>
+<text x="448" y="321" font-size="13.5" font-weight="700" fill="#FFFFFF">3 · Tracking e atribuição</text>
+<text x="450" y="347" font-size="12" fill="#1F2328">cliques_midia · sessoes</text>
+<text x="450" y="366" font-size="12" fill="#1F2328">eventos (GA4)</text>
+<text x="450" y="385" font-size="12" fill="#1F2328">envios_conversao (CAPI/EC)</text>
+<text x="450" y="404" font-size="12" fill="#1F2328">atribuicoes</text>
+<rect x="836" y="301" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#24292F" stroke-width="1.6"/>
+<path d="M836 331 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#24292F"/>
+<text x="848" y="321" font-size="13.5" font-weight="700" fill="#FFFFFF">5 · Google Ads</text>
+<text x="850" y="347" font-size="12" fill="#1F2328">google_contas · google_campanhas</text>
+<text x="850" y="366" font-size="12" fill="#1F2328">google_grupos_anuncio</text>
+<text x="850" y="385" font-size="12" fill="#1F2328">google_palavras_chave</text>
+<text x="850" y="404" font-size="12" fill="#1F2328">*_metricas_diarias</text>
+<text x="36" y="479" font-size="11.5" fill="#59636E">Rótulos: chaves que ligam as áreas. Linha tracejada: ligação lógica (sem FK física) ou reconciliação de totais. Detalhes nos diagramas 1 a 6.</text>
+</svg>
