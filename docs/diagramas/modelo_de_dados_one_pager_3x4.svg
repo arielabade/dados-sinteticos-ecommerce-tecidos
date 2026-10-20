@@ -1,0 +1,1323 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="2000" viewBox="0 0 1500 2000" font-family="Helvetica, Arial, sans-serif" role="img" aria-label="Modelo de dados da Tecelã Tecidos em formato 3:4"><rect width="100%" height="100%" fill="#FFFFFF"/><text x="50" y="78" font-size="46" font-weight="700" fill="#1F2328">Tecelã Tecidos: o modelo de dados</text><text x="50" y="120" font-size="21" fill="#59636E">E-commerce fictício, 3 anos de operação: pedidos, tracking GA4, Meta, Google e TikTok Ads,</text><text x="50" y="148" font-size="21" fill="#59636E">atribuição e MMM regional. 44 tabelas em 7 áreas. Dados 100% sintéticos.</text><rect x="50.0" y="168" width="132.6" height="48" rx="24" fill="#F6F8FA" stroke="#D0D7DE"/><text x="70.0" y="199" font-size="23" font-weight="700" fill="#1F2328">44<tspan font-size="16" font-weight="400" fill="#59636E"> tabelas</tspan></text><rect x="194.6" y="168" width="198.6" height="48" rx="24" fill="#F6F8FA" stroke="#D0D7DE"/><text x="214.6" y="199" font-size="23" font-weight="700" fill="#1F2328">144 mil<tspan font-size="16" font-weight="400" fill="#59636E"> pedidos</tspan></text><rect x="405.2" y="168" width="185.4" height="48" rx="24" fill="#F6F8FA" stroke="#D0D7DE"/><text x="425.2" y="199" font-size="23" font-weight="700" fill="#1F2328">7,0 mi<tspan font-size="16" font-weight="400" fill="#59636E"> sessões</tspan></text><rect x="602.6" y="168" width="233.0" height="48" rx="24" fill="#F6F8FA" stroke="#D0D7DE"/><text x="622.6" y="199" font-size="23" font-weight="700" fill="#1F2328">20,5 mi<tspan font-size="16" font-weight="400" fill="#59636E"> eventos GA4</tspan></text><rect x="847.6" y="168" width="281.2" height="48" rx="24" fill="#F6F8FA" stroke="#D0D7DE"/><text x="867.6" y="199" font-size="23" font-weight="700" fill="#1F2328">R$ 38,9 mi<tspan font-size="16" font-weight="400" fill="#59636E"> receita paga</tspan></text><rect x="1140.8" y="168" width="250.8" height="48" rx="24" fill="#F6F8FA" stroke="#D0D7DE"/><text x="1160.8" y="199" font-size="23" font-weight="700" fill="#1F2328">R$ 6,0 mi<tspan font-size="16" font-weight="400" fill="#59636E"> mídia paga</tspan></text><svg x="400.0" y="250" width="700.0" height="234.1" viewBox="0 0 1522 509">
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="36" y="32" font-size="19" font-weight="700" fill="#1F2328">Visão geral: 44 tabelas em 7 áreas</text>
+<text x="36" y="52" font-size="12.5" fill="#59636E">Cada área tem um diagrama próprio (1 a 6). As linhas mostram por quais chaves as áreas se ligam.</text>
+<polyline points="286.0,104.8 436.0,104.8" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<rect x="320.8" y="96.8" width="80.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="108.3" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">variante_id</text>
+<polyline points="561.0,186.0 561.0,301.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<rect x="488.8" y="235.5" width="144.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="247.0" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">sessao_id · pedido_id</text>
+<polyline points="236.0,205.0 236.0,253.0 486.0,253.0 486.0,301.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<rect x="320.8" y="245.0" width="80.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="256.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">variante_id</text>
+<polyline points="686.0,104.8 836.0,104.8" fill="none" stroke="#57606A" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="727.2" y="96.8" width="67.6" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="108.3" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">uf · data</text>
+<polyline points="1086.0,104.8 1236.0,104.8" fill="none" stroke="#57606A" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="1124.0" y="96.8" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1161.0" y="108.3" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">reconcilia</text>
+<polyline points="961.0,186.0 961.0,301.0" fill="none" stroke="#57606A" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="924.0" y="235.5" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="961.0" y="247.0" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">reconcilia</text>
+<polyline points="286.0,330.1 436.0,330.1" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<rect x="298.4" y="322.1" width="125.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="333.6" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">anúncio · campanha</text>
+<polyline points="836.0,335.8 686.0,335.8" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<rect x="708.0" y="327.8" width="106.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="339.3" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">grupo · palavra</text>
+<rect x="36" y="70" width="250" height="135" rx="6" fill="#FFFFFF" stroke="#24292F" stroke-width="1.6"/>
+<path d="M36 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#24292F"/>
+<text x="48" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">1 · Catálogo e estoque</text>
+<text x="50" y="116" font-size="12" fill="#1F2328">categorias · fornecedores</text>
+<text x="50" y="135" font-size="12" fill="#1F2328">produtos · variantes</text>
+<text x="50" y="154" font-size="12" fill="#1F2328">historico_precos (SCD2)</text>
+<text x="50" y="173" font-size="12" fill="#1F2328">estoque · estoque_diario</text>
+<text x="50" y="192" font-size="12" fill="#1F2328">movimentacoes_estoque</text>
+<rect x="436" y="70" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#24292F" stroke-width="1.6"/>
+<path d="M436 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#24292F"/>
+<text x="448" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">2 · Clientes e pedidos</text>
+<text x="450" y="116" font-size="12" fill="#1F2328">clientes · enderecos · cupons</text>
+<text x="450" y="135" font-size="12" fill="#1F2328">pedidos · itens_pedido</text>
+<text x="450" y="154" font-size="12" fill="#1F2328">pagamentos · fretes</text>
+<text x="450" y="173" font-size="12" fill="#1F2328">devolucoes · avaliacoes</text>
+<rect x="836" y="70" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#24292F" stroke-width="1.6"/>
+<path d="M836 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#24292F"/>
+<text x="848" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">6 · MMM regional</text>
+<text x="850" y="116" font-size="12" fill="#1F2328">midia_regional_diaria</text>
+<text x="850" y="135" font-size="12" fill="#1F2328">canais_midia · regioes</text>
+<text x="850" y="154" font-size="12" fill="#1F2328">calendario_comercial</text>
+<text x="850" y="173" font-size="12" fill="#1F2328">testes_geo · testes_geo_regioes</text>
+<rect x="1236" y="70" width="250" height="135" rx="6" fill="#FFFFFF" stroke="#24292F" stroke-width="1.6"/>
+<path d="M1236 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#24292F"/>
+<text x="1248" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">6 · TikTok, afiliados, CRM</text>
+<text x="1250" y="116" font-size="12" fill="#1F2328">tiktok_campanhas</text>
+<text x="1250" y="135" font-size="12" fill="#1F2328">tiktok_metricas_diarias</text>
+<text x="1250" y="154" font-size="12" fill="#1F2328">afiliados_parceiros</text>
+<text x="1250" y="173" font-size="12" fill="#1F2328">afiliados_metricas_diarias</text>
+<text x="1250" y="192" font-size="12" fill="#1F2328">crm_disparos</text>
+<rect x="36" y="301" width="250" height="97" rx="6" fill="#FFFFFF" stroke="#24292F" stroke-width="1.6"/>
+<path d="M36 331 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#24292F"/>
+<text x="48" y="321" font-size="13.5" font-weight="700" fill="#FFFFFF">4 · Meta Ads</text>
+<text x="50" y="347" font-size="12" fill="#1F2328">meta_contas · meta_campanhas</text>
+<text x="50" y="366" font-size="12" fill="#1F2328">meta_conjuntos · meta_anuncios</text>
+<text x="50" y="385" font-size="12" fill="#1F2328">meta_metricas_diarias</text>
+<rect x="436" y="301" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#24292F" stroke-width="1.6"/>
+<path d="M436 331 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#24292F"/>
+<text x="448" y="321" font-size="13.5" font-weight="700" fill="#FFFFFF">3 · Tracking e atribuição</text>
+<text x="450" y="347" font-size="12" fill="#1F2328">cliques_midia · sessoes</text>
+<text x="450" y="366" font-size="12" fill="#1F2328">eventos (GA4)</text>
+<text x="450" y="385" font-size="12" fill="#1F2328">envios_conversao (CAPI/EC)</text>
+<text x="450" y="404" font-size="12" fill="#1F2328">atribuicoes</text>
+<rect x="836" y="301" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#24292F" stroke-width="1.6"/>
+<path d="M836 331 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#24292F"/>
+<text x="848" y="321" font-size="13.5" font-weight="700" fill="#FFFFFF">5 · Google Ads</text>
+<text x="850" y="347" font-size="12" fill="#1F2328">google_contas · google_campanhas</text>
+<text x="850" y="366" font-size="12" fill="#1F2328">google_grupos_anuncio</text>
+<text x="850" y="385" font-size="12" fill="#1F2328">google_palavras_chave</text>
+<text x="850" y="404" font-size="12" fill="#1F2328">*_metricas_diarias</text>
+<text x="36" y="479" font-size="11.5" fill="#59636E">Rótulos: chaves que ligam as áreas. Linha tracejada: ligação lógica (sem FK física) ou reconciliação de totais. Detalhes nos diagramas 1 a 6.</text>
+</svg><rect x="90.2" y="511.1" width="646.8" height="363.8" fill="none" stroke="#D0D7DE" rx="6"/><svg x="91.2" y="512.1" width="644.8" height="361.8" viewBox="0 0 1522 854">
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="36" y="32" font-size="19" font-weight="700" fill="#1F2328">1. Catálogo e estoque</text>
+<text x="36" y="52" font-size="12.5" fill="#59636E">Produto, SKU (variante), preço com histórico (SCD2), saldo e fechamento diário de estoque.</text>
+<polyline points="111.0,186.0 111.0,216.7 223.5,216.7 223.5,186.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="118.0" y1="194.0" x2="104.0" y2="194.0"/><circle cx="111.0" cy="205.0" r="4.5" fill="#FFFFFF"/>
+<line x1="230.5" y1="186.0" x2="223.5" y2="199.0"/><line x1="223.5" y1="186.0" x2="223.5" y2="199.0"/><line x1="216.5" y1="186.0" x2="223.5" y2="199.0"/><circle cx="223.5" cy="208.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="143.1" y="208.7" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="167.2" y="220.2" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">pai de</text>
+<polyline points="286.0,128.0 436.0,128.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="294.0" y1="121.0" x2="294.0" y2="135.0"/><line x1="300.0" y1="121.0" x2="300.0" y2="135.0"/>
+<line x1="436.0" y1="135.0" x2="423.0" y2="128.0"/><line x1="436.0" y1="128.0" x2="423.0" y2="128.0"/><line x1="436.0" y1="121.0" x2="423.0" y2="128.0"/><circle cx="414.0" cy="128.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="324.0" y="120.0" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="131.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">classifica</text>
+<polyline points="836.0,147.0 686.0,147.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="828.0" y1="154.0" x2="828.0" y2="140.0"/><line x1="822.0" y1="154.0" x2="822.0" y2="140.0"/>
+<line x1="686.0" y1="140.0" x2="699.0" y2="147.0"/><line x1="686.0" y1="147.0" x2="699.0" y2="147.0"/><line x1="686.0" y1="154.0" x2="699.0" y2="147.0"/><circle cx="708.0" cy="147.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="733.6" y="139.0" width="54.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="150.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">fornece</text>
+<polyline points="561.0,243.0 561.0,339.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="568.0" y1="251.0" x2="554.0" y2="251.0"/><line x1="568.0" y1="257.0" x2="554.0" y2="257.0"/>
+<line x1="554.0" y1="339.0" x2="561.0" y2="326.0"/><line x1="561.0" y1="339.0" x2="561.0" y2="326.0"/><line x1="568.0" y1="339.0" x2="561.0" y2="326.0"/><line x1="554.0" y1="322.0" x2="568.0" y2="322.0"/>
+</g>
+<rect x="530.4" y="283.0" width="61.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="294.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">tem SKUs</text>
+<polyline points="436.0,390.9 286.0,390.9" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="428.0" y1="397.9" x2="428.0" y2="383.9"/><line x1="422.0" y1="397.9" x2="422.0" y2="383.9"/>
+<line x1="286.0" y1="383.9" x2="299.0" y2="390.9"/><line x1="286.0" y1="390.9" x2="299.0" y2="390.9"/><line x1="286.0" y1="397.9" x2="299.0" y2="390.9"/><circle cx="308.0" cy="390.9" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="314.4" y="382.9" width="93.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="394.4" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">preço vigente</text>
+<polyline points="686.0,396.6 836.0,396.6" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="694.0" y1="389.6" x2="694.0" y2="403.6"/><line x1="700.0" y1="389.6" x2="700.0" y2="403.6"/>
+<line x1="836.0" y1="403.6" x2="823.0" y2="396.6"/><line x1="836.0" y1="396.6" x2="823.0" y2="396.6"/><line x1="836.0" y1="389.6" x2="823.0" y2="396.6"/><circle cx="814.0" cy="396.6" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="727.2" y="388.6" width="67.6" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="400.1" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">movimenta</text>
+<polyline points="961.0,224.0 961.0,339.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="968.0" y1="232.0" x2="954.0" y2="232.0"/><circle cx="961.0" cy="243.0" r="4.5" fill="#FFFFFF"/>
+<line x1="954.0" y1="339.0" x2="961.0" y2="326.0"/><line x1="961.0" y1="339.0" x2="961.0" y2="326.0"/><line x1="968.0" y1="339.0" x2="961.0" y2="326.0"/><circle cx="961.0" cy="317.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="901.6" y="273.5" width="118.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="961.0" y="285.0" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">entrada de compra</text>
+<polyline points="561.0,531.0 561.0,627.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="568.0" y1="539.0" x2="554.0" y2="539.0"/><line x1="568.0" y1="545.0" x2="554.0" y2="545.0"/>
+<line x1="554.0" y1="627.0" x2="561.0" y2="614.0"/><line x1="561.0" y1="627.0" x2="561.0" y2="614.0"/><line x1="568.0" y1="627.0" x2="561.0" y2="614.0"/><circle cx="561.0" cy="605.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="524.0" y="571.0" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="582.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">fechamento</text>
+<polyline points="486.0,531.0 486.0,579.0 161.0,579.0 161.0,627.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="493.0" y1="539.0" x2="479.0" y2="539.0"/><line x1="493.0" y1="545.0" x2="479.0" y2="545.0"/>
+<line x1="154.0" y1="619.0" x2="168.0" y2="619.0"/><line x1="154.0" y1="613.0" x2="168.0" y2="613.0"/>
+</g>
+<rect x="283.3" y="571.0" width="80.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="323.5" y="582.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">saldo atual</text>
+<polyline points="961.0,627.0 961.0,531.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="954.0" y1="619.0" x2="968.0" y2="619.0"/><circle cx="961.0" cy="608.0" r="4.5" fill="#FFFFFF"/>
+<line x1="968.0" y1="531.0" x2="961.0" y2="544.0"/><line x1="961.0" y1="531.0" x2="961.0" y2="544.0"/><line x1="954.0" y1="531.0" x2="961.0" y2="544.0"/><circle cx="961.0" cy="553.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="940.0" y="571.0" width="42.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="961.0" y="582.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">baixa</text>
+<polyline points="1236.0,365.0 1086.0,365.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1228.0" y1="372.0" x2="1228.0" y2="358.0"/><circle cx="1217.0" cy="365.0" r="4.5" fill="#FFFFFF"/>
+<line x1="1086.0" y1="358.0" x2="1099.0" y2="365.0"/><line x1="1086.0" y1="365.0" x2="1099.0" y2="365.0"/><line x1="1086.0" y1="372.0" x2="1099.0" y2="365.0"/><circle cx="1108.0" cy="365.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="1133.6" y="357.0" width="54.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1161.0" y="368.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">retorno</text>
+<rect x="36" y="70" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#1F6FEB" stroke-width="1.6"/>
+<path d="M36 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#1F6FEB"/>
+<text x="48" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">categorias</text>
+<text x="46" y="116" font-size="10" font-weight="700" fill="#1F6FEB">PK</text>
+<text x="82" y="116" font-size="12" font-weight="700" fill="#1F2328">categoria_id</text>
+<text x="276" y="116" font-size="11" fill="#59636E" text-anchor="end">smallint</text>
+<text x="46" y="135" font-size="10" font-weight="700" fill="#1F6FEB">FK</text>
+<text x="82" y="135" font-size="12" fill="#1F2328">categoria_pai_id?</text>
+<text x="276" y="135" font-size="11" fill="#59636E" text-anchor="end">smallint</text>
+<text x="82" y="154" font-size="12" fill="#1F2328">nome</text>
+<text x="276" y="154" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="46" y="173" font-size="10" font-weight="700" fill="#1F6FEB">UK</text>
+<text x="82" y="173" font-size="12" fill="#1F2328">slug</text>
+<text x="276" y="173" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<rect x="436" y="70" width="250" height="173" rx="6" fill="#FFFFFF" stroke="#1F6FEB" stroke-width="1.6"/>
+<path d="M436 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#1F6FEB"/>
+<text x="448" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">produtos</text>
+<text x="446" y="116" font-size="10" font-weight="700" fill="#1F6FEB">PK</text>
+<text x="482" y="116" font-size="12" font-weight="700" fill="#1F2328">produto_id</text>
+<text x="676" y="116" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="446" y="135" font-size="10" font-weight="700" fill="#1F6FEB">UK</text>
+<text x="482" y="135" font-size="12" fill="#1F2328">sku_base</text>
+<text x="676" y="135" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="154" font-size="12" fill="#1F2328">nome</text>
+<text x="676" y="154" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="446" y="173" font-size="10" font-weight="700" fill="#1F6FEB">FK</text>
+<text x="482" y="173" font-size="12" fill="#1F2328">categoria_id</text>
+<text x="676" y="173" font-size="11" fill="#59636E" text-anchor="end">smallint</text>
+<text x="446" y="192" font-size="10" font-weight="700" fill="#1F6FEB">FK</text>
+<text x="482" y="192" font-size="12" fill="#1F2328">fornecedor_id</text>
+<text x="676" y="192" font-size="11" fill="#59636E" text-anchor="end">smallint</text>
+<text x="482" y="211" font-size="12" fill="#1F2328">composicao</text>
+<text x="676" y="211" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="230" font-size="12" fill="#1F2328">largura_cm</text>
+<text x="676" y="230" font-size="11" fill="#59636E" text-anchor="end">smallint</text>
+<rect x="836" y="70" width="250" height="154" rx="6" fill="#FFFFFF" stroke="#1F6FEB" stroke-width="1.6"/>
+<path d="M836 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#1F6FEB"/>
+<text x="848" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">fornecedores</text>
+<text x="846" y="116" font-size="10" font-weight="700" fill="#1F6FEB">PK</text>
+<text x="882" y="116" font-size="12" font-weight="700" fill="#1F2328">fornecedor_id</text>
+<text x="1076" y="116" font-size="11" fill="#59636E" text-anchor="end">smallint</text>
+<text x="882" y="135" font-size="12" fill="#1F2328">razao_social</text>
+<text x="1076" y="135" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="846" y="154" font-size="10" font-weight="700" fill="#1F6FEB">UK</text>
+<text x="882" y="154" font-size="12" fill="#1F2328">cnpj</text>
+<text x="1076" y="154" font-size="11" fill="#59636E" text-anchor="end">char</text>
+<text x="882" y="173" font-size="12" fill="#1F2328">uf</text>
+<text x="1076" y="173" font-size="11" fill="#59636E" text-anchor="end">char</text>
+<text x="882" y="192" font-size="12" fill="#1F2328">prazo_reposicao_dias</text>
+<text x="1076" y="192" font-size="11" fill="#59636E" text-anchor="end">tinyint</text>
+<text x="882" y="211" font-size="12" fill="#1F2328">confiabilidade</text>
+<text x="1076" y="211" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<rect x="36" y="339" width="250" height="173" rx="6" fill="#FFFFFF" stroke="#1F6FEB" stroke-width="1.6"/>
+<path d="M36 369 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#1F6FEB"/>
+<text x="48" y="359" font-size="13.5" font-weight="700" fill="#FFFFFF">historico_precos</text>
+<text x="46" y="385" font-size="10" font-weight="700" fill="#1F6FEB">PK</text>
+<text x="82" y="385" font-size="12" font-weight="700" fill="#1F2328">historico_preco_id</text>
+<text x="276" y="385" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="46" y="404" font-size="10" font-weight="700" fill="#1F6FEB">FK</text>
+<text x="82" y="404" font-size="12" fill="#1F2328">variante_id</text>
+<text x="276" y="404" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="82" y="423" font-size="12" fill="#1F2328">preco</text>
+<text x="276" y="423" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="82" y="442" font-size="12" fill="#1F2328">preco_promocional?</text>
+<text x="276" y="442" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="82" y="461" font-size="12" fill="#1F2328">custo</text>
+<text x="276" y="461" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="82" y="480" font-size="12" fill="#1F2328">vigente_de</text>
+<text x="276" y="480" font-size="11" fill="#59636E" text-anchor="end">date</text>
+<text x="82" y="499" font-size="12" fill="#1F2328">vigente_ate?</text>
+<text x="276" y="499" font-size="11" fill="#59636E" text-anchor="end">date</text>
+<rect x="436" y="339" width="250" height="192" rx="6" fill="#FFFFFF" stroke="#1F6FEB" stroke-width="1.6"/>
+<path d="M436 369 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#1F6FEB"/>
+<text x="448" y="359" font-size="13.5" font-weight="700" fill="#FFFFFF">variantes</text>
+<text x="446" y="385" font-size="10" font-weight="700" fill="#1F6FEB">PK</text>
+<text x="482" y="385" font-size="12" font-weight="700" fill="#1F2328">variante_id</text>
+<text x="676" y="385" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="446" y="404" font-size="10" font-weight="700" fill="#1F6FEB">FK</text>
+<text x="482" y="404" font-size="12" fill="#1F2328">produto_id</text>
+<text x="676" y="404" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="446" y="423" font-size="10" font-weight="700" fill="#1F6FEB">UK</text>
+<text x="482" y="423" font-size="12" fill="#1F2328">sku</text>
+<text x="676" y="423" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="442" font-size="12" fill="#1F2328">cor</text>
+<text x="676" y="442" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="461" font-size="12" fill="#1F2328">estampa</text>
+<text x="676" y="461" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="480" font-size="12" fill="#1F2328">formato_venda</text>
+<text x="676" y="480" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="482" y="499" font-size="12" fill="#1F2328">preco_atual</text>
+<text x="676" y="499" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="482" y="518" font-size="12" fill="#1F2328">custo_atual</text>
+<text x="676" y="518" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<rect x="836" y="339" width="250" height="192" rx="6" fill="#FFFFFF" stroke="#1F6FEB" stroke-width="1.6"/>
+<path d="M836 369 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#1F6FEB"/>
+<text x="848" y="359" font-size="13.5" font-weight="700" fill="#FFFFFF">movimentacoes_estoque</text>
+<text x="846" y="385" font-size="10" font-weight="700" fill="#1F6FEB">PK</text>
+<text x="882" y="385" font-size="12" font-weight="700" fill="#1F2328">movimentacao_id</text>
+<text x="1076" y="385" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="846" y="404" font-size="10" font-weight="700" fill="#1F6FEB">FK</text>
+<text x="882" y="404" font-size="12" fill="#1F2328">variante_id</text>
+<text x="1076" y="404" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="882" y="423" font-size="12" fill="#1F2328">tipo</text>
+<text x="1076" y="423" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="882" y="442" font-size="12" fill="#1F2328">quantidade</text>
+<text x="1076" y="442" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="882" y="461" font-size="12" fill="#1F2328">ocorrido_em</text>
+<text x="1076" y="461" font-size="11" fill="#59636E" text-anchor="end">datetime</text>
+<text x="846" y="480" font-size="10" font-weight="700" fill="#1F6FEB">FK</text>
+<text x="882" y="480" font-size="12" fill="#1F2328">pedido_id?</text>
+<text x="1076" y="480" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="846" y="499" font-size="10" font-weight="700" fill="#1F6FEB">FK</text>
+<text x="882" y="499" font-size="12" fill="#1F2328">devolucao_id?</text>
+<text x="1076" y="499" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="846" y="518" font-size="10" font-weight="700" fill="#1F6FEB">FK</text>
+<text x="882" y="518" font-size="12" fill="#1F2328">fornecedor_id?</text>
+<text x="1076" y="518" font-size="11" fill="#59636E" text-anchor="end">smallint</text>
+<rect x="1236" y="339" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="1248" y="359" font-size="13" font-weight="700" fill="#59636E">devolucoes</text>
+<text x="1248" y="377" font-size="11" fill="#59636E">ver diagrama 2</text>
+<rect x="36" y="627" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#1F6FEB" stroke-width="1.6"/>
+<path d="M36 657 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#1F6FEB"/>
+<text x="48" y="647" font-size="13.5" font-weight="700" fill="#FFFFFF">estoque</text>
+<text x="46" y="673" font-size="10" font-weight="700" fill="#1F6FEB">PK/FK</text>
+<text x="82" y="673" font-size="12" font-weight="700" fill="#1F2328">variante_id</text>
+<text x="276" y="673" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="82" y="692" font-size="12" fill="#1F2328">saldo_unidades</text>
+<text x="276" y="692" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="82" y="711" font-size="12" fill="#1F2328">ponto_reposicao</text>
+<text x="276" y="711" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="82" y="730" font-size="12" fill="#1F2328">lote_reposicao</text>
+<text x="276" y="730" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<rect x="436" y="627" width="250" height="135" rx="6" fill="#FFFFFF" stroke="#1F6FEB" stroke-width="1.6"/>
+<path d="M436 657 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#1F6FEB"/>
+<text x="448" y="647" font-size="13.5" font-weight="700" fill="#FFFFFF">estoque_diario</text>
+<text x="446" y="673" font-size="10" font-weight="700" fill="#1F6FEB">PK/FK</text>
+<text x="482" y="673" font-size="12" font-weight="700" fill="#1F2328">variante_id</text>
+<text x="676" y="673" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="446" y="692" font-size="10" font-weight="700" fill="#1F6FEB">PK</text>
+<text x="482" y="692" font-size="12" font-weight="700" fill="#1F2328">data</text>
+<text x="676" y="692" font-size="11" fill="#59636E" text-anchor="end">date</text>
+<text x="482" y="711" font-size="12" fill="#1F2328">saldo_final</text>
+<text x="676" y="711" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="482" y="730" font-size="12" fill="#1F2328">em_ruptura</text>
+<text x="676" y="730" font-size="11" fill="#59636E" text-anchor="end">tinyint</text>
+<text x="482" y="749" font-size="12" fill="#1F2328">demanda_perdida</text>
+<text x="676" y="749" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<rect x="836" y="627" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="848" y="647" font-size="13" font-weight="700" fill="#59636E">pedidos</text>
+<text x="848" y="665" font-size="11" fill="#59636E">ver diagrama 2</text>
+<g font-size="11.5" fill="#59636E"><line x1="36" y1="820" x2="80" y2="820" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="72.0" y1="827.0" x2="72.0" y2="813.0"/><line x1="66.0" y1="827.0" x2="66.0" y2="813.0"/></g><text x="88" y="824">exatamente um</text><line x1="205" y1="820" x2="249" y2="820" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="241.0" y1="827.0" x2="241.0" y2="813.0"/><circle cx="230.0" cy="820.0" r="4.5" fill="#FFFFFF"/></g><text x="257" y="824">zero ou um</text><line x1="353" y1="820" x2="397" y2="820" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="397.0" y1="827.0" x2="384.0" y2="820.0"/><line x1="397.0" y1="820.0" x2="384.0" y2="820.0"/><line x1="397.0" y1="813.0" x2="384.0" y2="820.0"/><line x1="380.0" y1="827.0" x2="380.0" y2="813.0"/></g><text x="405" y="824">um ou mais</text><line x1="501" y1="820" x2="545" y2="820" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="545.0" y1="827.0" x2="532.0" y2="820.0"/><line x1="545.0" y1="820.0" x2="532.0" y2="820.0"/><line x1="545.0" y1="813.0" x2="532.0" y2="820.0"/><circle cx="523.0" cy="820.0" r="4.5" fill="#FFFFFF"/></g><text x="553" y="824">zero ou mais</text><rect x="663" y="811" width="26" height="18" rx="4" fill="#F6F8FA" stroke="#8C959F" stroke-dasharray="4 3"/><text x="697" y="824">tabela de outra área</text><text x="857" y="824">campo? = aceita nulo</text></g>
+</svg><rect x="763.0" y="511.1" width="646.8" height="421.4" fill="none" stroke="#D0D7DE" rx="6"/><svg x="764.0" y="512.1" width="644.8" height="419.4" viewBox="0 0 1522 990">
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="36" y="32" font-size="19" font-weight="700" fill="#1F2328">6. MMM regional, testes geográficos e outros canais</text>
+<text x="36" y="52" font-size="12.5" fill="#59636E">Mídia de todas as plataformas por dia × canal × UF; geo-lift; TikTok, afiliados e CRM. Linhas tracejadas: ligação lógica, sem FK física.</text>
+<polyline points="286.0,104.8 436.0,104.8" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="294.0" y1="97.8" x2="294.0" y2="111.8"/><line x1="300.0" y1="97.8" x2="300.0" y2="111.8"/>
+<line x1="436.0" y1="111.8" x2="423.0" y2="104.8"/><line x1="436.0" y1="104.8" x2="423.0" y2="104.8"/><line x1="436.0" y1="97.8" x2="423.0" y2="104.8"/><circle cx="414.0" cy="104.8" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="324.0" y="96.8" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="108.3" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">investe em</text>
+<polyline points="836.0,104.8 686.0,104.8" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="828.0" y1="111.8" x2="828.0" y2="97.8"/><line x1="822.0" y1="111.8" x2="822.0" y2="97.8"/>
+<line x1="686.0" y1="97.8" x2="699.0" y2="104.8"/><line x1="686.0" y1="104.8" x2="699.0" y2="104.8"/><line x1="686.0" y1="111.8" x2="699.0" y2="104.8"/><circle cx="708.0" cy="104.8" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="740.0" y="96.8" width="42.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="108.3" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">na UF</text>
+<polyline points="161.0,186.0 161.0,320.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="168.0" y1="194.0" x2="154.0" y2="194.0"/><line x1="168.0" y1="200.0" x2="154.0" y2="200.0"/>
+<line x1="154.0" y1="320.0" x2="161.0" y2="307.0"/><line x1="161.0" y1="320.0" x2="161.0" y2="307.0"/><line x1="168.0" y1="320.0" x2="161.0" y2="307.0"/><circle cx="161.0" cy="298.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="124.0" y="245.0" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="161.0" y="256.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">testado em</text>
+<polyline points="286.0,349.1 436.0,349.1" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="294.0" y1="342.1" x2="294.0" y2="356.1"/><line x1="300.0" y1="342.1" x2="300.0" y2="356.1"/>
+<line x1="436.0" y1="356.1" x2="423.0" y2="349.1"/><line x1="436.0" y1="349.1" x2="423.0" y2="349.1"/><line x1="436.0" y1="342.1" x2="423.0" y2="349.1"/><line x1="419.0" y1="356.1" x2="419.0" y2="342.1"/>
+</g>
+<rect x="314.4" y="341.1" width="93.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="352.6" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">grupos por UF</text>
+<polyline points="911.0,186.0 911.0,272.0 611.0,272.0 611.0,320.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="918.0" y1="194.0" x2="904.0" y2="194.0"/><line x1="918.0" y1="200.0" x2="904.0" y2="200.0"/>
+<line x1="604.0" y1="320.0" x2="611.0" y2="307.0"/><line x1="611.0" y1="320.0" x2="611.0" y2="307.0"/><line x1="618.0" y1="320.0" x2="611.0" y2="307.0"/><circle cx="611.0" cy="298.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="749.6" y="264.0" width="22.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="275.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">UF</text>
+<polyline points="1086.0,85.6 1236.0,85.6" fill="none" stroke="#57606A" stroke-width="1.5" stroke-dasharray="6 4"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1094.0" y1="78.6" x2="1094.0" y2="92.6"/><line x1="1100.0" y1="78.6" x2="1100.0" y2="92.6"/>
+<line x1="1236.0" y1="92.6" x2="1223.0" y2="85.6"/><line x1="1236.0" y1="85.6" x2="1223.0" y2="85.6"/><line x1="1236.0" y1="78.6" x2="1223.0" y2="85.6"/><circle cx="1214.0" cy="85.6" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="1149.6" y="77.6" width="22.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1161.0" y="89.1" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">uf</text>
+<polyline points="1086.0,335.6 1236.0,335.6" fill="none" stroke="#57606A" stroke-width="1.5" stroke-dasharray="6 4"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1094.0" y1="328.6" x2="1094.0" y2="342.6"/><line x1="1100.0" y1="328.6" x2="1100.0" y2="342.6"/>
+<line x1="1236.0" y1="342.6" x2="1223.0" y2="335.6"/><line x1="1236.0" y1="335.6" x2="1223.0" y2="335.6"/><line x1="1236.0" y1="328.6" x2="1223.0" y2="335.6"/><circle cx="1214.0" cy="335.6" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="1143.2" y="327.6" width="35.6" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1161.0" y="339.1" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">data</text>
+<polyline points="286.0,580.1 436.0,580.1" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="294.0" y1="573.1" x2="294.0" y2="587.1"/><line x1="300.0" y1="573.1" x2="300.0" y2="587.1"/>
+<line x1="436.0" y1="587.1" x2="423.0" y2="580.1"/><line x1="436.0" y1="580.1" x2="423.0" y2="580.1"/><line x1="436.0" y1="573.1" x2="423.0" y2="580.1"/><circle cx="414.0" cy="580.1" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="317.6" y="572.1" width="86.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="583.6" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">métricas/dia</text>
+<polyline points="286.0,811.1 436.0,811.1" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="294.0" y1="804.1" x2="294.0" y2="818.1"/><line x1="300.0" y1="804.1" x2="300.0" y2="818.1"/>
+<line x1="436.0" y1="818.1" x2="423.0" y2="811.1"/><line x1="436.0" y1="811.1" x2="423.0" y2="811.1"/><line x1="436.0" y1="804.1" x2="423.0" y2="811.1"/><circle cx="414.0" cy="811.1" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="317.6" y="803.1" width="86.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="814.6" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">métricas/dia</text>
+<rect x="36" y="70" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#9A6700" stroke-width="1.6"/>
+<path d="M36 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#9A6700"/>
+<text x="48" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">canais_midia</text>
+<text x="46" y="116" font-size="10" font-weight="700" fill="#9A6700">PK</text>
+<text x="82" y="116" font-size="12" font-weight="700" fill="#1F2328">canal_id</text>
+<text x="276" y="116" font-size="11" fill="#59636E" text-anchor="end">tinyint</text>
+<text x="46" y="135" font-size="10" font-weight="700" fill="#9A6700">UK</text>
+<text x="82" y="135" font-size="12" fill="#1F2328">canal</text>
+<text x="276" y="135" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="82" y="154" font-size="12" fill="#1F2328">canal_mmm</text>
+<text x="276" y="154" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="82" y="173" font-size="12" fill="#1F2328">plataforma</text>
+<text x="276" y="173" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<rect x="436" y="70" width="250" height="154" rx="6" fill="#FFFFFF" stroke="#9A6700" stroke-width="1.6"/>
+<path d="M436 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#9A6700"/>
+<text x="448" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">midia_regional_diaria</text>
+<text x="446" y="116" font-size="10" font-weight="700" fill="#9A6700">PK</text>
+<text x="482" y="116" font-size="12" font-weight="700" fill="#1F2328">data</text>
+<text x="676" y="116" font-size="11" fill="#59636E" text-anchor="end">date</text>
+<text x="446" y="135" font-size="10" font-weight="700" fill="#9A6700">PK/FK</text>
+<text x="482" y="135" font-size="12" font-weight="700" fill="#1F2328">canal_id</text>
+<text x="676" y="135" font-size="11" fill="#59636E" text-anchor="end">tinyint</text>
+<text x="446" y="154" font-size="10" font-weight="700" fill="#9A6700">PK/FK</text>
+<text x="482" y="154" font-size="12" font-weight="700" fill="#1F2328">uf</text>
+<text x="676" y="154" font-size="11" fill="#59636E" text-anchor="end">char</text>
+<text x="482" y="173" font-size="12" fill="#1F2328">investimento</text>
+<text x="676" y="173" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="482" y="192" font-size="12" fill="#1F2328">impressoes?</text>
+<text x="676" y="192" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="482" y="211" font-size="12" fill="#1F2328">cliques</text>
+<text x="676" y="211" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<rect x="836" y="70" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#9A6700" stroke-width="1.6"/>
+<path d="M836 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#9A6700"/>
+<text x="848" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">regioes</text>
+<text x="846" y="116" font-size="10" font-weight="700" fill="#9A6700">PK</text>
+<text x="882" y="116" font-size="12" font-weight="700" fill="#1F2328">uf</text>
+<text x="1076" y="116" font-size="11" fill="#59636E" text-anchor="end">char</text>
+<text x="882" y="135" font-size="12" fill="#1F2328">nome</text>
+<text x="1076" y="135" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="882" y="154" font-size="12" fill="#1F2328">macrorregiao</text>
+<text x="1076" y="154" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="882" y="173" font-size="12" fill="#1F2328">entrega_disponivel</text>
+<text x="1076" y="173" font-size="11" fill="#59636E" text-anchor="end">tinyint</text>
+<rect x="1236" y="70" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="1248" y="90" font-size="13" font-weight="700" fill="#59636E">enderecos</text>
+<text x="1248" y="108" font-size="11" fill="#59636E">ver diagrama 2</text>
+<rect x="36" y="320" width="250" height="135" rx="6" fill="#FFFFFF" stroke="#9A6700" stroke-width="1.6"/>
+<path d="M36 350 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#9A6700"/>
+<text x="48" y="340" font-size="13.5" font-weight="700" fill="#FFFFFF">testes_geo</text>
+<text x="46" y="366" font-size="10" font-weight="700" fill="#9A6700">PK</text>
+<text x="82" y="366" font-size="12" font-weight="700" fill="#1F2328">teste_id</text>
+<text x="276" y="366" font-size="11" fill="#59636E" text-anchor="end">smallint</text>
+<text x="46" y="385" font-size="10" font-weight="700" fill="#9A6700">FK</text>
+<text x="82" y="385" font-size="12" fill="#1F2328">canal_id</text>
+<text x="276" y="385" font-size="11" fill="#59636E" text-anchor="end">tinyint</text>
+<text x="82" y="404" font-size="12" fill="#1F2328">tipo_mudanca</text>
+<text x="276" y="404" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="82" y="423" font-size="12" fill="#1F2328">inicio</text>
+<text x="276" y="423" font-size="11" fill="#59636E" text-anchor="end">date</text>
+<text x="82" y="442" font-size="12" fill="#1F2328">fim</text>
+<text x="276" y="442" font-size="11" fill="#59636E" text-anchor="end">date</text>
+<rect x="436" y="320" width="250" height="97" rx="6" fill="#FFFFFF" stroke="#9A6700" stroke-width="1.6"/>
+<path d="M436 350 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#9A6700"/>
+<text x="448" y="340" font-size="13.5" font-weight="700" fill="#FFFFFF">testes_geo_regioes</text>
+<text x="446" y="366" font-size="10" font-weight="700" fill="#9A6700">PK/FK</text>
+<text x="482" y="366" font-size="12" font-weight="700" fill="#1F2328">teste_id</text>
+<text x="676" y="366" font-size="11" fill="#59636E" text-anchor="end">smallint</text>
+<text x="446" y="385" font-size="10" font-weight="700" fill="#9A6700">PK/FK</text>
+<text x="482" y="385" font-size="12" font-weight="700" fill="#1F2328">uf</text>
+<text x="676" y="385" font-size="11" fill="#59636E" text-anchor="end">char</text>
+<text x="482" y="404" font-size="12" fill="#1F2328">grupo</text>
+<text x="676" y="404" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<rect x="836" y="320" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#9A6700" stroke-width="1.6"/>
+<path d="M836 350 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#9A6700"/>
+<text x="848" y="340" font-size="13.5" font-weight="700" fill="#FFFFFF">calendario_comercial</text>
+<text x="846" y="366" font-size="10" font-weight="700" fill="#9A6700">PK</text>
+<text x="882" y="366" font-size="12" font-weight="700" fill="#1F2328">data</text>
+<text x="1076" y="366" font-size="11" fill="#59636E" text-anchor="end">date</text>
+<text x="882" y="385" font-size="12" fill="#1F2328">feriado_nacional</text>
+<text x="1076" y="385" font-size="11" fill="#59636E" text-anchor="end">tinyint</text>
+<text x="882" y="404" font-size="12" fill="#1F2328">evento_comercial?</text>
+<text x="1076" y="404" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="882" y="423" font-size="12" fill="#1F2328">promocao_loja</text>
+<text x="1076" y="423" font-size="11" fill="#59636E" text-anchor="end">tinyint</text>
+<rect x="1236" y="320" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="1248" y="340" font-size="13" font-weight="700" fill="#59636E">pedidos</text>
+<text x="1248" y="358" font-size="11" fill="#59636E">ver diagrama 2</text>
+<rect x="36" y="551" width="250" height="97" rx="6" fill="#FFFFFF" stroke="#9A6700" stroke-width="1.6"/>
+<path d="M36 581 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#9A6700"/>
+<text x="48" y="571" font-size="13.5" font-weight="700" fill="#FFFFFF">tiktok_campanhas</text>
+<text x="46" y="597" font-size="10" font-weight="700" fill="#9A6700">PK</text>
+<text x="82" y="597" font-size="12" font-weight="700" fill="#1F2328">campanha_id</text>
+<text x="276" y="597" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="82" y="616" font-size="12" fill="#1F2328">nome</text>
+<text x="276" y="616" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="82" y="635" font-size="12" fill="#1F2328">objetivo</text>
+<text x="276" y="635" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<rect x="436" y="551" width="250" height="135" rx="6" fill="#FFFFFF" stroke="#9A6700" stroke-width="1.6"/>
+<path d="M436 581 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#9A6700"/>
+<text x="448" y="571" font-size="13.5" font-weight="700" fill="#FFFFFF">tiktok_metricas_diarias</text>
+<text x="446" y="597" font-size="10" font-weight="700" fill="#9A6700">PK</text>
+<text x="482" y="597" font-size="12" font-weight="700" fill="#1F2328">data</text>
+<text x="676" y="597" font-size="11" fill="#59636E" text-anchor="end">date</text>
+<text x="446" y="616" font-size="10" font-weight="700" fill="#9A6700">PK/FK</text>
+<text x="482" y="616" font-size="12" font-weight="700" fill="#1F2328">campanha_id</text>
+<text x="676" y="616" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="482" y="635" font-size="12" fill="#1F2328">investimento</text>
+<text x="676" y="635" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="482" y="654" font-size="12" fill="#1F2328">cliques</text>
+<text x="676" y="654" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="482" y="673" font-size="12" fill="#1F2328">conversoes</text>
+<text x="676" y="673" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<rect x="836" y="551" width="250" height="135" rx="6" fill="#FFFFFF" stroke="#9A6700" stroke-width="1.6"/>
+<path d="M836 581 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#9A6700"/>
+<text x="848" y="571" font-size="13.5" font-weight="700" fill="#FFFFFF">crm_disparos</text>
+<text x="846" y="597" font-size="10" font-weight="700" fill="#9A6700">PK</text>
+<text x="882" y="597" font-size="12" font-weight="700" fill="#1F2328">disparo_id</text>
+<text x="1076" y="597" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="882" y="616" font-size="12" fill="#1F2328">data</text>
+<text x="1076" y="616" font-size="11" fill="#59636E" text-anchor="end">date</text>
+<text x="882" y="635" font-size="12" fill="#1F2328">tipo_campanha</text>
+<text x="1076" y="635" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="882" y="654" font-size="12" fill="#1F2328">entregues</text>
+<text x="1076" y="654" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="882" y="673" font-size="12" fill="#1F2328">custo</text>
+<text x="1076" y="673" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<rect x="36" y="782" width="250" height="97" rx="6" fill="#FFFFFF" stroke="#9A6700" stroke-width="1.6"/>
+<path d="M36 812 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#9A6700"/>
+<text x="48" y="802" font-size="13.5" font-weight="700" fill="#FFFFFF">afiliados_parceiros</text>
+<text x="46" y="828" font-size="10" font-weight="700" fill="#9A6700">PK</text>
+<text x="82" y="828" font-size="12" font-weight="700" fill="#1F2328">parceiro_id</text>
+<text x="276" y="828" font-size="11" fill="#59636E" text-anchor="end">smallint</text>
+<text x="82" y="847" font-size="12" fill="#1F2328">nome</text>
+<text x="276" y="847" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="82" y="866" font-size="12" fill="#1F2328">tipo</text>
+<text x="276" y="866" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<rect x="436" y="782" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#9A6700" stroke-width="1.6"/>
+<path d="M436 812 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#9A6700"/>
+<text x="448" y="802" font-size="13.5" font-weight="700" fill="#FFFFFF">afiliados_metricas_diarias</text>
+<text x="446" y="828" font-size="10" font-weight="700" fill="#9A6700">PK</text>
+<text x="482" y="828" font-size="12" font-weight="700" fill="#1F2328">data</text>
+<text x="676" y="828" font-size="11" fill="#59636E" text-anchor="end">date</text>
+<text x="446" y="847" font-size="10" font-weight="700" fill="#9A6700">PK/FK</text>
+<text x="482" y="847" font-size="12" font-weight="700" fill="#1F2328">parceiro_id</text>
+<text x="676" y="847" font-size="11" fill="#59636E" text-anchor="end">smallint</text>
+<text x="482" y="866" font-size="12" fill="#1F2328">investimento</text>
+<text x="676" y="866" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="482" y="885" font-size="12" fill="#1F2328">pedidos_atribuidos</text>
+<text x="676" y="885" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<g font-size="11.5" fill="#59636E"><line x1="36" y1="956" x2="80" y2="956" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="72.0" y1="963.0" x2="72.0" y2="949.0"/><line x1="66.0" y1="963.0" x2="66.0" y2="949.0"/></g><text x="88" y="960">exatamente um</text><line x1="205" y1="956" x2="249" y2="956" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="241.0" y1="963.0" x2="241.0" y2="949.0"/><circle cx="230.0" cy="956.0" r="4.5" fill="#FFFFFF"/></g><text x="257" y="960">zero ou um</text><line x1="353" y1="956" x2="397" y2="956" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="397.0" y1="963.0" x2="384.0" y2="956.0"/><line x1="397.0" y1="956.0" x2="384.0" y2="956.0"/><line x1="397.0" y1="949.0" x2="384.0" y2="956.0"/><line x1="380.0" y1="963.0" x2="380.0" y2="949.0"/></g><text x="405" y="960">um ou mais</text><line x1="501" y1="956" x2="545" y2="956" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="545.0" y1="963.0" x2="532.0" y2="956.0"/><line x1="545.0" y1="956.0" x2="532.0" y2="956.0"/><line x1="545.0" y1="949.0" x2="532.0" y2="956.0"/><circle cx="523.0" cy="956.0" r="4.5" fill="#FFFFFF"/></g><text x="553" y="960">zero ou mais</text><rect x="663" y="947" width="26" height="18" rx="4" fill="#F6F8FA" stroke="#8C959F" stroke-dasharray="4 3"/><text x="697" y="960">tabela de outra área</text><text x="857" y="960">campo? = aceita nulo</text></g>
+</svg><rect x="90.2" y="958.5" width="646.8" height="442.6" fill="none" stroke="#D0D7DE" rx="6"/><svg x="91.2" y="959.5" width="644.8" height="440.6" viewBox="0 0 1522 1040">
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="36" y="32" font-size="19" font-weight="700" fill="#1F2328">2. Clientes, pedidos e pós-venda</text>
+<text x="36" y="52" font-size="12.5" fill="#59636E">Cadastro, pedido com itens, tentativas de pagamento, frete, devoluções e avaliações.</text>
+<polyline points="436.0,116.2 286.0,116.2" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="428.0" y1="123.2" x2="428.0" y2="109.2"/><line x1="422.0" y1="123.2" x2="422.0" y2="109.2"/>
+<line x1="286.0" y1="109.2" x2="299.0" y2="116.2"/><line x1="286.0" y1="116.2" x2="299.0" y2="116.2"/><line x1="286.0" y1="123.2" x2="299.0" y2="116.2"/><line x1="303.0" y1="109.2" x2="303.0" y2="123.2"/>
+</g>
+<rect x="336.8" y="108.2" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="119.7" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">possui</text>
+<polyline points="686.0,110.5 836.0,110.5" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="694.0" y1="103.5" x2="694.0" y2="117.5"/><line x1="700.0" y1="103.5" x2="700.0" y2="117.5"/>
+<line x1="836.0" y1="117.5" x2="823.0" y2="110.5"/><line x1="836.0" y1="110.5" x2="823.0" y2="110.5"/><line x1="836.0" y1="103.5" x2="823.0" y2="110.5"/><circle cx="814.0" cy="110.5" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="733.6" y="102.5" width="54.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="114.0" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">escreve</text>
+<polyline points="1236.0,80.4 1086.0,80.4" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1228.0" y1="87.4" x2="1228.0" y2="73.4"/><line x1="1222.0" y1="87.4" x2="1222.0" y2="73.4"/>
+<line x1="1086.0" y1="73.4" x2="1099.0" y2="80.4"/><line x1="1086.0" y1="80.4" x2="1099.0" y2="80.4"/><line x1="1086.0" y1="87.4" x2="1099.0" y2="80.4"/><circle cx="1108.0" cy="80.4" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="1120.8" y="72.4" width="80.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1161.0" y="83.9" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">avaliado em</text>
+<polyline points="561.0,243.0 561.0,339.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="568.0" y1="251.0" x2="554.0" y2="251.0"/><line x1="568.0" y1="257.0" x2="554.0" y2="257.0"/>
+<line x1="554.0" y1="339.0" x2="561.0" y2="326.0"/><line x1="561.0" y1="339.0" x2="561.0" y2="326.0"/><line x1="568.0" y1="339.0" x2="561.0" y2="326.0"/><circle cx="561.0" cy="317.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="546.4" y="283.0" width="29.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="294.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">faz</text>
+<polyline points="161.0,224.0 161.0,291.0 498.5,291.0 498.5,339.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="168.0" y1="232.0" x2="154.0" y2="232.0"/><circle cx="161.0" cy="243.0" r="4.5" fill="#FFFFFF"/>
+<line x1="491.5" y1="339.0" x2="498.5" y2="326.0"/><line x1="498.5" y1="339.0" x2="498.5" y2="326.0"/><line x1="505.5" y1="339.0" x2="498.5" y2="326.0"/><circle cx="498.5" cy="317.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="292.8" y="283.0" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="329.8" y="294.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">entrega em</text>
+<polyline points="623.5,339.0 623.5,291.0 961.0,291.0 961.0,205.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="616.5" y1="331.0" x2="630.5" y2="331.0"/><line x1="616.5" y1="325.0" x2="630.5" y2="325.0"/>
+<line x1="968.0" y1="205.0" x2="961.0" y2="218.0"/><line x1="961.0" y1="205.0" x2="961.0" y2="218.0"/><line x1="954.0" y1="205.0" x2="961.0" y2="218.0"/><circle cx="961.0" cy="227.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="768.0" y="283.0" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="792.2" y="294.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">recebe</text>
+<polyline points="286.0,379.5 436.0,379.5" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="294.0" y1="372.5" x2="294.0" y2="386.5"/><circle cx="305.0" cy="379.5" r="4.5" fill="#FFFFFF"/>
+<line x1="436.0" y1="386.5" x2="423.0" y2="379.5"/><line x1="436.0" y1="379.5" x2="423.0" y2="379.5"/><line x1="436.0" y1="372.5" x2="423.0" y2="379.5"/><circle cx="414.0" cy="379.5" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="320.8" y="371.5" width="80.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="383.0" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">aplicado em</text>
+<polyline points="686.0,385.2 836.0,385.2" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="694.0" y1="378.2" x2="694.0" y2="392.2"/><line x1="700.0" y1="378.2" x2="700.0" y2="392.2"/>
+<line x1="828.0" y1="392.2" x2="828.0" y2="378.2"/><line x1="822.0" y1="392.2" x2="822.0" y2="378.2"/>
+</g>
+<rect x="740.0" y="377.2" width="42.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="388.7" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">envia</text>
+<polyline points="486.0,550.0 486.0,598.0 161.0,598.0 161.0,646.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="493.0" y1="558.0" x2="479.0" y2="558.0"/><line x1="493.0" y1="564.0" x2="479.0" y2="564.0"/>
+<line x1="154.0" y1="646.0" x2="161.0" y2="633.0"/><line x1="161.0" y1="646.0" x2="161.0" y2="633.0"/><line x1="168.0" y1="646.0" x2="161.0" y2="633.0"/><line x1="154.0" y1="629.0" x2="168.0" y2="629.0"/>
+</g>
+<rect x="286.5" y="590.0" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="323.5" y="601.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">tentativas</text>
+<polyline points="561.0,550.0 561.0,646.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="568.0" y1="558.0" x2="554.0" y2="558.0"/><line x1="568.0" y1="564.0" x2="554.0" y2="564.0"/>
+<line x1="554.0" y1="646.0" x2="561.0" y2="633.0"/><line x1="561.0" y1="646.0" x2="561.0" y2="633.0"/><line x1="568.0" y1="646.0" x2="561.0" y2="633.0"/><line x1="554.0" y1="629.0" x2="568.0" y2="629.0"/>
+</g>
+<rect x="536.8" y="590.0" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="601.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">contém</text>
+<polyline points="636.0,550.0 636.0,598.0 961.0,598.0 961.0,646.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="643.0" y1="558.0" x2="629.0" y2="558.0"/><line x1="643.0" y1="564.0" x2="629.0" y2="564.0"/>
+<line x1="954.0" y1="646.0" x2="961.0" y2="633.0"/><line x1="961.0" y1="646.0" x2="961.0" y2="633.0"/><line x1="968.0" y1="646.0" x2="961.0" y2="633.0"/><circle cx="961.0" cy="624.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="780.7" y="590.0" width="35.6" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="798.5" y="601.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">gera</text>
+<polyline points="686.0,686.5 836.0,686.5" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="694.0" y1="679.5" x2="694.0" y2="693.5"/><line x1="700.0" y1="679.5" x2="700.0" y2="693.5"/>
+<line x1="836.0" y1="693.5" x2="823.0" y2="686.5"/><line x1="836.0" y1="686.5" x2="823.0" y2="686.5"/><line x1="836.0" y1="679.5" x2="823.0" y2="686.5"/><circle cx="814.0" cy="686.5" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="727.2" y="678.5" width="67.6" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="690.0" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">devolvido</text>
+<polyline points="561.0,896.0 561.0,800.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="554.0" y1="888.0" x2="568.0" y2="888.0"/><line x1="554.0" y1="882.0" x2="568.0" y2="882.0"/>
+<line x1="568.0" y1="800.0" x2="561.0" y2="813.0"/><line x1="561.0" y1="800.0" x2="561.0" y2="813.0"/><line x1="554.0" y1="800.0" x2="561.0" y2="813.0"/><circle cx="561.0" cy="822.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="524.0" y="840.0" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="851.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">vendida em</text>
+<rect x="36" y="70" width="250" height="154" rx="6" fill="#FFFFFF" stroke="#8250DF" stroke-width="1.6"/>
+<path d="M36 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#8250DF"/>
+<text x="48" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">enderecos</text>
+<text x="46" y="116" font-size="10" font-weight="700" fill="#8250DF">PK</text>
+<text x="82" y="116" font-size="12" font-weight="700" fill="#1F2328">endereco_id</text>
+<text x="276" y="116" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="46" y="135" font-size="10" font-weight="700" fill="#8250DF">FK</text>
+<text x="82" y="135" font-size="12" fill="#1F2328">cliente_id</text>
+<text x="276" y="135" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="82" y="154" font-size="12" fill="#1F2328">cep</text>
+<text x="276" y="154" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="82" y="173" font-size="12" fill="#1F2328">cidade</text>
+<text x="276" y="173" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="82" y="192" font-size="12" fill="#1F2328">uf</text>
+<text x="276" y="192" font-size="11" fill="#59636E" text-anchor="end">char</text>
+<text x="82" y="211" font-size="12" fill="#1F2328">principal</text>
+<text x="276" y="211" font-size="11" fill="#59636E" text-anchor="end">tinyint</text>
+<rect x="436" y="70" width="250" height="173" rx="6" fill="#FFFFFF" stroke="#8250DF" stroke-width="1.6"/>
+<path d="M436 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#8250DF"/>
+<text x="448" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">clientes</text>
+<text x="446" y="116" font-size="10" font-weight="700" fill="#8250DF">PK</text>
+<text x="482" y="116" font-size="12" font-weight="700" fill="#1F2328">cliente_id</text>
+<text x="676" y="116" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="482" y="135" font-size="12" fill="#1F2328">tipo_cliente</text>
+<text x="676" y="135" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="482" y="154" font-size="12" fill="#1F2328">tipo_pessoa</text>
+<text x="676" y="154" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="482" y="173" font-size="12" fill="#1F2328">nome</text>
+<text x="676" y="173" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="446" y="192" font-size="10" font-weight="700" fill="#8250DF">UK</text>
+<text x="482" y="192" font-size="12" fill="#1F2328">email</text>
+<text x="676" y="192" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="211" font-size="12" fill="#1F2328">cpf?</text>
+<text x="676" y="211" font-size="11" fill="#59636E" text-anchor="end">char</text>
+<text x="482" y="230" font-size="12" fill="#1F2328">cadastrado_em</text>
+<text x="676" y="230" font-size="11" fill="#59636E" text-anchor="end">datetime</text>
+<rect x="836" y="70" width="250" height="135" rx="6" fill="#FFFFFF" stroke="#8250DF" stroke-width="1.6"/>
+<path d="M836 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#8250DF"/>
+<text x="848" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">avaliacoes</text>
+<text x="846" y="116" font-size="10" font-weight="700" fill="#8250DF">PK</text>
+<text x="882" y="116" font-size="12" font-weight="700" fill="#1F2328">avaliacao_id</text>
+<text x="1076" y="116" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="846" y="135" font-size="10" font-weight="700" fill="#8250DF">FK</text>
+<text x="882" y="135" font-size="12" fill="#1F2328">pedido_id</text>
+<text x="1076" y="135" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="846" y="154" font-size="10" font-weight="700" fill="#8250DF">FK</text>
+<text x="882" y="154" font-size="12" fill="#1F2328">cliente_id</text>
+<text x="1076" y="154" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="846" y="173" font-size="10" font-weight="700" fill="#8250DF">FK</text>
+<text x="882" y="173" font-size="12" fill="#1F2328">produto_id</text>
+<text x="1076" y="173" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="882" y="192" font-size="12" fill="#1F2328">nota</text>
+<text x="1076" y="192" font-size="11" fill="#59636E" text-anchor="end">tinyint</text>
+<rect x="1236" y="70" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="1248" y="90" font-size="13" font-weight="700" fill="#59636E">produtos</text>
+<text x="1248" y="108" font-size="11" fill="#59636E">ver diagrama 1</text>
+<rect x="36" y="339" width="250" height="135" rx="6" fill="#FFFFFF" stroke="#8250DF" stroke-width="1.6"/>
+<path d="M36 369 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#8250DF"/>
+<text x="48" y="359" font-size="13.5" font-weight="700" fill="#FFFFFF">cupons</text>
+<text x="46" y="385" font-size="10" font-weight="700" fill="#8250DF">PK</text>
+<text x="82" y="385" font-size="12" font-weight="700" fill="#1F2328">cupom_id</text>
+<text x="276" y="385" font-size="11" fill="#59636E" text-anchor="end">smallint</text>
+<text x="46" y="404" font-size="10" font-weight="700" fill="#8250DF">UK</text>
+<text x="82" y="404" font-size="12" fill="#1F2328">codigo</text>
+<text x="276" y="404" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="82" y="423" font-size="12" fill="#1F2328">tipo_desconto</text>
+<text x="276" y="423" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="82" y="442" font-size="12" fill="#1F2328">valor_desconto</text>
+<text x="276" y="442" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="82" y="461" font-size="12" fill="#1F2328">canal</text>
+<text x="276" y="461" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<rect x="436" y="339" width="250" height="211" rx="6" fill="#FFFFFF" stroke="#8250DF" stroke-width="1.6"/>
+<path d="M436 369 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#8250DF"/>
+<text x="448" y="359" font-size="13.5" font-weight="700" fill="#FFFFFF">pedidos</text>
+<text x="446" y="385" font-size="10" font-weight="700" fill="#8250DF">PK</text>
+<text x="482" y="385" font-size="12" font-weight="700" fill="#1F2328">pedido_id</text>
+<text x="676" y="385" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="446" y="404" font-size="10" font-weight="700" fill="#8250DF">FK</text>
+<text x="482" y="404" font-size="12" fill="#1F2328">cliente_id</text>
+<text x="676" y="404" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="446" y="423" font-size="10" font-weight="700" fill="#8250DF">FK</text>
+<text x="482" y="423" font-size="12" fill="#1F2328">endereco_entrega_id?</text>
+<text x="676" y="423" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="446" y="442" font-size="10" font-weight="700" fill="#8250DF">FK</text>
+<text x="482" y="442" font-size="12" fill="#1F2328">sessao_id?</text>
+<text x="676" y="442" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="446" y="461" font-size="10" font-weight="700" fill="#8250DF">FK</text>
+<text x="482" y="461" font-size="12" fill="#1F2328">cupom_id?</text>
+<text x="676" y="461" font-size="11" fill="#59636E" text-anchor="end">smallint</text>
+<text x="482" y="480" font-size="12" fill="#1F2328">status</text>
+<text x="676" y="480" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="482" y="499" font-size="12" fill="#1F2328">criado_em</text>
+<text x="676" y="499" font-size="11" fill="#59636E" text-anchor="end">datetime</text>
+<text x="482" y="518" font-size="12" fill="#1F2328">total</text>
+<text x="676" y="518" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="482" y="537" font-size="12" fill="#1F2328">pedido_teste</text>
+<text x="676" y="537" font-size="11" fill="#59636E" text-anchor="end">tinyint</text>
+<rect x="836" y="339" width="250" height="154" rx="6" fill="#FFFFFF" stroke="#8250DF" stroke-width="1.6"/>
+<path d="M836 369 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#8250DF"/>
+<text x="848" y="359" font-size="13.5" font-weight="700" fill="#FFFFFF">fretes</text>
+<text x="846" y="385" font-size="10" font-weight="700" fill="#8250DF">PK</text>
+<text x="882" y="385" font-size="12" font-weight="700" fill="#1F2328">frete_id</text>
+<text x="1076" y="385" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="846" y="404" font-size="10" font-weight="700" fill="#8250DF">FK/UK</text>
+<text x="882" y="404" font-size="12" fill="#1F2328">pedido_id</text>
+<text x="1076" y="404" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="882" y="423" font-size="12" fill="#1F2328">transportadora</text>
+<text x="1076" y="423" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="882" y="442" font-size="12" fill="#1F2328">custo_real</text>
+<text x="1076" y="442" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="882" y="461" font-size="12" fill="#1F2328">frete_gratis</text>
+<text x="1076" y="461" font-size="11" fill="#59636E" text-anchor="end">tinyint</text>
+<text x="882" y="480" font-size="12" fill="#1F2328">entregue_em?</text>
+<text x="1076" y="480" font-size="11" fill="#59636E" text-anchor="end">datetime</text>
+<rect x="36" y="646" width="250" height="135" rx="6" fill="#FFFFFF" stroke="#8250DF" stroke-width="1.6"/>
+<path d="M36 676 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#8250DF"/>
+<text x="48" y="666" font-size="13.5" font-weight="700" fill="#FFFFFF">pagamentos</text>
+<text x="46" y="692" font-size="10" font-weight="700" fill="#8250DF">PK</text>
+<text x="82" y="692" font-size="12" font-weight="700" fill="#1F2328">pagamento_id</text>
+<text x="276" y="692" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="46" y="711" font-size="10" font-weight="700" fill="#8250DF">FK</text>
+<text x="82" y="711" font-size="12" fill="#1F2328">pedido_id</text>
+<text x="276" y="711" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="82" y="730" font-size="12" fill="#1F2328">tentativa</text>
+<text x="276" y="730" font-size="11" fill="#59636E" text-anchor="end">tinyint</text>
+<text x="82" y="749" font-size="12" fill="#1F2328">metodo</text>
+<text x="276" y="749" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="82" y="768" font-size="12" fill="#1F2328">status</text>
+<text x="276" y="768" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<rect x="436" y="646" width="250" height="154" rx="6" fill="#FFFFFF" stroke="#8250DF" stroke-width="1.6"/>
+<path d="M436 676 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#8250DF"/>
+<text x="448" y="666" font-size="13.5" font-weight="700" fill="#FFFFFF">itens_pedido</text>
+<text x="446" y="692" font-size="10" font-weight="700" fill="#8250DF">PK</text>
+<text x="482" y="692" font-size="12" font-weight="700" fill="#1F2328">item_pedido_id</text>
+<text x="676" y="692" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="446" y="711" font-size="10" font-weight="700" fill="#8250DF">FK</text>
+<text x="482" y="711" font-size="12" fill="#1F2328">pedido_id</text>
+<text x="676" y="711" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="446" y="730" font-size="10" font-weight="700" fill="#8250DF">FK</text>
+<text x="482" y="730" font-size="12" fill="#1F2328">variante_id</text>
+<text x="676" y="730" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="482" y="749" font-size="12" fill="#1F2328">quantidade</text>
+<text x="676" y="749" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="482" y="768" font-size="12" fill="#1F2328">preco_unitario</text>
+<text x="676" y="768" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="482" y="787" font-size="12" fill="#1F2328">total_item</text>
+<text x="676" y="787" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<rect x="836" y="646" width="250" height="135" rx="6" fill="#FFFFFF" stroke="#8250DF" stroke-width="1.6"/>
+<path d="M836 676 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#8250DF"/>
+<text x="848" y="666" font-size="13.5" font-weight="700" fill="#FFFFFF">devolucoes</text>
+<text x="846" y="692" font-size="10" font-weight="700" fill="#8250DF">PK</text>
+<text x="882" y="692" font-size="12" font-weight="700" fill="#1F2328">devolucao_id</text>
+<text x="1076" y="692" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="846" y="711" font-size="10" font-weight="700" fill="#8250DF">FK</text>
+<text x="882" y="711" font-size="12" fill="#1F2328">pedido_id</text>
+<text x="1076" y="711" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="846" y="730" font-size="10" font-weight="700" fill="#8250DF">FK</text>
+<text x="882" y="730" font-size="12" fill="#1F2328">item_pedido_id</text>
+<text x="1076" y="730" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="882" y="749" font-size="12" fill="#1F2328">motivo</text>
+<text x="1076" y="749" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="882" y="768" font-size="12" fill="#1F2328">valor_reembolsado</text>
+<text x="1076" y="768" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<rect x="436" y="896" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="448" y="916" font-size="13" font-weight="700" fill="#59636E">variantes</text>
+<text x="448" y="934" font-size="11" fill="#59636E">ver diagrama 1</text>
+<g font-size="11.5" fill="#59636E"><line x1="36" y1="1006" x2="80" y2="1006" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="72.0" y1="1013.0" x2="72.0" y2="999.0"/><line x1="66.0" y1="1013.0" x2="66.0" y2="999.0"/></g><text x="88" y="1010">exatamente um</text><line x1="205" y1="1006" x2="249" y2="1006" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="241.0" y1="1013.0" x2="241.0" y2="999.0"/><circle cx="230.0" cy="1006.0" r="4.5" fill="#FFFFFF"/></g><text x="257" y="1010">zero ou um</text><line x1="353" y1="1006" x2="397" y2="1006" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="397.0" y1="1013.0" x2="384.0" y2="1006.0"/><line x1="397.0" y1="1006.0" x2="384.0" y2="1006.0"/><line x1="397.0" y1="999.0" x2="384.0" y2="1006.0"/><line x1="380.0" y1="1013.0" x2="380.0" y2="999.0"/></g><text x="405" y="1010">um ou mais</text><line x1="501" y1="1006" x2="545" y2="1006" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="545.0" y1="1013.0" x2="532.0" y2="1006.0"/><line x1="545.0" y1="1006.0" x2="532.0" y2="1006.0"/><line x1="545.0" y1="999.0" x2="532.0" y2="1006.0"/><circle cx="523.0" cy="1006.0" r="4.5" fill="#FFFFFF"/></g><text x="553" y="1010">zero ou mais</text><rect x="663" y="997" width="26" height="18" rx="4" fill="#F6F8FA" stroke="#8C959F" stroke-dasharray="4 3"/><text x="697" y="1010">tabela de outra área</text><text x="857" y="1010">campo? = aceita nulo</text></g>
+</svg><rect x="763.0" y="958.5" width="646.8" height="596.8" fill="none" stroke="#D0D7DE" rx="6"/><svg x="764.0" y="959.5" width="644.8" height="594.8" viewBox="0 0 1522 1404">
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="36" y="32" font-size="19" font-weight="700" fill="#1F2328">3. Tracking do site e atribuição</text>
+<text x="36" y="52" font-size="12.5" fill="#59636E">Clique no anúncio → sessão → eventos GA4 (GTM server-side) → envio à Meta CAPI / Google; crédito por toque.</text>
+<polyline points="161.0,122.0 161.0,170.0 486.0,170.0 486.0,218.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="168.0" y1="130.0" x2="154.0" y2="130.0"/><circle cx="161.0" cy="141.0" r="4.5" fill="#FFFFFF"/>
+<line x1="479.0" y1="218.0" x2="486.0" y2="205.0"/><line x1="486.0" y1="218.0" x2="486.0" y2="205.0"/><line x1="493.0" y1="218.0" x2="486.0" y2="205.0"/><circle cx="486.0" cy="196.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="299.3" y="162.0" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="323.5" y="173.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">fbclid</text>
+<polyline points="561.0,122.0 561.0,218.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="568.0" y1="130.0" x2="554.0" y2="130.0"/><circle cx="561.0" cy="141.0" r="4.5" fill="#FFFFFF"/>
+<line x1="554.0" y1="218.0" x2="561.0" y2="205.0"/><line x1="561.0" y1="218.0" x2="561.0" y2="205.0"/><line x1="568.0" y1="218.0" x2="561.0" y2="205.0"/><circle cx="561.0" cy="196.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="540.0" y="162.0" width="42.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="173.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">gclid</text>
+<polyline points="961.0,122.0 961.0,170.0 636.0,170.0 636.0,218.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="968.0" y1="130.0" x2="954.0" y2="130.0"/><circle cx="961.0" cy="141.0" r="4.5" fill="#FFFFFF"/>
+<line x1="629.0" y1="218.0" x2="636.0" y2="205.0"/><line x1="636.0" y1="218.0" x2="636.0" y2="205.0"/><line x1="643.0" y1="218.0" x2="636.0" y2="205.0"/><circle cx="636.0" cy="196.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="771.1" y="162.0" width="54.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="798.5" y="173.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">palavra</text>
+<polyline points="561.0,391.0 561.0,487.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="568.0" y1="399.0" x2="554.0" y2="399.0"/><circle cx="561.0" cy="410.0" r="4.5" fill="#FFFFFF"/>
+<line x1="554.0" y1="479.0" x2="568.0" y2="479.0"/><circle cx="561.0" cy="468.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="543.2" y="431.0" width="35.6" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="442.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">abre</text>
+<polyline points="286.0,502.6 436.0,502.6" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="294.0" y1="495.6" x2="294.0" y2="509.6"/><circle cx="305.0" cy="502.6" r="4.5" fill="#FFFFFF"/>
+<line x1="436.0" y1="509.6" x2="423.0" y2="502.6"/><line x1="436.0" y1="502.6" x2="423.0" y2="502.6"/><line x1="436.0" y1="495.6" x2="423.0" y2="502.6"/><circle cx="414.0" cy="502.6" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="333.6" y="494.6" width="54.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="506.1" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">user_id</text>
+<polyline points="686.0,550.3 836.0,550.3" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="694.0" y1="543.3" x2="694.0" y2="557.3"/><line x1="700.0" y1="543.3" x2="700.0" y2="557.3"/>
+<line x1="836.0" y1="557.3" x2="823.0" y2="550.3"/><line x1="836.0" y1="550.3" x2="823.0" y2="550.3"/><line x1="836.0" y1="543.3" x2="823.0" y2="550.3"/><circle cx="814.0" cy="550.3" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="740.0" y="542.3" width="42.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="553.8" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">toque</text>
+<polyline points="1236.0,502.6 1086.0,502.6" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1228.0" y1="509.6" x2="1228.0" y2="495.6"/><circle cx="1217.0" cy="502.6" r="4.5" fill="#FFFFFF"/>
+<line x1="1086.0" y1="495.6" x2="1099.0" y2="502.6"/><line x1="1086.0" y1="502.6" x2="1099.0" y2="502.6"/><line x1="1086.0" y1="509.6" x2="1099.0" y2="502.6"/><circle cx="1108.0" cy="502.6" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="1127.2" y="494.6" width="67.6" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1161.0" y="506.1" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">creditada</text>
+<polyline points="1361.0,270.0 1361.0,439.0 1011.0,439.0 1011.0,487.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1368.0" y1="278.0" x2="1354.0" y2="278.0"/><circle cx="1361.0" cy="289.0" r="4.5" fill="#FFFFFF"/>
+<line x1="1004.0" y1="487.0" x2="1011.0" y2="474.0"/><line x1="1011.0" y1="487.0" x2="1011.0" y2="474.0"/><line x1="1018.0" y1="487.0" x2="1011.0" y2="474.0"/><circle cx="1011.0" cy="465.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="1152.2" y="431.0" width="67.6" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1186.0" y="442.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">creditada</text>
+<polyline points="561.0,736.0 561.0,832.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="568.0" y1="744.0" x2="554.0" y2="744.0"/><line x1="568.0" y1="750.0" x2="554.0" y2="750.0"/>
+<line x1="554.0" y1="832.0" x2="561.0" y2="819.0"/><line x1="561.0" y1="832.0" x2="561.0" y2="819.0"/><line x1="568.0" y1="832.0" x2="561.0" y2="819.0"/><line x1="554.0" y1="815.0" x2="568.0" y2="815.0"/>
+</g>
+<rect x="536.8" y="776.0" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="787.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">contém</text>
+<polyline points="161.0,539.0 161.0,784.0 486.0,784.0 486.0,832.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="168.0" y1="547.0" x2="154.0" y2="547.0"/><circle cx="161.0" cy="558.0" r="4.5" fill="#FFFFFF"/>
+<line x1="479.0" y1="832.0" x2="486.0" y2="819.0"/><line x1="486.0" y1="832.0" x2="486.0" y2="819.0"/><line x1="493.0" y1="832.0" x2="486.0" y2="819.0"/><circle cx="486.0" cy="810.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="296.1" y="776.0" width="54.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="323.5" y="787.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">user_id</text>
+<polyline points="636.0,736.0 636.0,784.0 886.0,784.0 886.0,832.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="643.0" y1="744.0" x2="629.0" y2="744.0"/><circle cx="636.0" cy="755.0" r="4.5" fill="#FFFFFF"/>
+<line x1="879.0" y1="832.0" x2="886.0" y2="819.0"/><line x1="886.0" y1="832.0" x2="886.0" y2="819.0"/><line x1="893.0" y1="832.0" x2="886.0" y2="819.0"/><circle cx="886.0" cy="810.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="704.8" y="776.0" width="112.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="787.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">sessão da compra</text>
+<polyline points="1011.0,832.0 1011.0,698.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1004.0" y1="824.0" x2="1018.0" y2="824.0"/><line x1="1004.0" y1="818.0" x2="1018.0" y2="818.0"/>
+<line x1="1018.0" y1="698.0" x2="1011.0" y2="711.0"/><line x1="1011.0" y1="698.0" x2="1011.0" y2="711.0"/><line x1="1004.0" y1="698.0" x2="1011.0" y2="711.0"/><line x1="1018.0" y1="715.0" x2="1004.0" y2="715.0"/>
+</g>
+<rect x="983.6" y="757.0" width="54.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1011.0" y="768.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">crédito</text>
+<polyline points="286.0,847.6 436.0,847.6" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="294.0" y1="840.6" x2="294.0" y2="854.6"/><circle cx="305.0" cy="847.6" r="4.5" fill="#FFFFFF"/>
+<line x1="436.0" y1="854.6" x2="423.0" y2="847.6"/><line x1="436.0" y1="847.6" x2="423.0" y2="847.6"/><line x1="436.0" y1="840.6" x2="423.0" y2="847.6"/><circle cx="414.0" cy="847.6" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="343.2" y="839.6" width="35.6" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="851.1" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">item</text>
+<polyline points="836.0,847.6 686.0,847.6" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="828.0" y1="854.6" x2="828.0" y2="840.6"/><circle cx="817.0" cy="847.6" r="4.5" fill="#FFFFFF"/>
+<line x1="686.0" y1="840.6" x2="699.0" y2="847.6"/><line x1="686.0" y1="847.6" x2="699.0" y2="847.6"/><line x1="686.0" y1="854.6" x2="699.0" y2="847.6"/><circle cx="708.0" cy="847.6" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="730.4" y="839.6" width="61.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="851.1" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">purchase</text>
+<polyline points="561.0,1062.0 561.0,1158.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="568.0" y1="1070.0" x2="554.0" y2="1070.0"/><line x1="568.0" y1="1076.0" x2="554.0" y2="1076.0"/>
+<line x1="554.0" y1="1158.0" x2="561.0" y2="1145.0"/><line x1="561.0" y1="1158.0" x2="561.0" y2="1145.0"/><line x1="568.0" y1="1158.0" x2="561.0" y2="1145.0"/><circle cx="561.0" cy="1136.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="527.2" y="1102.0" width="67.6" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="1113.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">CAPI / EC</text>
+<rect x="36" y="70" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="48" y="90" font-size="13" font-weight="700" fill="#59636E">meta_anuncios</text>
+<text x="48" y="108" font-size="11" fill="#59636E">ver diagrama 4</text>
+<rect x="436" y="70" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="448" y="90" font-size="13" font-weight="700" fill="#59636E">google_grupos_anuncio</text>
+<text x="448" y="108" font-size="11" fill="#59636E">ver diagrama 5</text>
+<rect x="836" y="70" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="848" y="90" font-size="13" font-weight="700" fill="#59636E">google_palavras_chave</text>
+<text x="848" y="108" font-size="11" fill="#59636E">ver diagrama 5</text>
+<rect x="436" y="218" width="250" height="173" rx="6" fill="#FFFFFF" stroke="#BF3989" stroke-width="1.6"/>
+<path d="M436 248 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#BF3989"/>
+<text x="448" y="238" font-size="13.5" font-weight="700" fill="#FFFFFF">cliques_midia</text>
+<text x="446" y="264" font-size="10" font-weight="700" fill="#BF3989">PK</text>
+<text x="482" y="264" font-size="12" font-weight="700" fill="#1F2328">clique_id</text>
+<text x="676" y="264" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="482" y="283" font-size="12" fill="#1F2328">plataforma</text>
+<text x="676" y="283" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="446" y="302" font-size="10" font-weight="700" fill="#BF3989">UK</text>
+<text x="482" y="302" font-size="12" fill="#1F2328">click_id</text>
+<text x="676" y="302" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="446" y="321" font-size="10" font-weight="700" fill="#BF3989">FK</text>
+<text x="482" y="321" font-size="12" fill="#1F2328">meta_anuncio_id?</text>
+<text x="676" y="321" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="446" y="340" font-size="10" font-weight="700" fill="#BF3989">FK</text>
+<text x="482" y="340" font-size="12" fill="#1F2328">google_grupo_id?</text>
+<text x="676" y="340" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="446" y="359" font-size="10" font-weight="700" fill="#BF3989">FK</text>
+<text x="482" y="359" font-size="12" fill="#1F2328">google_palavra_chave_id?</text>
+<text x="676" y="359" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="482" y="378" font-size="12" fill="#1F2328">clicado_em</text>
+<text x="676" y="378" font-size="11" fill="#59636E" text-anchor="end">datetime</text>
+<rect x="1236" y="218" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="1248" y="238" font-size="13" font-weight="700" fill="#59636E">meta_campanhas</text>
+<text x="1248" y="256" font-size="11" fill="#59636E">ver diagrama 4</text>
+<rect x="36" y="487" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="48" y="507" font-size="13" font-weight="700" fill="#59636E">clientes</text>
+<text x="48" y="525" font-size="11" fill="#59636E">ver diagrama 2</text>
+<rect x="436" y="487" width="250" height="249" rx="6" fill="#FFFFFF" stroke="#BF3989" stroke-width="1.6"/>
+<path d="M436 517 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#BF3989"/>
+<text x="448" y="507" font-size="13.5" font-weight="700" fill="#FFFFFF">sessoes</text>
+<text x="446" y="533" font-size="10" font-weight="700" fill="#BF3989">PK</text>
+<text x="482" y="533" font-size="12" font-weight="700" fill="#1F2328">sessao_id</text>
+<text x="676" y="533" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="446" y="552" font-size="10" font-weight="700" fill="#BF3989">FK</text>
+<text x="482" y="552" font-size="12" fill="#1F2328">cliente_id?</text>
+<text x="676" y="552" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="446" y="571" font-size="10" font-weight="700" fill="#BF3989">FK</text>
+<text x="482" y="571" font-size="12" fill="#1F2328">clique_id?</text>
+<text x="676" y="571" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="482" y="590" font-size="12" fill="#1F2328">iniciada_em</text>
+<text x="676" y="590" font-size="11" fill="#59636E" text-anchor="end">datetime</text>
+<text x="482" y="609" font-size="12" fill="#1F2328">dispositivo?</text>
+<text x="676" y="609" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="482" y="628" font-size="12" fill="#1F2328">utm_source?</text>
+<text x="676" y="628" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="647" font-size="12" fill="#1F2328">utm_medium?</text>
+<text x="676" y="647" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="666" font-size="12" fill="#1F2328">utm_campaign?</text>
+<text x="676" y="666" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="685" font-size="12" fill="#1F2328">gclid?</text>
+<text x="676" y="685" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="704" font-size="12" fill="#1F2328">fbclid?</text>
+<text x="676" y="704" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="723" font-size="12" fill="#1F2328">consent_ad_storage</text>
+<text x="676" y="723" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<rect x="836" y="487" width="250" height="211" rx="6" fill="#FFFFFF" stroke="#BF3989" stroke-width="1.6"/>
+<path d="M836 517 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#BF3989"/>
+<text x="848" y="507" font-size="13.5" font-weight="700" fill="#FFFFFF">atribuicoes</text>
+<text x="846" y="533" font-size="10" font-weight="700" fill="#BF3989">PK</text>
+<text x="882" y="533" font-size="12" font-weight="700" fill="#1F2328">atribuicao_id</text>
+<text x="1076" y="533" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="846" y="552" font-size="10" font-weight="700" fill="#BF3989">FK</text>
+<text x="882" y="552" font-size="12" fill="#1F2328">pedido_id</text>
+<text x="1076" y="552" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="846" y="571" font-size="10" font-weight="700" fill="#BF3989">FK</text>
+<text x="882" y="571" font-size="12" fill="#1F2328">sessao_id</text>
+<text x="1076" y="571" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="846" y="590" font-size="10" font-weight="700" fill="#BF3989">FK</text>
+<text x="882" y="590" font-size="12" fill="#1F2328">meta_campanha_id?</text>
+<text x="1076" y="590" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="846" y="609" font-size="10" font-weight="700" fill="#BF3989">FK</text>
+<text x="882" y="609" font-size="12" fill="#1F2328">google_campanha_id?</text>
+<text x="1076" y="609" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="882" y="628" font-size="12" fill="#1F2328">modelo</text>
+<text x="1076" y="628" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="882" y="647" font-size="12" fill="#1F2328">canal</text>
+<text x="1076" y="647" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="882" y="666" font-size="12" fill="#1F2328">peso</text>
+<text x="1076" y="666" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="882" y="685" font-size="12" fill="#1F2328">receita_atribuida</text>
+<text x="1076" y="685" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<rect x="1236" y="487" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="1248" y="507" font-size="13" font-weight="700" fill="#59636E">google_campanhas</text>
+<text x="1248" y="525" font-size="11" fill="#59636E">ver diagrama 5</text>
+<rect x="36" y="832" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="48" y="852" font-size="13" font-weight="700" fill="#59636E">variantes</text>
+<text x="48" y="870" font-size="11" fill="#59636E">ver diagrama 1</text>
+<rect x="436" y="832" width="250" height="230" rx="6" fill="#FFFFFF" stroke="#BF3989" stroke-width="1.6"/>
+<path d="M436 862 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#BF3989"/>
+<text x="448" y="852" font-size="13.5" font-weight="700" fill="#FFFFFF">eventos</text>
+<text x="446" y="878" font-size="10" font-weight="700" fill="#BF3989">PK</text>
+<text x="482" y="878" font-size="12" font-weight="700" fill="#1F2328">evento_id</text>
+<text x="676" y="878" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="482" y="897" font-size="12" fill="#1F2328">event_id</text>
+<text x="676" y="897" font-size="11" fill="#59636E" text-anchor="end">char</text>
+<text x="446" y="916" font-size="10" font-weight="700" fill="#BF3989">FK</text>
+<text x="482" y="916" font-size="12" fill="#1F2328">sessao_id</text>
+<text x="676" y="916" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="446" y="935" font-size="10" font-weight="700" fill="#BF3989">FK</text>
+<text x="482" y="935" font-size="12" fill="#1F2328">cliente_id?</text>
+<text x="676" y="935" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="446" y="954" font-size="10" font-weight="700" fill="#BF3989">FK</text>
+<text x="482" y="954" font-size="12" fill="#1F2328">variante_id?</text>
+<text x="676" y="954" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="446" y="973" font-size="10" font-weight="700" fill="#BF3989">FK</text>
+<text x="482" y="973" font-size="12" fill="#1F2328">pedido_id?</text>
+<text x="676" y="973" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="482" y="992" font-size="12" fill="#1F2328">event_name</text>
+<text x="676" y="992" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="482" y="1011" font-size="12" fill="#1F2328">event_timestamp</text>
+<text x="676" y="1011" font-size="11" fill="#59636E" text-anchor="end">datetime</text>
+<text x="482" y="1030" font-size="12" fill="#1F2328">fonte</text>
+<text x="676" y="1030" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="482" y="1049" font-size="12" fill="#1F2328">versao_container</text>
+<text x="676" y="1049" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<rect x="836" y="832" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="848" y="852" font-size="13" font-weight="700" fill="#59636E">pedidos</text>
+<text x="848" y="870" font-size="11" fill="#59636E">ver diagrama 2</text>
+<rect x="436" y="1158" width="250" height="154" rx="6" fill="#FFFFFF" stroke="#BF3989" stroke-width="1.6"/>
+<path d="M436 1188 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#BF3989"/>
+<text x="448" y="1178" font-size="13.5" font-weight="700" fill="#FFFFFF">envios_conversao</text>
+<text x="446" y="1204" font-size="10" font-weight="700" fill="#BF3989">PK</text>
+<text x="482" y="1204" font-size="12" font-weight="700" fill="#1F2328">envio_id</text>
+<text x="676" y="1204" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="446" y="1223" font-size="10" font-weight="700" fill="#BF3989">FK</text>
+<text x="482" y="1223" font-size="12" fill="#1F2328">evento_id</text>
+<text x="676" y="1223" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="482" y="1242" font-size="12" fill="#1F2328">plataforma</text>
+<text x="676" y="1242" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="482" y="1261" font-size="12" fill="#1F2328">status</text>
+<text x="676" y="1261" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="482" y="1280" font-size="12" fill="#1F2328">http_status?</text>
+<text x="676" y="1280" font-size="11" fill="#59636E" text-anchor="end">smallint</text>
+<text x="482" y="1299" font-size="12" fill="#1F2328">event_match_quality?</text>
+<text x="676" y="1299" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<g font-size="11.5" fill="#59636E"><line x1="36" y1="1370" x2="80" y2="1370" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="72.0" y1="1377.0" x2="72.0" y2="1363.0"/><line x1="66.0" y1="1377.0" x2="66.0" y2="1363.0"/></g><text x="88" y="1374">exatamente um</text><line x1="205" y1="1370" x2="249" y2="1370" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="241.0" y1="1377.0" x2="241.0" y2="1363.0"/><circle cx="230.0" cy="1370.0" r="4.5" fill="#FFFFFF"/></g><text x="257" y="1374">zero ou um</text><line x1="353" y1="1370" x2="397" y2="1370" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="397.0" y1="1377.0" x2="384.0" y2="1370.0"/><line x1="397.0" y1="1370.0" x2="384.0" y2="1370.0"/><line x1="397.0" y1="1363.0" x2="384.0" y2="1370.0"/><line x1="380.0" y1="1377.0" x2="380.0" y2="1363.0"/></g><text x="405" y="1374">um ou mais</text><line x1="501" y1="1370" x2="545" y2="1370" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="545.0" y1="1377.0" x2="532.0" y2="1370.0"/><line x1="545.0" y1="1370.0" x2="532.0" y2="1370.0"/><line x1="545.0" y1="1363.0" x2="532.0" y2="1370.0"/><circle cx="523.0" cy="1370.0" r="4.5" fill="#FFFFFF"/></g><text x="553" y="1374">zero ou mais</text><rect x="663" y="1361" width="26" height="18" rx="4" fill="#F6F8FA" stroke="#8C959F" stroke-dasharray="4 3"/><text x="697" y="1374">tabela de outra área</text><text x="857" y="1374">campo? = aceita nulo</text></g>
+</svg><rect x="79.6" y="1581.3" width="646.8" height="339.7" fill="none" stroke="#D0D7DE" rx="6"/><svg x="80.6" y="1582.3" width="644.8" height="337.7" viewBox="0 0 1522 797">
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="36" y="32" font-size="19" font-weight="700" fill="#1F2328">4. Meta Ads</text>
+<text x="36" y="52" font-size="12.5" fill="#59636E">Conta → campanha → conjunto → anúncio, com insights diários por anúncio (como a API de Marketing exporta).</text>
+<polyline points="561.0,167.0 561.0,263.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="568.0" y1="175.0" x2="554.0" y2="175.0"/><line x1="568.0" y1="181.0" x2="554.0" y2="181.0"/>
+<line x1="554.0" y1="263.0" x2="561.0" y2="250.0"/><line x1="561.0" y1="263.0" x2="561.0" y2="250.0"/><line x1="568.0" y1="263.0" x2="561.0" y2="250.0"/><line x1="554.0" y1="246.0" x2="568.0" y2="246.0"/>
+</g>
+<rect x="536.8" y="207.0" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="218.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">contém</text>
+<polyline points="686.0,297.8 836.0,297.8" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="694.0" y1="290.8" x2="694.0" y2="304.8"/><line x1="700.0" y1="290.8" x2="700.0" y2="304.8"/>
+<line x1="836.0" y1="304.8" x2="823.0" y2="297.8"/><line x1="836.0" y1="297.8" x2="823.0" y2="297.8"/><line x1="836.0" y1="290.8" x2="823.0" y2="297.8"/><line x1="819.0" y1="304.8" x2="819.0" y2="290.8"/>
+</g>
+<rect x="736.8" y="289.8" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="301.3" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">contém</text>
+<polyline points="1086.0,297.8 1236.0,297.8" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1094.0" y1="290.8" x2="1094.0" y2="304.8"/><line x1="1100.0" y1="290.8" x2="1100.0" y2="304.8"/>
+<line x1="1236.0" y1="304.8" x2="1223.0" y2="297.8"/><line x1="1236.0" y1="297.8" x2="1223.0" y2="297.8"/><line x1="1236.0" y1="290.8" x2="1223.0" y2="297.8"/><line x1="1219.0" y1="304.8" x2="1219.0" y2="290.8"/>
+</g>
+<rect x="1136.8" y="289.8" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1161.0" y="301.3" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">contém</text>
+<polyline points="436.0,278.6 286.0,278.6" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="428.0" y1="285.6" x2="428.0" y2="271.6"/><circle cx="417.0" cy="278.6" r="4.5" fill="#FFFFFF"/>
+<line x1="286.0" y1="271.6" x2="299.0" y2="278.6"/><line x1="286.0" y1="278.6" x2="299.0" y2="278.6"/><line x1="286.0" y1="285.6" x2="299.0" y2="278.6"/><circle cx="308.0" cy="278.6" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="327.2" y="270.6" width="67.6" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="282.1" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">creditada</text>
+<polyline points="1361.0,379.0 1361.0,513.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1368.0" y1="387.0" x2="1354.0" y2="387.0"/><line x1="1368.0" y1="393.0" x2="1354.0" y2="393.0"/>
+<line x1="1354.0" y1="513.0" x2="1361.0" y2="500.0"/><line x1="1361.0" y1="513.0" x2="1361.0" y2="500.0"/><line x1="1368.0" y1="513.0" x2="1361.0" y2="500.0"/><circle cx="1361.0" cy="491.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="1317.6" y="438.0" width="86.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1361.0" y="449.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">insights/dia</text>
+<polyline points="1286.0,379.0 1286.0,465.0 961.0,465.0 961.0,513.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1293.0" y1="387.0" x2="1279.0" y2="387.0"/><circle cx="1286.0" cy="398.0" r="4.5" fill="#FFFFFF"/>
+<line x1="954.0" y1="513.0" x2="961.0" y2="500.0"/><line x1="961.0" y1="513.0" x2="961.0" y2="500.0"/><line x1="968.0" y1="513.0" x2="961.0" y2="500.0"/><circle cx="961.0" cy="491.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="1099.3" y="457.0" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1123.5" y="468.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">fbclid</text>
+<rect x="436" y="70" width="250" height="97" rx="6" fill="#FFFFFF" stroke="#0969DA" stroke-width="1.6"/>
+<path d="M436 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#0969DA"/>
+<text x="448" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">meta_contas</text>
+<text x="446" y="116" font-size="10" font-weight="700" fill="#0969DA">PK</text>
+<text x="482" y="116" font-size="12" font-weight="700" fill="#1F2328">conta_id</text>
+<text x="676" y="116" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="135" font-size="12" fill="#1F2328">nome</text>
+<text x="676" y="135" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="154" font-size="12" fill="#1F2328">fuso_horario</text>
+<text x="676" y="154" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<rect x="36" y="263" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="48" y="283" font-size="13" font-weight="700" fill="#59636E">atribuicoes</text>
+<text x="48" y="301" font-size="11" fill="#59636E">ver diagrama 3</text>
+<rect x="436" y="263" width="250" height="154" rx="6" fill="#FFFFFF" stroke="#0969DA" stroke-width="1.6"/>
+<path d="M436 293 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#0969DA"/>
+<text x="448" y="283" font-size="13.5" font-weight="700" fill="#FFFFFF">meta_campanhas</text>
+<text x="446" y="309" font-size="10" font-weight="700" fill="#0969DA">PK</text>
+<text x="482" y="309" font-size="12" font-weight="700" fill="#1F2328">campanha_id</text>
+<text x="676" y="309" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="446" y="328" font-size="10" font-weight="700" fill="#0969DA">FK</text>
+<text x="482" y="328" font-size="12" fill="#1F2328">conta_id</text>
+<text x="676" y="328" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="347" font-size="12" fill="#1F2328">nome</text>
+<text x="676" y="347" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="366" font-size="12" fill="#1F2328">objetivo</text>
+<text x="676" y="366" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="482" y="385" font-size="12" fill="#1F2328">estrategia</text>
+<text x="676" y="385" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="482" y="404" font-size="12" fill="#1F2328">status</text>
+<text x="676" y="404" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<rect x="836" y="263" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#0969DA" stroke-width="1.6"/>
+<path d="M836 293 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#0969DA"/>
+<text x="848" y="283" font-size="13.5" font-weight="700" fill="#FFFFFF">meta_conjuntos</text>
+<text x="846" y="309" font-size="10" font-weight="700" fill="#0969DA">PK</text>
+<text x="882" y="309" font-size="12" font-weight="700" fill="#1F2328">conjunto_id</text>
+<text x="1076" y="309" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="846" y="328" font-size="10" font-weight="700" fill="#0969DA">FK</text>
+<text x="882" y="328" font-size="12" fill="#1F2328">campanha_id</text>
+<text x="1076" y="328" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="882" y="347" font-size="12" fill="#1F2328">publico</text>
+<text x="1076" y="347" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="882" y="366" font-size="12" fill="#1F2328">otimizacao</text>
+<text x="1076" y="366" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<rect x="1236" y="263" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#0969DA" stroke-width="1.6"/>
+<path d="M1236 293 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#0969DA"/>
+<text x="1248" y="283" font-size="13.5" font-weight="700" fill="#FFFFFF">meta_anuncios</text>
+<text x="1246" y="309" font-size="10" font-weight="700" fill="#0969DA">PK</text>
+<text x="1282" y="309" font-size="12" font-weight="700" fill="#1F2328">anuncio_id</text>
+<text x="1476" y="309" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="1246" y="328" font-size="10" font-weight="700" fill="#0969DA">FK</text>
+<text x="1282" y="328" font-size="12" fill="#1F2328">conjunto_id</text>
+<text x="1476" y="328" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="1282" y="347" font-size="12" fill="#1F2328">formato</text>
+<text x="1476" y="347" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="1282" y="366" font-size="12" fill="#1F2328">tema_criativo</text>
+<text x="1476" y="366" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<rect x="836" y="513" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="848" y="533" font-size="13" font-weight="700" fill="#59636E">cliques_midia</text>
+<text x="848" y="551" font-size="11" fill="#59636E">ver diagrama 3</text>
+<rect x="1236" y="513" width="250" height="192" rx="6" fill="#FFFFFF" stroke="#0969DA" stroke-width="1.6"/>
+<path d="M1236 543 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#0969DA"/>
+<text x="1248" y="533" font-size="13.5" font-weight="700" fill="#FFFFFF">meta_metricas_diarias</text>
+<text x="1246" y="559" font-size="10" font-weight="700" fill="#0969DA">PK</text>
+<text x="1282" y="559" font-size="12" font-weight="700" fill="#1F2328">data</text>
+<text x="1476" y="559" font-size="11" fill="#59636E" text-anchor="end">date</text>
+<text x="1246" y="578" font-size="10" font-weight="700" fill="#0969DA">PK/FK</text>
+<text x="1282" y="578" font-size="12" font-weight="700" fill="#1F2328">anuncio_id</text>
+<text x="1476" y="578" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="1282" y="597" font-size="12" fill="#1F2328">investimento</text>
+<text x="1476" y="597" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="1282" y="616" font-size="12" fill="#1F2328">impressoes</text>
+<text x="1476" y="616" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="1282" y="635" font-size="12" fill="#1F2328">alcance</text>
+<text x="1476" y="635" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="1282" y="654" font-size="12" fill="#1F2328">cliques_link</text>
+<text x="1476" y="654" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="1282" y="673" font-size="12" fill="#1F2328">compras</text>
+<text x="1476" y="673" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="1282" y="692" font-size="12" fill="#1F2328">valor_compras</text>
+<text x="1476" y="692" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<g font-size="11.5" fill="#59636E"><line x1="36" y1="763" x2="80" y2="763" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="72.0" y1="770.0" x2="72.0" y2="756.0"/><line x1="66.0" y1="770.0" x2="66.0" y2="756.0"/></g><text x="88" y="767">exatamente um</text><line x1="205" y1="763" x2="249" y2="763" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="241.0" y1="770.0" x2="241.0" y2="756.0"/><circle cx="230.0" cy="763.0" r="4.5" fill="#FFFFFF"/></g><text x="257" y="767">zero ou um</text><line x1="353" y1="763" x2="397" y2="763" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="397.0" y1="770.0" x2="384.0" y2="763.0"/><line x1="397.0" y1="763.0" x2="384.0" y2="763.0"/><line x1="397.0" y1="756.0" x2="384.0" y2="763.0"/><line x1="380.0" y1="770.0" x2="380.0" y2="756.0"/></g><text x="405" y="767">um ou mais</text><line x1="501" y1="763" x2="545" y2="763" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="545.0" y1="770.0" x2="532.0" y2="763.0"/><line x1="545.0" y1="763.0" x2="532.0" y2="763.0"/><line x1="545.0" y1="756.0" x2="532.0" y2="763.0"/><circle cx="523.0" cy="763.0" r="4.5" fill="#FFFFFF"/></g><text x="553" y="767">zero ou mais</text><rect x="663" y="754" width="26" height="18" rx="4" fill="#F6F8FA" stroke="#8C959F" stroke-dasharray="4 3"/><text x="697" y="767">tabela de outra área</text><text x="857" y="767">campo? = aceita nulo</text></g>
+</svg><rect x="752.4" y="1581.3" width="668.0" height="339.7" fill="none" stroke="#D0D7DE" rx="6"/><svg x="753.4" y="1582.3" width="666.0" height="337.7" viewBox="0 0 1572 797">
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="36" y="32" font-size="19" font-weight="700" fill="#1F2328">5. Google Ads</text>
+<text x="36" y="52" font-size="12.5" fill="#59636E">Conta → campanha (Search, Shopping, PMax, Demand Gen) → grupo/asset group → palavra-chave, com métricas diárias.</text>
+<polyline points="561.0,167.0 561.0,301.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="568.0" y1="175.0" x2="554.0" y2="175.0"/><line x1="568.0" y1="181.0" x2="554.0" y2="181.0"/>
+<line x1="554.0" y1="301.0" x2="561.0" y2="288.0"/><line x1="561.0" y1="301.0" x2="561.0" y2="288.0"/><line x1="568.0" y1="301.0" x2="561.0" y2="288.0"/><line x1="554.0" y1="284.0" x2="568.0" y2="284.0"/>
+</g>
+<rect x="536.8" y="226.0" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="237.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">contém</text>
+<polyline points="686.0,330.1 836.0,330.1" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="694.0" y1="323.1" x2="694.0" y2="337.1"/><line x1="700.0" y1="323.1" x2="700.0" y2="337.1"/>
+<line x1="836.0" y1="337.1" x2="823.0" y2="330.1"/><line x1="836.0" y1="330.1" x2="823.0" y2="330.1"/><line x1="836.0" y1="323.1" x2="823.0" y2="330.1"/><line x1="819.0" y1="337.1" x2="819.0" y2="323.1"/>
+</g>
+<rect x="736.8" y="322.1" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="333.6" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">contém</text>
+<polyline points="1086.0,330.1 1236.0,330.1" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1094.0" y1="323.1" x2="1094.0" y2="337.1"/><line x1="1100.0" y1="323.1" x2="1100.0" y2="337.1"/>
+<line x1="1236.0" y1="337.1" x2="1223.0" y2="330.1"/><line x1="1236.0" y1="330.1" x2="1223.0" y2="330.1"/><line x1="1236.0" y1="323.1" x2="1223.0" y2="330.1"/><circle cx="1214.0" cy="330.1" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="1136.8" y="322.1" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1161.0" y="333.6" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">contém</text>
+<polyline points="436.0,316.6 286.0,316.6" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="428.0" y1="323.6" x2="428.0" y2="309.6"/><circle cx="417.0" cy="316.6" r="4.5" fill="#FFFFFF"/>
+<line x1="286.0" y1="309.6" x2="299.0" y2="316.6"/><line x1="286.0" y1="316.6" x2="299.0" y2="316.6"/><line x1="286.0" y1="323.6" x2="299.0" y2="316.6"/><circle cx="308.0" cy="316.6" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="327.2" y="308.6" width="67.6" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="320.1" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">creditada</text>
+<polyline points="1361.0,301.0 1361.0,205.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1354.0" y1="293.0" x2="1368.0" y2="293.0"/><line x1="1354.0" y1="287.0" x2="1368.0" y2="287.0"/>
+<line x1="1368.0" y1="205.0" x2="1361.0" y2="218.0"/><line x1="1361.0" y1="205.0" x2="1361.0" y2="218.0"/><line x1="1354.0" y1="205.0" x2="1361.0" y2="218.0"/><circle cx="1361.0" cy="227.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="1317.6" y="245.0" width="86.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1361.0" y="256.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">métricas/dia</text>
+<polyline points="961.0,398.0 961.0,532.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="968.0" y1="406.0" x2="954.0" y2="406.0"/><line x1="968.0" y1="412.0" x2="954.0" y2="412.0"/>
+<line x1="954.0" y1="532.0" x2="961.0" y2="519.0"/><line x1="961.0" y1="532.0" x2="961.0" y2="519.0"/><line x1="968.0" y1="532.0" x2="961.0" y2="519.0"/><circle cx="961.0" cy="510.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="917.6" y="457.0" width="86.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="961.0" y="468.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">métricas/dia</text>
+<polyline points="1386.0,417.0 1386.0,532.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1393.0" y1="425.0" x2="1379.0" y2="425.0"/><circle cx="1386.0" cy="436.0" r="4.5" fill="#FFFFFF"/>
+<line x1="1379.0" y1="532.0" x2="1386.0" y2="519.0"/><line x1="1386.0" y1="532.0" x2="1386.0" y2="519.0"/><line x1="1393.0" y1="532.0" x2="1386.0" y2="519.0"/><circle cx="1386.0" cy="510.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="1358.6" y="466.5" width="54.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1386.0" y="478.0" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">palavra</text>
+<polyline points="1048.5,398.0 1048.5,484.0 1286.0,484.0 1286.0,532.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
+<g stroke="#57606A" stroke-width="1.5" fill="none">
+<line x1="1055.5" y1="406.0" x2="1041.5" y2="406.0"/><circle cx="1048.5" cy="417.0" r="4.5" fill="#FFFFFF"/>
+<line x1="1279.0" y1="532.0" x2="1286.0" y2="519.0"/><line x1="1286.0" y1="532.0" x2="1286.0" y2="519.0"/><line x1="1293.0" y1="532.0" x2="1286.0" y2="519.0"/><circle cx="1286.0" cy="510.0" r="4.5" fill="#FFFFFF"/>
+</g>
+<rect x="1146.2" y="476.0" width="42.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1167.2" y="487.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">gclid</text>
+<rect x="436" y="70" width="250" height="97" rx="6" fill="#FFFFFF" stroke="#1A7F37" stroke-width="1.6"/>
+<path d="M436 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#1A7F37"/>
+<text x="448" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">google_contas</text>
+<text x="446" y="116" font-size="10" font-weight="700" fill="#1A7F37">PK</text>
+<text x="482" y="116" font-size="12" font-weight="700" fill="#1F2328">conta_id</text>
+<text x="676" y="116" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="135" font-size="12" fill="#1F2328">nome</text>
+<text x="676" y="135" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="154" font-size="12" fill="#1F2328">fuso_horario</text>
+<text x="676" y="154" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<rect x="1236" y="70" width="300" height="135" rx="6" fill="#FFFFFF" stroke="#1A7F37" stroke-width="1.6"/>
+<path d="M1236 100 v-24 a6 6 0 0 1 6 -6 h288 a6 6 0 0 1 6 6 v24 z" fill="#1A7F37"/>
+<text x="1248" y="90" font-size="11.7" font-weight="700" fill="#FFFFFF">google_palavras_chave_metricas_diarias</text>
+<text x="1246" y="116" font-size="10" font-weight="700" fill="#1A7F37">PK</text>
+<text x="1282" y="116" font-size="12" font-weight="700" fill="#1F2328">data</text>
+<text x="1526" y="116" font-size="11" fill="#59636E" text-anchor="end">date</text>
+<text x="1246" y="135" font-size="10" font-weight="700" fill="#1A7F37">PK/FK</text>
+<text x="1282" y="135" font-size="12" font-weight="700" fill="#1F2328">palavra_chave_id</text>
+<text x="1526" y="135" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="1282" y="154" font-size="12" fill="#1F2328">investimento</text>
+<text x="1526" y="154" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="1282" y="173" font-size="12" fill="#1F2328">cliques</text>
+<text x="1526" y="173" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="1282" y="192" font-size="12" fill="#1F2328">conversoes</text>
+<text x="1526" y="192" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<rect x="36" y="301" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="48" y="321" font-size="13" font-weight="700" fill="#59636E">atribuicoes</text>
+<text x="48" y="339" font-size="11" fill="#59636E">ver diagrama 3</text>
+<rect x="436" y="301" width="250" height="135" rx="6" fill="#FFFFFF" stroke="#1A7F37" stroke-width="1.6"/>
+<path d="M436 331 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#1A7F37"/>
+<text x="448" y="321" font-size="13.5" font-weight="700" fill="#FFFFFF">google_campanhas</text>
+<text x="446" y="347" font-size="10" font-weight="700" fill="#1A7F37">PK</text>
+<text x="482" y="347" font-size="12" font-weight="700" fill="#1F2328">campanha_id</text>
+<text x="676" y="347" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="446" y="366" font-size="10" font-weight="700" fill="#1A7F37">FK</text>
+<text x="482" y="366" font-size="12" fill="#1F2328">conta_id</text>
+<text x="676" y="366" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="482" y="385" font-size="12" fill="#1F2328">tipo_canal</text>
+<text x="676" y="385" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="482" y="404" font-size="12" fill="#1F2328">estrategia_lance</text>
+<text x="676" y="404" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<text x="482" y="423" font-size="12" fill="#1F2328">campanha_marca</text>
+<text x="676" y="423" font-size="11" fill="#59636E" text-anchor="end">tinyint</text>
+<rect x="836" y="301" width="250" height="97" rx="6" fill="#FFFFFF" stroke="#1A7F37" stroke-width="1.6"/>
+<path d="M836 331 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#1A7F37"/>
+<text x="848" y="321" font-size="13.5" font-weight="700" fill="#FFFFFF">google_grupos_anuncio</text>
+<text x="846" y="347" font-size="10" font-weight="700" fill="#1A7F37">PK</text>
+<text x="882" y="347" font-size="12" font-weight="700" fill="#1F2328">grupo_id</text>
+<text x="1076" y="347" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="846" y="366" font-size="10" font-weight="700" fill="#1A7F37">FK</text>
+<text x="882" y="366" font-size="12" fill="#1F2328">campanha_id</text>
+<text x="1076" y="366" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="882" y="385" font-size="12" fill="#1F2328">tipo</text>
+<text x="1076" y="385" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<rect x="1236" y="301" width="250" height="116" rx="6" fill="#FFFFFF" stroke="#1A7F37" stroke-width="1.6"/>
+<path d="M1236 331 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#1A7F37"/>
+<text x="1248" y="321" font-size="13.5" font-weight="700" fill="#FFFFFF">google_palavras_chave</text>
+<text x="1246" y="347" font-size="10" font-weight="700" fill="#1A7F37">PK</text>
+<text x="1282" y="347" font-size="12" font-weight="700" fill="#1F2328">palavra_chave_id</text>
+<text x="1476" y="347" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="1246" y="366" font-size="10" font-weight="700" fill="#1A7F37">FK</text>
+<text x="1282" y="366" font-size="12" fill="#1F2328">grupo_id</text>
+<text x="1476" y="366" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="1282" y="385" font-size="12" fill="#1F2328">texto</text>
+<text x="1476" y="385" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
+<text x="1282" y="404" font-size="12" fill="#1F2328">tipo_correspondencia</text>
+<text x="1476" y="404" font-size="11" fill="#59636E" text-anchor="end">enum</text>
+<rect x="836" y="532" width="250" height="173" rx="6" fill="#FFFFFF" stroke="#1A7F37" stroke-width="1.6"/>
+<path d="M836 562 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#1A7F37"/>
+<text x="848" y="552" font-size="13.5" font-weight="700" fill="#FFFFFF">google_metricas_diarias</text>
+<text x="846" y="578" font-size="10" font-weight="700" fill="#1A7F37">PK</text>
+<text x="882" y="578" font-size="12" font-weight="700" fill="#1F2328">data</text>
+<text x="1076" y="578" font-size="11" fill="#59636E" text-anchor="end">date</text>
+<text x="846" y="597" font-size="10" font-weight="700" fill="#1A7F37">PK/FK</text>
+<text x="882" y="597" font-size="12" font-weight="700" fill="#1F2328">grupo_id</text>
+<text x="1076" y="597" font-size="11" fill="#59636E" text-anchor="end">bigint</text>
+<text x="882" y="616" font-size="12" fill="#1F2328">investimento</text>
+<text x="1076" y="616" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="882" y="635" font-size="12" fill="#1F2328">impressoes</text>
+<text x="1076" y="635" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="882" y="654" font-size="12" fill="#1F2328">cliques</text>
+<text x="1076" y="654" font-size="11" fill="#59636E" text-anchor="end">int</text>
+<text x="882" y="673" font-size="12" fill="#1F2328">conversoes</text>
+<text x="1076" y="673" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<text x="882" y="692" font-size="12" fill="#1F2328">parcela_impressoes?</text>
+<text x="1076" y="692" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
+<rect x="1236" y="532" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="1248" y="552" font-size="13" font-weight="700" fill="#59636E">cliques_midia</text>
+<text x="1248" y="570" font-size="11" fill="#59636E">ver diagrama 3</text>
+<g font-size="11.5" fill="#59636E"><line x1="36" y1="763" x2="80" y2="763" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="72.0" y1="770.0" x2="72.0" y2="756.0"/><line x1="66.0" y1="770.0" x2="66.0" y2="756.0"/></g><text x="88" y="767">exatamente um</text><line x1="205" y1="763" x2="249" y2="763" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="241.0" y1="770.0" x2="241.0" y2="756.0"/><circle cx="230.0" cy="763.0" r="4.5" fill="#FFFFFF"/></g><text x="257" y="767">zero ou um</text><line x1="353" y1="763" x2="397" y2="763" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="397.0" y1="770.0" x2="384.0" y2="763.0"/><line x1="397.0" y1="763.0" x2="384.0" y2="763.0"/><line x1="397.0" y1="756.0" x2="384.0" y2="763.0"/><line x1="380.0" y1="770.0" x2="380.0" y2="756.0"/></g><text x="405" y="767">um ou mais</text><line x1="501" y1="763" x2="545" y2="763" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="545.0" y1="770.0" x2="532.0" y2="763.0"/><line x1="545.0" y1="763.0" x2="532.0" y2="763.0"/><line x1="545.0" y1="756.0" x2="532.0" y2="763.0"/><circle cx="523.0" cy="763.0" r="4.5" fill="#FFFFFF"/></g><text x="553" y="767">zero ou mais</text><rect x="663" y="754" width="26" height="18" rx="4" fill="#F6F8FA" stroke="#8C959F" stroke-dasharray="4 3"/><text x="697" y="767">tabela de outra área</text><text x="857" y="767">campo? = aceita nulo</text></g>
+</svg><line x1="50" y1="1930" x2="1450" y2="1930" stroke="#D0D7DE"/><text x="50" y="1966" font-size="19" fill="#59636E">Código e diagramas: <tspan font-weight="700" fill="#1F2328">github.com/arielabade/dados-sinteticos-ecommerce-tecidos</tspan></text><text x="1450" y="1966" font-size="19" fill="#59636E" text-anchor="end">Dataset: <tspan font-weight="700" fill="#1F2328">kaggle.com/arielabade</tspan></text></svg>

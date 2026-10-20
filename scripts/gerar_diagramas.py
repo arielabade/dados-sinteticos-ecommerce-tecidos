@@ -599,5 +599,77 @@ def one_pager(arquivos: list[Path]) -> Path:
     return destino
 
 
+def _pares(itens: list) -> list[list]:
+    """Todas as formas de agrupar os painéis em linhas de dois (a ordem dentro da linha segue o número)."""
+    if not itens:
+        return [[]]
+    a, resto = itens[0], itens[1:]
+    out = []
+    for i, b in enumerate(resto):
+        for cauda in _pares(resto[:i] + resto[i + 1:]):
+            out.append([[a, b]] + cauda)
+    return out
+
+
+def one_pager_3x4(arquivos: list[Path]) -> Path:
+    """Versão 3:4 para o LinkedIn: tela 1500 x 2000, com cabeçalho, visão geral, as 6 áreas e rodapé.
+    Testa os arranjos (agrupamento das áreas em linhas e largura da visão geral) e fica com o que
+    deixa os diagramas maiores."""
+    W, H, m, gap = 1500, 2000, 50, 28
+    visao, *areas = [_interno(p.read_text(encoding="utf-8")) for p in arquivos]
+    topo_h, rodape_h = 250, 80
+    cw, ch = W - 2 * m, H - topo_h - rodape_h
+    melhor = None
+    for frac in [x / 20 for x in range(10, 21)]:
+        vw = cw * frac
+        vh = vw * visao[1] / visao[0]
+        resto_h = ch - vh - gap
+        for linhas in _pares(list(range(len(areas)))):
+            soma_h = sum(max(areas[i][1] for i in lin) for lin in linhas)
+            larg = max(sum(areas[i][0] for i in lin) for lin in linhas)
+            s = min((resto_h - gap * (len(linhas) - 1)) / soma_h, (cw - gap) / larg)
+            if melhor is None or s > melhor[0] + 1e-9:
+                melhor = (s, frac, linhas, vw, vh)
+    s, frac, linhas, vw, vh = melhor
+    o = []
+    y = topo_h
+    o.append(f'<svg x="{(W - vw) / 2:.1f}" y="{y}" width="{vw:.1f}" height="{vh:.1f}" viewBox="0 0 {visao[0]:.0f} {visao[1]:.0f}">{visao[2]}</svg>')
+    y += vh + gap
+    for lin in linhas:
+        larg_lin = sum(areas[i][0] * s for i in lin) + gap * (len(lin) - 1)
+        x = (W - larg_lin) / 2
+        alt = max(areas[i][1] for i in lin) * s
+        for i in lin:
+            w, h, corpo = areas[i]
+            o.append(f'<rect x="{x - 1:.1f}" y="{y - 1:.1f}" width="{w * s + 2:.1f}" height="{h * s + 2:.1f}" fill="none" stroke="#D0D7DE" rx="6"/>')
+            o.append(f'<svg x="{x:.1f}" y="{y:.1f}" width="{w * s:.1f}" height="{h * s:.1f}" viewBox="0 0 {w:.0f} {h:.0f}">{corpo}</svg>')
+            x += w * s + gap
+        y += alt + gap
+    chips, cx = [], m
+    for valor, rotulo in DESTAQUES:
+        wv = 13.2 * len(valor) + 8.6 * len(rotulo) + 46
+        chips.append(f'<rect x="{cx:.1f}" y="168" width="{wv:.1f}" height="48" rx="24" fill="#F6F8FA" stroke="#D0D7DE"/>'
+                     f'<text x="{cx + 20:.1f}" y="199" font-size="23" font-weight="700" fill="{TINTA}">{escape(valor)}'
+                     f'<tspan font-size="16" font-weight="400" fill="{MUDO}"> {escape(rotulo)}</tspan></text>')
+        cx += wv + 12
+    topo = (f'<text x="{m}" y="78" font-size="46" font-weight="700" fill="{TINTA}">Tecelã Tecidos: o modelo de dados</text>'
+            f'<text x="{m}" y="120" font-size="21" fill="{MUDO}">E-commerce fictício, 3 anos de operação: pedidos, tracking GA4, Meta, Google e TikTok Ads,</text>'
+            f'<text x="{m}" y="148" font-size="21" fill="{MUDO}">atribuição e MMM regional. 44 tabelas em 7 áreas. Dados 100% sintéticos.</text>')
+    rodape = (f'<line x1="{m}" y1="{H - rodape_h + 10}" x2="{W - m}" y2="{H - rodape_h + 10}" stroke="#D0D7DE"/>'
+              f'<text x="{m}" y="{H - 34}" font-size="19" fill="{MUDO}">Código e diagramas: '
+              f'<tspan font-weight="700" fill="{TINTA}">github.com/arielabade/dados-sinteticos-ecommerce-tecidos</tspan></text>'
+              f'<text x="{W - m}" y="{H - 34}" font-size="19" fill="{MUDO}" text-anchor="end">Dataset: '
+              f'<tspan font-weight="700" fill="{TINTA}">kaggle.com/arielabade</tspan></text>')
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="{FONTE}" '
+           f'role="img" aria-label="Modelo de dados da Tecelã Tecidos em formato 3:4">'
+           f'<rect width="100%" height="100%" fill="{FUNDO}"/>{topo}{"".join(chips)}{"".join(o)}{rodape}</svg>')
+    destino = SAIDA / "modelo_de_dados_one_pager_3x4.svg"
+    destino.write_text(svg, encoding="utf-8")
+    print(f"{destino.relative_to(RAIZ)}: 3:4, escala dos diagramas {s:.2f}, visão geral em {frac:.0%} da largura, linhas {linhas}")
+    return destino
+
+
 if __name__ == "__main__":
-    one_pager(gerar())
+    feitos = gerar()
+    one_pager(feitos)
+    one_pager_3x4(feitos)
