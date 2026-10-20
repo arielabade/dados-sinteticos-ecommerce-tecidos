@@ -21,7 +21,10 @@ from .demanda import gerar_demanda
 from .exportar import Escritor
 from .midia import META_CAMPANHAS, GOOGLE_CAMPANHAS, gerar_midia
 from .pedidos import simular_pedidos
+from .regional import (calendario_comercial, gerar_canais_novos, metricas_canais_novos, participacoes,
+                       tabela_canais, tabela_regional, tabela_regioes, tabelas_teste_geo, totais_nacionais)
 from .tracking import gerar_tracking
+from .verdade import gravar_ground_truth
 
 
 def _int(df, *cols):
@@ -41,8 +44,13 @@ def main():
     cal = calendario()
     cat = gerar_catalogo()
     midia = gerar_midia()
-    dem = gerar_demanda(cal, midia)
-    print(f"[{time.time() - t0:5.0f}s] catálogo, mídia e demanda prontos")
+    # TikTok segue o plano diário da Meta antes do corte do teste geográfico
+    meta_planejado = sum(midia.investimento_canal[c] / midia.fator_teste[c]
+                         for c in ("meta_prospeccao", "meta_remarketing")).values
+    canais_novos = gerar_canais_novos(meta_planejado)
+    part, part_sem_teste = participacoes(CFG.datas)
+    dem = gerar_demanda(cal, cat, midia, canais_novos, part, part_sem_teste)
+    print(f"[{time.time() - t0:5.0f}s] catálogo, mídia, canais novos e demanda regional prontos")
 
     ped = simular_pedidos(cal, cat, dem)
     P = ped.pedidos
@@ -112,12 +120,15 @@ def main():
     print(f"[{time.time() - t0:5.0f}s] gerando tracking...")
     Pt = P[P.pedido_teste == 0]
     ped_trk = type(ped)(**{**ped.__dict__, "pedidos": Pt})
-    trk = gerar_tracking(cat, midia, ped_trk, cal, esc)
+    trk = gerar_tracking(cat, midia, ped_trk, cal, esc, novos=canais_novos)
     P["sessao_id"] = pd.array(P.pedido_id.map(trk.pedido_sessao), dtype="Int64")
     print(f"[{time.time() - t0:5.0f}s] tracking: {trk.resumo['sessoes']} sessões, {trk.resumo['eventos']} eventos")
 
     A = gerar_atribuicao(trk, Pt)
     meta_m, google_m, kw_m = metricas_reportadas(trk, Pt, midia)
+    tiktok_m, afil_m = metricas_canais_novos(canais_novos, P)
+    nacional = totais_nacionais(midia, canais_novos, meta_m, google_m, tiktok_m, afil_m)
+    regional = tabela_regional(CFG.datas, part, nacional)
     print(f"[{time.time() - t0:5.0f}s] atribuição e métricas de plataforma prontas")
 
     # --- imperfeição: gramatura não cadastrada
@@ -161,24 +172,25 @@ def main():
                                                             "ocorrido_em", "pedido_id", "devolucao_id", "fornecedor_id"])
     esc.gravar("avaliacoes", ped.avaliacoes)
     esc.gravar("atribuicoes", A)
+    # camada de MMM: canais, regiões, mídia por UF, calendário, teste geográfico, canais novos
+    teste, teste_ufs = tabelas_teste_geo()
+    esc.gravar("canais_midia", tabela_canais())
+    esc.gravar("regioes", tabela_regioes())
+    esc.gravar("calendario_comercial", calendario_comercial(cal))
+    esc.gravar("testes_geo", teste)
+    esc.gravar("testes_geo_regioes", teste_ufs)
+    esc.gravar("tiktok_campanhas", canais_novos.tiktok_campanhas)
+    esc.gravar("tiktok_metricas_diarias", tiktok_m)
+    esc.gravar("afiliados_parceiros", canais_novos.afiliados_parceiros)
+    esc.gravar("afiliados_metricas_diarias", afil_m)
+    esc.gravar("crm_disparos", canais_novos.crm_disparos)
+    esc.gravar("midia_regional_diaria", regional)
 
-    # ------------------------------------------------------------ verdade (fora do MySQL)
-    vd = CFG.verdade
-    dem.diario.rename_axis("data").to_csv(vd / "demanda_diaria.csv")
-    dem.params.to_csv(vd / "parametros_mmm.csv", index=False)
-    pd.concat([midia.investimento_canal.add_prefix("inv_"), midia.investimento_efetivo.add_prefix("inv_efetivo_")],
-              axis=1).rename_axis("data").to_csv(vd / "investimento_canal_diario.csv")
-    ped.perdas_ruptura.to_csv(vd / "pedidos_perdidos_ruptura.csv", index=False)
-    Pt[["pedido_id", "_motor", "_novo"]].rename(columns={"_motor": "motor_verdadeiro", "_novo": "cliente_novo"}) \
-        .to_csv(vd / "pedidos_motor.csv", index=False)
-    pd.DataFrame([{"plataforma": "meta", "campanha": c[0], "eficiencia": c[7]} for c in META_CAMPANHAS] +
-                 [{"plataforma": "google", "campanha": c[0], "eficiencia": c[9]} for c in GOOGLE_CAMPANHAS]) \
-        .to_csv(vd / "eficiencia_campanhas.csv", index=False)
-    (vd / "resumo.json").write_text(json.dumps({"escala": CFG.escala, "seed": CFG.seed, "linhas": esc.linhas},
-                                               indent=2, ensure_ascii=False))
+    # ------------------------------------------------------------ ground truth (fora do MySQL)
+    gravar_ground_truth(dem, midia, canais_novos, ped, P, Pt, esc)
 
     pagos = P[P.status.isin(["pago", "enviado", "entregue", "devolvido"]) & (P.pedido_teste == 0)]
-    inv = midia.investimento_canal.values.sum()
+    inv = dem.investimento.values.sum()
     print("\nResumo")
     for t, n in sorted(esc.linhas.items(), key=lambda x: -x[1]):
         print(f"  {t:<42} {n:>12,}")

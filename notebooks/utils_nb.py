@@ -10,7 +10,7 @@ import plotly.io as pio
 from sqlalchemy import create_engine, text
 
 RAIZ = Path(__file__).resolve().parents[1]
-VERDADE = Path(os.environ.get("SAIDA_VERDADE", RAIZ / "data" / "verdade"))
+VERDADE = Path(os.environ.get("SAIDA_GROUND_TRUTH", RAIZ / "data" / "ground_truth"))
 
 # Paleta: cores acessíveis e distinguíveis em claro e escuro
 CORES = ["#2E6F95", "#E07A3F", "#3C9D74", "#B5485E", "#7B61A8", "#C9A227", "#5B8C99", "#8C6D52"]
