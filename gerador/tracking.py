@@ -132,7 +132,8 @@ ANTERIORES_NOVO = {"meta_prosp": 0.24, "organic_social": 0.15, "organic_search":
 ANTERIORES_RET = {"direct": 0.30, "email": 0.18, "organic_search": 0.14, "meta_rmkt": 0.10, "g_marca": 0.10,
                   "organic_social": 0.10, "whatsapp": 0.05, "g_pmax": 0.03}
 MOTOR_KEY = {"meta_prospeccao": "meta_prosp", "meta_remarketing": "meta_rmkt", "google_marca": "g_marca",
-             "google_search": "g_search", "google_shopping_pmax": "g_pmax", "google_demand_gen": "g_dg"}
+             "google_search": "g_search", "google_shopping_pmax": "g_pmax", "google_demand_gen": "g_dg",
+             "tiktok": "tiktok", "afiliados": "afiliado", "email_crm": "email"}
 
 
 def _sorteia_dict(rng, d: dict, excluir=()):
@@ -173,6 +174,13 @@ def construir_jornadas(rng, ped: ResultadoPedidos, ent: Entidades):
                     k += 1
                     toques = [None] * k
                 toques[0] = "meta_prosp"
+        elif motor == "tiktok":
+            # vídeo curto: a maior parte da influência não passa por clique
+            if rng.random() < 0.4:
+                ult = "tiktok"
+            else:
+                view_through = True
+                ult = _sorteia_dict(rng, {"direct": 0.35, "organic_social": 0.3, "organic_search": 0.25, "g_marca": 0.1})
         elif motor == "google_demand_gen":
             if rng.random() < 0.3:
                 ult = "g_dg"
@@ -181,7 +189,7 @@ def construir_jornadas(rng, ped: ResultadoPedidos, ent: Entidades):
                 ult = _sorteia_dict(rng, {"direct": 0.4, "g_marca": 0.3, "organic_search": 0.3})
         else:
             p_ult = {"meta_remarketing": 0.75, "google_marca": 0.85, "google_search": 0.80,
-                     "google_shopping_pmax": 0.80}[motor]
+                     "google_shopping_pmax": 0.80, "afiliados": 0.88, "email_crm": 0.85}[motor]
             ult = mk if rng.random() < p_ult else _sorteia_dict(rng, {"direct": 0.5, "g_marca": 0.3, "organic_search": 0.2})
             if ult != mk:
                 toques[0] = mk if k > 1 else toques[0]
@@ -232,7 +240,8 @@ def construir_jornadas(rng, ped: ResultadoPedidos, ent: Entidades):
 DISP_P = {"meta_prosp": [0.95, 0.04, 0.01], "meta_rmkt": [0.93, 0.06, 0.01], "g_marca": [0.80, 0.18, 0.02],
           "g_search": [0.76, 0.22, 0.02], "g_pmax": [0.86, 0.12, 0.02], "g_dg": [0.92, 0.06, 0.02],
           "direct": [0.84, 0.14, 0.02], "organic_search": [0.78, 0.20, 0.02], "organic_social": [0.96, 0.03, 0.01],
-          "email": [0.80, 0.18, 0.02], "whatsapp": [0.97, 0.02, 0.01], "referral": [0.70, 0.28, 0.02]}
+          "email": [0.80, 0.18, 0.02], "whatsapp": [0.97, 0.02, 0.01], "referral": [0.70, 0.28, 0.02],
+          "tiktok": [0.97, 0.02, 0.01], "afiliado": [0.74, 0.24, 0.02]}
 
 REF_BUSCA = (["https://www.google.com/", "https://www.bing.com/", "https://duckduckgo.com/", "https://br.search.yahoo.com/"],
              [0.90, 0.06, 0.03, 0.01])
@@ -363,6 +372,30 @@ def preencher_atributos(rng, S: pd.DataFrame, ent: Entidades, midia_maps: dict, 
     ia = (data_local.values[m] >= np.datetime64("2025-01-01")) & (rng.random(len(m)) < 0.35)
     referrer[m] = np.where(ia, rng.choice(REF_IA, len(m), p=[0.75, 0.15, 0.10]), rng.choice(REF_SITES, len(m)))
 
+    # ---- TikTok Ads (sem click id na tabela de sessões: só UTM)
+    dia_s = S["dia"].values.astype(int)
+    m = np.where(key == "tiktok")[0]
+    if len(m):
+        nomes, cum = midia_maps["tiktok_camp"]
+        u = rng.random(len(m))
+        escolha = np.argmax(cum[:, dia_s[m]] > u[None, :], axis=0)
+        perde = rng.random(len(m)) < 0.10
+        ok = m[~perde]
+        utm_s[ok] = rng.choice(["tiktok", "TikTok", "tiktok_ads"], len(ok), p=[0.8, 0.12, 0.08])
+        utm_m[ok] = rng.choice(["paid_social", "cpc"], len(ok), p=[0.85, 0.15])
+        utm_c[ok] = nomes[escolha[~perde]]
+        referrer[m] = np.where(rng.random(len(m)) < 0.3, "https://www.tiktok.com/", None)
+    # ---- Afiliados: link com UTM do parceiro, vindo do site do parceiro
+    m = np.where(key == "afiliado")[0]
+    if len(m):
+        slugs, dominios, cum = midia_maps["afiliados"]
+        u = rng.random(len(m))
+        escolha = np.argmax(cum[:, dia_s[m]] > u[None, :], axis=0)
+        utm_s[m] = slugs[escolha]
+        utm_m[m] = rng.choice(["afiliados", "affiliate"], len(m), p=[0.9, 0.1])
+        utm_c[m] = "parceria"
+        referrer[m] = dominios[escolha]
+
     # ---- identidade e consentimento
     cid_col = S["client_id"].values
     cons = S["_consent"].values  # 0 = tudo negado, 1 = só analytics, 2 = tudo concedido
@@ -387,7 +420,23 @@ def preencher_atributos(rng, S: pd.DataFrame, ent: Entidades, midia_maps: dict, 
 
 
 # ---------------------------------------------------------------- principal
-def gerar_tracking(cat: Catalogo, midia: Midia, ped: ResultadoPedidos, cal: pd.DataFrame, esc: Escritor) -> Tracking:
+def _cum_por_dia(pesos: np.ndarray) -> np.ndarray:
+    """Pesos [entidade x dia] -> distribuição acumulada por dia (para sortear vetorizado)."""
+    tot = pesos.sum(0)
+    w = pesos / np.where(tot == 0, 1, tot)
+    w[:, tot == 0] = 1.0 / len(pesos)
+    return np.cumsum(w, axis=0)
+
+
+def _slug(s: str) -> str:
+    import re
+    import unicodedata
+    s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode().lower()
+    return re.sub(r"[^a-z0-9]+", "_", s).strip("_")
+
+
+def gerar_tracking(cat: Catalogo, midia: Midia, ped: ResultadoPedidos, cal: pd.DataFrame, esc: Escritor,
+                   novos=None) -> Tracking:
     rng = CFG.rng("tracking")
     datas = CFG.datas
     nd = len(datas)
@@ -407,6 +456,30 @@ def gerar_tracking(cat: Catalogo, midia: Midia, ped: ResultadoPedidos, cal: pd.D
                                           midia.google_campanhas.set_index("campanha_id")["nome"])
                                       .str.lower().str.replace(r"[^a-z0-9]+", "_", regex=True).str.strip("_"))),
     }
+    # TikTok e afiliados: cliques diários por campanha/parceiro (sorteio das UTMs e sessões não conversoras)
+    cli_tiktok = np.zeros(nd, np.int64)
+    cli_afil = np.zeros(nd, np.int64)
+    if novos is not None:
+        te = novos.tiktok_entrega.assign(dia=lambda x: (x.data - datas[0]).dt.days)
+        camp = novos.tiktok_campanhas.campanha_id.values
+        Wt = np.zeros((len(camp), nd))
+        for i, c in enumerate(camp):
+            g = te[te.campanha_id == c]
+            Wt[i, g.dia.values] = g.cliques.values
+        midia_maps["tiktok_camp"] = (np.array([_slug(n) for n in novos.tiktok_campanhas.nome], dtype=object),
+                                     _cum_por_dia(Wt))
+        cli_tiktok = Wt.sum(0).astype(np.int64)
+        ae = novos.afiliados_entrega.assign(dia=lambda x: (x.data - datas[0]).dt.days)
+        par = novos.afiliados_parceiros
+        Wa = np.zeros((len(par), nd))
+        for i, pid in enumerate(par.parceiro_id.values):
+            g = ae[ae.parceiro_id == pid]
+            Wa[i, g.dia.values] = g.cliques.values
+        midia_maps["afiliados"] = (np.array([_slug(n) for n in par.nome], dtype=object),
+                                   np.array([f"https://www.{_slug(n).replace('_', '')}.example/" for n in par.nome],
+                                            dtype=object),
+                                   _cum_por_dia(Wa))
+        cli_afil = Wa.sum(0).astype(np.int64)
 
     V = cat.variantes
     skus = np.asarray(V["sku"].tolist(), dtype=str)
@@ -514,6 +587,12 @@ def gerar_tracking(cat: Catalogo, midia: Midia, ped: ResultadoPedidos, cal: pd.D
             cnt = rng.poisson(lam)
             dd_ = np.repeat(np.arange(d0, d1 + 1), cnt)
             orgs.append(pd.DataFrame({"key": c, "eid": pd.array([pd.NA] * len(dd_), dtype="Int64"), "dia": dd_}))
+        # TikTok e afiliados: sessões de clique sem compra (cliques x taxa de sessão - jornadas)
+        for key_n, cli_n, taxa in (("tiktok", cli_tiktok, 0.62), ("afiliado", cli_afil, 0.8)):
+            usadas_n = np.bincount(J.dia.values[(J.key.values == key_n)].astype(int), minlength=nd)[d0:d1 + 1]
+            cnt = np.maximum(rng.binomial(cli_n[d0:d1 + 1], taxa) - usadas_n, 0)
+            dd_ = np.repeat(np.arange(d0, d1 + 1), cnt)
+            orgs.append(pd.DataFrame({"key": key_n, "eid": pd.array([pd.NA] * len(dd_), dtype="Int64"), "dia": dd_}))
         NC = pd.concat([pagas] + orgs, ignore_index=True)
         m = len(NC)
         # horário: perfil diário (local) -> UTC
@@ -529,7 +608,7 @@ def gerar_tracking(cat: Catalogo, midia: Midia, ped: ResultadoPedidos, cal: pd.D
         p_conh = pd.Series(NC.key).map({"meta_rmkt": 0.45, "g_marca": 0.35, "email": 0.92, "whatsapp": 0.7,
                                         "direct": 0.33, "organic_search": 0.12, "organic_social": 0.15,
                                         "meta_prosp": 0.06, "g_search": 0.1, "g_pmax": 0.12, "g_dg": 0.04,
-                                        "referral": 0.1}).values
+                                        "referral": 0.1, "tiktok": 0.05, "afiliado": 0.22}).values
         conhecido = rng.random(m) < p_conh
         n_disp = int(((cad_dia <= d1) & (cad_dia >= -10**6)).sum())
         cli = np.full(m, -1)
@@ -667,13 +746,14 @@ def canal_padrao(S: pd.DataFrame, midia_maps: dict) -> np.ndarray:
     gcl = pd.notna(S.gclid.values)
     fbc = pd.notna(S.fbclid.values)
     tipo_g = np.array([midia_maps["g_grupo_tipo"].get(e, "SEARCH") if g else "" for e, g in zip(S.eid.values, gcl)])
-    social_src = np.isin(src, ["fb", "ig", "an", "facebook", "instagram", "igshopping"])
+    social_src = np.isin(src, ["fb", "ig", "an", "facebook", "instagram", "igshopping", "tiktok", "tiktok_ads"])
     ref_social = np.array([any(d in r for d in SOCIAL_REF) for r in ref])
     ref_busca = np.array([any(d in r for d in BUSCA_REF) for r in ref])
     conds = [
         gcl,
         fbc | (social_src & np.isin(med, ["paid_social", "paid", "cpc"])),
         (src == "google") & (med == "cpc"),
+        np.isin(med, ["afiliados", "affiliate"]),
         (med == "email") | np.isin(src, ["newsletter", "email", "rdstation"]),
         np.isin(src, ["whatsapp", "wpp"]),
         np.isin(med, ["social", "bio"]) | np.isin(src, ["ig", "instagram", "linktree"]) | ref_social,
@@ -681,7 +761,8 @@ def canal_padrao(S: pd.DataFrame, midia_maps: dict) -> np.ndarray:
         ref != "",
         (src == "") & (med == ""),
     ]
-    escolhas = [np.array([TIPO_GOOGLE_CANAL[t] if t else "" for t in tipo_g]), "Paid Social", "Paid Search", "Email",
+    escolhas = [np.array([TIPO_GOOGLE_CANAL[t] if t else "" for t in tipo_g]), "Paid Social", "Paid Search", "Affiliates",
+                "Email",
                 "WhatsApp", "Organic Social", "Organic Search", "Referral", "Direct"]
     return np.select(conds, escolhas, "Unassigned")
 
@@ -703,7 +784,8 @@ def _eventos(rng, S, itens_por_pedido, total_pedido, preco_ef, var_id, skus, pes
     n_pv = rng.geometric(0.62, n) + (rng.random(n) < 0.15)
     p_vi = pd.Series(key).map({"g_pmax": 0.82, "meta_prosp": 0.55, "meta_rmkt": 0.7, "g_search": 0.62,
                                "g_marca": 0.6, "g_dg": 0.35, "direct": 0.5, "organic_search": 0.6,
-                               "organic_social": 0.45, "email": 0.62, "whatsapp": 0.7, "referral": 0.55}).values
+                               "organic_social": 0.45, "email": 0.62, "whatsapp": 0.7, "referral": 0.55,
+                               "tiktok": 0.4, "afiliado": 0.6}).values
     p_vi = np.where(jornada, 0.85, p_vi)
     tem_vi = rng.random(n) < p_vi
     n_vi = np.where(tem_vi, 1 + rng.poisson(0.55, n), 0)
