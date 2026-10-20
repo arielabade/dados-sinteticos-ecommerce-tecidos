@@ -14,6 +14,7 @@ import pandas as pd
 
 from .calendario import BLACK_FRIDAY
 from .config import CFG
+from .regional import PARAM, fator_teste_geo
 
 CANAIS_MMM = ["meta_prospeccao", "meta_remarketing", "google_marca", "google_search",
               "google_shopping_pmax", "google_demand_gen"]
@@ -41,8 +42,9 @@ META_CAMPANHAS = [
     ("[SAZ] Dia das Mães 2025 Vídeo", "OUTCOME_SALES", "sazonal", "meta_prospeccao", "2025-04-20", "2025-05-11", 360, 1.30),
     ("[SAZ] Volta às Aulas 2026", "OUTCOME_SALES", "sazonal", "meta_prospeccao", "2026-01-12", "2026-02-20", 320, 0.90),
 ]
-# Teste de incrementalidade: toda a prospecção da Meta pausada por 3 semanas.
-PAUSA_META_PROSP = ("2025-08-04", "2025-08-24")
+# Teste de incrementalidade: a Meta é desligada em 7 UFs por 6 semanas (geo-lift).
+# Parâmetros em parametros_mmm.yaml (teste_geo). A verba dessas UFs não é
+# realocada, então o investimento nacional da Meta cai durante o teste.
 
 # nome, tipo, lance, roas alvo, marca?, canal MMM, início, fim, orçamento/dia, eficiência, grupos
 GOOGLE_CAMPANHAS = [
@@ -69,6 +71,14 @@ GOOGLE_CAMPANHAS = [
      [("Público - Interesse em costura", None), ("Público - Semelhantes a compradores", None)]),
 ]
 
+# Flights de vídeo no YouTube (Demand Gen), definidos em parametros_mmm.yaml.
+# Ficam no fim da lista para não mudar os IDs das campanhas que já existiam.
+GOOGLE_CAMPANHAS += [
+    (nome, "DEMAND_GEN", "MAXIMIZE_CONVERSIONS", None, 0, "google_demand_gen", ini, fim, orc, eff,
+     [("Público - Interesse em costura", None), ("Público - Semelhantes a compradores", None)])
+    for nome, ini, fim, orc, eff in PARAM["youtube_flights"]
+]
+
 FATOR_ORCAMENTO = 0.88  # ajuste fino do nível de investimento total
 
 TEMAS = ["Lançamento de coleção", "Tutorial de costura", "Antes e depois", "Depoimento de cliente",
@@ -91,6 +101,7 @@ class Midia:
     google_kw_entrega: pd.DataFrame
     investimento_canal: pd.DataFrame      # [data x canal] investimento
     investimento_efetivo: pd.DataFrame    # [data x canal] investimento x eficiência
+    fator_teste: pd.DataFrame             # [data x canal] multiplicador nacional do teste geográfico
 
 
 def _ativo(datas, ini, fim):
@@ -129,6 +140,7 @@ def gerar_midia() -> Midia:
     saz_orc = _sazonal_orcamento(datas)
     cpm_saz = _cpm_sazonal(datas)
     esc = CFG.escala * FATOR_ORCAMENTO
+    fator_teste = fator_teste_geo(datas)
 
     # ------------------------------------------------------------------ META
     meta_contas = pd.DataFrame([{"conta_id": "act_1029384756102938", "nome": "Tecelã Tecidos - Principal",
@@ -145,12 +157,12 @@ def gerar_midia() -> Midia:
                           "orcamento_diario": float(orc) if estr in ("advantage_plus", "sazonal", "teste") else None,
                           "inicio": pd.Timestamp(ini).date(), "fim": None if fim_ts >= CFG.fim else fim_ts.date()})
         ativo = _ativo(datas, ini, fim)
-        if canal == "meta_prospeccao" and estr != "sazonal":
-            ativo &= ~_ativo(datas, *PAUSA_META_PROSP)
         orc_dia = orc * esc * cresc_orc * saz_orc * rng.lognormal(0, 0.08, nd) * ativo
         if estr == "sazonal":
             orc_dia = orc * esc * rng.lognormal(0, 0.08, nd) * ativo * np.where(
                 np.isin(datas, pd.to_datetime(BLACK_FRIDAY)), 1.8, 1.0)
+        # geo-lift: as UFs de tratamento saem da segmentação durante o teste
+        orc_dia = orc_dia * fator_teste[canal].values
         # conjuntos
         publicos = {
             "prospeccao": ["Interesse: costura, corte e costura, moda autoral", "Lookalike 3% compradores 180d",
@@ -372,4 +384,4 @@ def gerar_midia() -> Midia:
 
     return Midia(meta_contas, meta_campanhas, meta_conjuntos, meta_anuncios, meta_entrega,
                  google_contas, google_campanhas, google_grupos, google_palavras, google_entrega,
-                 google_kw_entrega, inv_canal[CANAIS_MMM], inv_ef[CANAIS_MMM])
+                 google_kw_entrega, inv_canal[CANAIS_MMM], inv_ef[CANAIS_MMM], fator_teste)

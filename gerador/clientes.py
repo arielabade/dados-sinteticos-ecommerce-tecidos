@@ -155,7 +155,9 @@ class FabricaClientes:
         self.enderecos.append(e)
         return e
 
-    def novo(self, tipo: str, cadastrado_em: pd.Timestamp, origem: str) -> dict:
+    def novo(self, tipo: str, cadastrado_em: pd.Timestamp, origem: str, uf: str | None = None) -> dict:
+        """Cria um cliente. `uf` vem da simulação regional de pedidos (a UF onde
+        a demanda daquele pedido nasceu); sem ela, a UF segue o peso populacional."""
         rng, fk = self.rng, self.fk
         cid = len(self.clientes) + 1
         mulher = rng.random() < TIPO_MULHER[tipo]
@@ -168,7 +170,8 @@ class FabricaClientes:
             suf = str(rng.choice(SUFIXOS_EMPRESA.get(tipo, ["Costuras"])))
             fantasia = f"{suf} {primeiro}" if rng.random() < 0.5 else f"{ultimo} {suf}"
             razao = f"{fantasia} {rng.choice(['Ltda', 'ME', 'EIRELI', 'MEI'])}"
-        uf = str(rng.choice(UF_LISTA, p=UF_PESO))
+        uf_sorteada = str(rng.choice(UF_LISTA, p=UF_PESO))  # sorteio mantido para não deslocar o gerador
+        uf = uf or uf_sorteada
         nasc = None
         if rng.random() > 0.45:
             idade = int(np.clip(rng.normal(44 if tipo != "hobby" else 41, 12), 18, 82))

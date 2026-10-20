@@ -8,12 +8,10 @@ import pandas as pd
 
 from .calendario import BLACK_FRIDAY
 from .catalogo import TIPOS, Catalogo
-from .clientes import REGIAO, FabricaClientes
+from .clientes import REGIAO, UF_LISTA, FabricaClientes
 from .config import CFG
-from .demanda import PESO_NOVO, Demanda
-from .midia import CANAIS_MMM
-
-MOTORES = ["base"] + CANAIS_MMM
+from .demanda import MOTORES, PESO_NOVO, Demanda
+from .regional import CANAIS, NUF, PARAM
 
 # Recompra: taxa diária enquanto "vivo", vida média (dias), mix de novos por motor
 LAMBDA_TIPO = np.array([1 / 260, 1 / 85, 1 / 58, 1 / 50])
@@ -26,6 +24,7 @@ MIX_NOVOS = {
     "google_search": [0.44, 0.38, 0.12, 0.06],
     "google_shopping_pmax": [0.48, 0.36, 0.11, 0.05],
     "google_demand_gen": [0.60, 0.30, 0.08, 0.02],
+    **PARAM["mix_novos"],
 }
 LINHAS_EXTRA = np.array([0.6, 1.0, 1.3, 1.4])  # Poisson de itens adicionais por tipo
 QTD_MEDIANA = np.array([1.5, 2.5, 3.0, 7.0])   # metros por linha
@@ -156,13 +155,16 @@ def simular_pedidos(cal: pd.DataFrame, cat: Catalogo, dem: Demanda) -> Resultado
     c_fim = np.zeros(cap)
     c_ult = np.full(cap, -10**6, float)
     c_ped = np.zeros(cap, np.int32)
+    c_uf = np.zeros(cap, np.int8)  # índice em UF_LISTA
+    uf_idx = {u: i for i, u in enumerate(UF_LISTA)}
     n_cli = 0
 
-    def novo_cliente(t: int, dia: int, ts, origem: str) -> int:
+    def novo_cliente(t: int, dia: int, ts, origem: str, uf: str | None = None) -> int:
         nonlocal n_cli
-        c = fab.novo(TIPOS[t], ts, origem)
+        c = fab.novo(TIPOS[t], ts, origem, uf=uf)
         i = n_cli
         c_tipo[i] = t
+        c_uf[i] = uf_idx[c["_uf"]]
         c_lam[i] = LAMBDA_TIPO[t] * rng.lognormal(0.05, 0.6)
         c_fim[i] = dia + rng.exponential(VIDA_TIPO[t])
         n_cli += 1
@@ -190,7 +192,7 @@ def simular_pedidos(cal: pd.DataFrame, cat: Catalogo, dem: Demanda) -> Resultado
     ped_rows, item_rows = [], []
     perdas_dia = np.zeros(nd, np.int32)
     seas = (cal["dia_semana"] * cal["eventos"] * cal["salario"]).values
-    inc_cols = [f"inc_{c}" for c in CANAIS_MMM]
+    PN = np.array([PESO_NOVO[m] for m in MOTORES])[:, None]
     D = dem.diario
     pedido_id = 0
     item_id = 0
@@ -228,17 +230,32 @@ def simular_pedidos(cal: pd.DataFrame, cat: Catalogo, dem: Demanda) -> Resultado
         rho = float(np.clip(S / max(N, 1), 0.30, 0.82))
         R = int(round(rho * N))
         R = min(R, int((h > 0).sum()))
-        ret = rng.choice(n, size=R, replace=False, p=h / h.sum()) if R > 0 else np.array([], int)
-        n_new = N - R
-
-        inc = D.loc[data, inc_cols].values.astype(float)
-        base = float(D["base"].iloc[d])
-        w_all = np.concatenate([[base], inc])
-        pn = np.array([PESO_NOVO[m] for m in MOTORES])
-        w_new = w_all * pn
-        w_ret = w_all * (1 - pn)
-        mot_new = rng.choice(len(MOTORES), size=n_new, p=w_new / w_new.sum())
-        mot_ret = rng.choice(len(MOTORES), size=R, p=w_ret / w_ret.sum())
+        # ---- cada pedido sai de um par (motor, UF), na proporção da demanda esperada
+        # do dia: a UF onde a mídia rodou é a UF onde o pedido incremental acontece.
+        E = np.vstack([dem.base_uf[d]] + [dem.inc_uf[c][d] for c in CANAIS])  # motores x UF
+        w_ret = (E * (1 - PN)).ravel()
+        w_new = (E * PN).ravel()
+        k_ret = rng.choice(E.size, size=R, p=w_ret / w_ret.sum()) if R > 0 else np.array([], int)
+        k_new = rng.choice(E.size, size=N - R, p=w_new / w_new.sum()) if N > R else np.array([], int)
+        # clientes que voltam: sorteados entre os clientes da UF do pedido, pelo hazard
+        uf_ret = k_ret % NUF
+        ret, mot_ret, sobra = [], [], []
+        cuf = c_uf[:n]
+        for u in np.unique(uf_ret):
+            sel = np.where(uf_ret == u)[0]
+            cand = np.where((cuf == u) & (h > 0))[0]
+            k = min(len(sel), len(cand))
+            if k:
+                hu = h[cand]
+                ret.extend(rng.choice(cand, size=k, replace=False, p=hu / hu.sum()))
+                mot_ret.extend(k_ret[sel[:k]] // NUF)
+            sobra.extend(k_ret[sel[k:]])  # UF sem cliente elegível: vira cliente novo na mesma UF
+        ret = np.array(ret, int)
+        mot_ret = np.array(mot_ret, int)
+        k_new = np.concatenate([k_new, np.array(sobra, int)])
+        mot_new, uf_new = k_new // NUF, k_new % NUF
+        n_new = len(k_new)
+        R = len(ret)
 
         horas = rng.choice(24, size=N, p=HORA_P)
         ts_list = [data + pd.Timedelta(hours=int(hh), seconds=int(s))
@@ -249,11 +266,11 @@ def simular_pedidos(cal: pd.DataFrame, cat: Catalogo, dem: Demanda) -> Resultado
         for k in range(n_new):
             m = MOTORES[mot_new[k]]
             t = int(rng.choice(4, p=MIX_NOVOS[m]))
-            clientes_dia.append((t, None))
+            clientes_dia.append((t, None, UF_LISTA[uf_new[k]]))
             motores_dia.append(m)
             novos_dia.append(True)
         for k, i in enumerate(ret):
-            clientes_dia.append((int(c_tipo[i]), int(i)))
+            clientes_dia.append((int(c_tipo[i]), int(i), None))
             motores_dia.append(MOTORES[mot_ret[k]])
             novos_dia.append(False)
 
@@ -263,7 +280,7 @@ def simular_pedidos(cal: pd.DataFrame, cat: Catalogo, dem: Demanda) -> Resultado
 
         for oi in ordem:
             ts = ts_list[oi]
-            t, ci = clientes_dia[oi]
+            t, ci, uf_novo = clientes_dia[oi]
             motor = motores_dia[oi]
             novo = novos_dia[oi]
             canal = "whatsapp" if rng.random() < WHATSAPP_TIPO[t] * (0.5 if novo else 1.2) else "site"
@@ -305,7 +322,7 @@ def simular_pedidos(cal: pd.DataFrame, cat: Catalogo, dem: Demanda) -> Resultado
                     origem = "newsletter"
                 cad = ts - pd.Timedelta(days=float(rng.exponential(20))) if origem == "newsletter" else \
                     ts - pd.Timedelta(minutes=float(rng.uniform(2, 12)))
-                ci = novo_cliente(t, d, cad, origem)
+                ci = novo_cliente(t, d, cad, origem, uf=uf_novo)
             c_ult[ci] = d
             c_ped[ci] += 1
             cliente = fab.clientes[ci]

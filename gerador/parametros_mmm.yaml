@@ -1,0 +1,211 @@
+# Parâmetros da camada de mídia regional, dos canais novos e do teste geográfico.
+#
+# Lido por gerador/regional.py e gerador/demanda.py. Tudo que é aleatório sai de
+# CFG.rng(<nome>) com o seed de gerador/config.py, então o mesmo arquivo gera
+# exatamente os mesmos dados.
+#
+# Os efeitos verdadeiros (adstock, saturação, iROAS) ficam neste arquivo e em
+# data/ground_truth/. Eles NUNCA vão para o MySQL: o banco só tem o que uma loja
+# real teria (investimento, impressões, cliques, pedidos).
+
+# ---------------------------------------------------------------------------
+# Canais de mídia. `canal_mmm` é o agrupamento que um MMM usa (orçamento
+# decidido em conjunto). O efeito verdadeiro é por canal fino.
+#   decaimento: adstock geométrico (fração do efeito que sobra no dia seguinte)
+#   hill_expoente / k_rel: saturação de Hill; K = k_rel x média do adstock
+#   iroas: receita incremental média por R$ investido (calibra o beta)
+# ---------------------------------------------------------------------------
+canais:
+  meta_prospeccao:      {canal_id: 1, canal_mmm: meta,            plataforma: meta,    tipo: pago,    decaimento: 0.55, hill_expoente: 1.15, k_rel: 1.10, iroas: 2.40, peso_novo: 0.66}
+  meta_remarketing:     {canal_id: 2, canal_mmm: meta,            plataforma: meta,    tipo: pago,    decaimento: 0.20, hill_expoente: 1.00, k_rel: 0.80, iroas: 0.80, peso_novo: 0.24}
+  google_marca:         {canal_id: 3, canal_mmm: google_search,   plataforma: google,  tipo: pago,    decaimento: 0.10, hill_expoente: 1.00, k_rel: 0.70, iroas: 0.60, peso_novo: 0.22}
+  google_search:        {canal_id: 4, canal_mmm: google_search,   plataforma: google,  tipo: pago,    decaimento: 0.25, hill_expoente: 1.10, k_rel: 1.00, iroas: 2.00, peso_novo: 0.52}
+  google_shopping_pmax: {canal_id: 5, canal_mmm: google_shopping, plataforma: google,  tipo: pago,    decaimento: 0.35, hill_expoente: 1.10, k_rel: 1.00, iroas: 1.90, peso_novo: 0.45}
+  google_demand_gen:    {canal_id: 6, canal_mmm: youtube,         plataforma: google,  tipo: pago,    decaimento: 0.65, hill_expoente: 1.20, k_rel: 1.00, iroas: 1.10, peso_novo: 0.62}
+  tiktok:               {canal_id: 7, canal_mmm: tiktok,          plataforma: tiktok,  tipo: pago,    decaimento: 0.40, hill_expoente: 1.10, k_rel: 1.00, iroas: 0.55, peso_novo: 0.70}
+  afiliados:            {canal_id: 8, canal_mmm: afiliados,       plataforma: afiliados, tipo: pago,  decaimento: 0.15, hill_expoente: 1.00, k_rel: 1.00, iroas: 0.70, peso_novo: 0.40}
+  # CRM: o "investimento" é o custo da ferramenta de disparo; o efeito é medido
+  # por e-mail entregue. Fica fora do otimizador (custo marginal ~ zero).
+  email_crm:            {canal_id: 9, canal_mmm: email_crm,       plataforma: crm,     tipo: proprio, decaimento: 0.30, hill_expoente: 1.00, k_rel: 1.00, peso_novo: 0.05, participacao_pedidos: 0.05}
+
+# Mix de tipo de cliente dos novos clientes trazidos por cada canal novo
+# (hobby, costureira, ateliê, confecção). Os canais antigos estão em pedidos.py.
+mix_novos:
+  tiktok:    [0.66, 0.28, 0.05, 0.01]
+  afiliados: [0.52, 0.35, 0.09, 0.04]
+  email_crm: [0.45, 0.37, 0.12, 0.06]
+
+# ---------------------------------------------------------------------------
+# Distribuição regional. Cada canal compra mídia num mix de UFs que é o peso da
+# UF (clientes.UFS) inclinado por macrorregião. O ruído diário muda a
+# participação de cada UF de um dia para o outro (leilão, entrega da plataforma).
+# ---------------------------------------------------------------------------
+regional:
+  ruido_participacao: 0.18      # desvio do log da participação diária por UF
+  ruido_base_uf: 0.05           # desvio do AR(1) da demanda-base de cada UF
+  ar_base_uf: 0.7
+  # Multiplicador de CPM por macrorregião (leilão mais barato fora do Sudeste)
+  indice_cpm: {SE: 1.00, S: 0.92, CO: 0.88, NE: 0.74, N: 0.70}
+  indice_ctr: {SE: 1.00, S: 1.02, CO: 0.98, NE: 1.06, N: 1.04}
+  inclinacao:
+    meta_prospeccao:      {SE: 1.00, S: 1.00, CO: 1.00, NE: 1.05, N: 1.00}
+    meta_remarketing:     {SE: 1.00, S: 1.00, CO: 1.00, NE: 1.00, N: 1.00}
+    google_marca:         {SE: 1.00, S: 1.00, CO: 1.00, NE: 1.00, N: 1.00}
+    google_search:        {SE: 1.08, S: 1.00, CO: 0.95, NE: 0.90, N: 0.85}
+    google_shopping_pmax: {SE: 1.05, S: 1.05, CO: 0.95, NE: 0.90, N: 0.85}
+    google_demand_gen:    {SE: 1.00, S: 0.95, CO: 1.00, NE: 1.10, N: 1.05}
+    tiktok:               {SE: 0.95, S: 0.90, CO: 1.05, NE: 1.20, N: 1.20}
+    afiliados:            {SE: 1.10, S: 1.00, CO: 0.90, NE: 0.85, N: 0.80}
+    email_crm:            {SE: 1.00, S: 1.00, CO: 1.00, NE: 1.00, N: 1.00}
+
+# ---------------------------------------------------------------------------
+# Teste geográfico (geo-lift). A Meta inteira (prospecção, remarketing e
+# sazonais) é desligada nas UFs de tratamento. A verba dessas UFs não é
+# realocada: o investimento nacional da Meta cai na mesma proporção.
+# Substitui a pausa nacional de 04-24/08/2025 da versão anterior, que não
+# separava a Meta do TikTok (os dois canais caíram juntos no MMM).
+# ---------------------------------------------------------------------------
+teste_geo:
+  teste_id: 1
+  nome: "Geo-lift Meta Ads ago-set/2025"
+  canal: meta                    # canal_mmm testado
+  canais_finos: [meta_prospeccao, meta_remarketing]
+  pre_inicio: "2025-01-06"       # janela usada no desenho (seleção de controles e poder)
+  inicio: "2025-08-04"
+  fim: "2025-09-14"              # 6 semanas
+  resfriamento_fim: "2025-09-28" # 2 semanas para o adstock se dissipar
+  tipo_mudanca: desligar
+  multiplicador_investimento: 0.0
+  # Desenho: UFs de porte médio de quatro macrorregiões, ~25% da demanda.
+  # SP, RJ e MG ficam no controle (grandes demais para um holdout barato).
+  ufs_tratamento: [PR, BA, GO, PE, CE, ES, MT]
+
+# ---------------------------------------------------------------------------
+# TikTok Ads: a equipe de social compra TikTok junto com a Meta, a ~32% do
+# orçamento diário da Meta. É o par de canais muito correlacionado que só a
+# calibração separa: o TikTok rende muito menos que a Meta.
+# ---------------------------------------------------------------------------
+tiktok:
+  conta_id: "7301928475610293847"
+  razao_orcamento_meta: 0.32
+  ruido: 0.10
+  cpm: 9.8
+  ctr: 0.0085
+  campanhas:
+    # nome, objetivo, início, fim, participação no orçamento
+    - ["Spark Ads | Tutoriais de Costura", "CONVERSIONS", "2023-10-01", null, 0.55]
+    - ["Catálogo | Vídeo Shopping Ads", "PRODUCT_SALES", "2024-02-01", null, 0.30]
+    - ["Alcance | Lançamentos de Coleção", "REACH", "2023-10-01", null, 0.15]
+
+# ---------------------------------------------------------------------------
+# YouTube: flights de vídeo (Google Demand Gen / Video) com início e fim
+# próprios. Entram em midia.GOOGLE_CAMPANHAS no canal google_demand_gen.
+# ---------------------------------------------------------------------------
+youtube_flights:
+  # nome, início, fim, orçamento/dia (escala 1), eficiência
+  - ["YouTube | Tutoriais Volta às Aulas 2024", "2024-01-15", "2024-03-10", 380, 1.0]
+  - ["YouTube | Festa Junina 2024", "2024-04-22", "2024-06-23", 420, 1.1]
+  - ["YouTube | Coleção Primavera 2024", "2024-09-02", "2024-10-27", 360, 0.9]
+  - ["YouTube | Black Friday 2024", "2024-11-04", "2024-12-01", 520, 1.0]
+  - ["YouTube | Tutoriais Volta às Aulas 2025", "2025-01-13", "2025-03-02", 400, 1.0]
+  - ["YouTube | Coleção Verão 2026", "2025-10-20", "2025-12-14", 450, 1.05]
+  - ["YouTube | Festa Junina 2026", "2026-04-20", "2026-06-21", 470, 1.1]
+  - ["YouTube | Coleção Primavera 2026", "2026-08-24", "2026-10-13", 420, 0.95]
+
+# ---------------------------------------------------------------------------
+# Afiliados: blogs de costura, sites de cupom e comparadores, pagos por
+# campanha (fee) + comissão. O orçamento mensal é negociado: muda em degraus.
+# ---------------------------------------------------------------------------
+afiliados:
+  parceiros:
+    # nome, tipo, comissão %, participação no orçamento, início
+    - ["Blog Costura em Casa", "conteudo", 6.0, 0.30, "2023-10-01"]
+    - ["Clube de Cupons", "cupom", 4.0, 0.25, "2023-10-01"]
+    - ["Comparador de Preços", "comparador", 3.5, 0.20, "2024-01-15"]
+    - ["Rede de Criadoras de Moldes", "conteudo", 7.0, 0.25, "2024-06-01"]
+  # orçamento mensal (R$, escala 1) por trimestre do período
+  orcamento_mensal: [9000, 11000, 8000, 14000, 16000, 12000, 18000, 20000, 15000, 22000, 17000, 24000, 21000]
+  bonus_promocao: 1.6          # multiplicador em Black Friday e datas da loja
+  cpc: 0.55
+
+# ---------------------------------------------------------------------------
+# CRM: newsletters (ter/qui), régua de reativação e carrinho abandonado.
+# ---------------------------------------------------------------------------
+crm:
+  base_inicial: 11000          # contatos com opt-in em out/2023 (escala 1)
+  crescimento_mensal: 0.035
+  custo_mil_envios: 1.9        # R$ por mil envios (ferramenta de disparo)
+  taxa_entrega: 0.975
+  taxa_abertura: 0.24
+  taxa_clique: 0.031           # sobre entregues
+  campanhas:
+    # tipo, dias da semana (0=seg), fração da base por disparo
+    - ["newsletter", [1, 3], 0.92]
+    - ["reativacao", [0, 2, 4], 0.06]
+    - ["carrinho_abandonado", [0, 1, 2, 3, 4, 5, 6], 0.012]
+
+# ---------------------------------------------------------------------------
+# Preço e promoções. A demanda total responde ao índice de preço do dia
+# (preço efetivo / preço de tabela, ponderado pela popularidade) com
+# elasticidade constante. Feriados nacionais reduzem a demanda.
+# ---------------------------------------------------------------------------
+preco:
+  elasticidade: 1.3
+feriado:
+  multiplicador: 0.86
+
+# Ajuste fino do nível da demanda-base para manter o volume total de pedidos
+# da versão anterior (os canais novos acrescentam pedidos incrementais).
+fator_base: 0.70
+
+feriados_nacionais:
+  - ["2023-10-12", "Nossa Senhora Aparecida"]
+  - ["2023-11-02", "Finados"]
+  - ["2023-11-15", "Proclamação da República"]
+  - ["2023-11-20", "Dia da Consciência Negra"]
+  - ["2023-12-25", "Natal"]
+  - ["2024-01-01", "Confraternização Universal"]
+  - ["2024-02-12", "Carnaval"]
+  - ["2024-02-13", "Carnaval"]
+  - ["2024-03-29", "Sexta-feira Santa"]
+  - ["2024-04-21", "Tiradentes"]
+  - ["2024-05-01", "Dia do Trabalho"]
+  - ["2024-05-30", "Corpus Christi"]
+  - ["2024-09-07", "Independência"]
+  - ["2024-10-12", "Nossa Senhora Aparecida"]
+  - ["2024-11-02", "Finados"]
+  - ["2024-11-15", "Proclamação da República"]
+  - ["2024-11-20", "Dia da Consciência Negra"]
+  - ["2024-12-25", "Natal"]
+  - ["2025-01-01", "Confraternização Universal"]
+  - ["2025-03-03", "Carnaval"]
+  - ["2025-03-04", "Carnaval"]
+  - ["2025-04-18", "Sexta-feira Santa"]
+  - ["2025-04-21", "Tiradentes"]
+  - ["2025-05-01", "Dia do Trabalho"]
+  - ["2025-06-19", "Corpus Christi"]
+  - ["2025-09-07", "Independência"]
+  - ["2025-10-12", "Nossa Senhora Aparecida"]
+  - ["2025-11-02", "Finados"]
+  - ["2025-11-15", "Proclamação da República"]
+  - ["2025-11-20", "Dia da Consciência Negra"]
+  - ["2025-12-25", "Natal"]
+  - ["2026-01-01", "Confraternização Universal"]
+  - ["2026-02-16", "Carnaval"]
+  - ["2026-02-17", "Carnaval"]
+  - ["2026-04-03", "Sexta-feira Santa"]
+  - ["2026-04-21", "Tiradentes"]
+  - ["2026-05-01", "Dia do Trabalho"]
+  - ["2026-06-04", "Corpus Christi"]
+  - ["2026-09-07", "Independência"]
+  - ["2026-10-12", "Nossa Senhora Aparecida"]
+
+# Promoções da loja (as mesmas janelas de gerador/catalogo.py e dos cupons).
+promocoes:
+  - ["Black Friday", "11-20", "12-02"]
+  - ["Dia do Consumidor", "03-13", "03-16"]
+  - ["Dia da Costureira", "05-22", "05-26"]
+  - ["Arraiá de Chitas", "05-01", "05-12"]
+  - ["Liquidação de Malhas", "08-20", "09-15"]
+  - ["Semana do Linho e da Viscose", "03-25", "04-20"]
+  - ["Queima Pós-Natal", "12-26", "01-10"]

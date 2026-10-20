@@ -24,7 +24,9 @@ class Config:
     # 1.0 = ~150 mil pedidos / ~4 milhões de sessões. Use 0.05 para testes rápidos.
     escala: float = float(os.environ.get("ESCALA", "1.0"))
     saida: Path = Path(os.environ.get("SAIDA_DADOS", RAIZ / "data" / "csv"))
-    verdade: Path = Path(os.environ.get("SAIDA_VERDADE", RAIZ / "data" / "verdade"))
+    # Ground truth do gerador (efeitos verdadeiros). Fica FORA do MySQL: código de
+    # modelagem não deve ler daqui; serve só para validar o que o modelo recuperou.
+    verdade: Path = Path(os.environ.get("SAIDA_GROUND_TRUTH", RAIZ / "data" / "ground_truth"))
 
     # Volume-alvo na escala 1.0
     pedidos_dia_inicio: float = 84.0  # out/2023, antes de sazonalidade e mídia
