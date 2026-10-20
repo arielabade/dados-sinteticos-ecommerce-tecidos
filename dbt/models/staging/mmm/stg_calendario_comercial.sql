@@ -1,4 +1,4 @@
--- Calendário de marketing: feriados nacionais, datas comerciais e promoções da loja.
+-- Marketing calendar: national holidays, retail dates and store promotions.
 select
     data,
     dia_semana,

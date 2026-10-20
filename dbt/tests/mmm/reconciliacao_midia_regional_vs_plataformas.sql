@@ -1,4 +1,4 @@
--- A soma por UF do relatório geográfico bate com o relatório nacional de cada plataforma (centavos).
+-- The sum over states of the geographic report matches each platform's national report (to the cent).
 with regional as (
     select data, plataforma, sum(investimento) inv
     from {{ ref('stg_midia_regional_diaria') }} m

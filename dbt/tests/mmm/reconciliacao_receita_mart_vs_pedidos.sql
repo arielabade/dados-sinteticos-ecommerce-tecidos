@@ -1,4 +1,4 @@
--- A receita do mart diário (somada nas UFs) tem de bater com a receita dos pedidos pagos.
+-- The daily mart's revenue (summed over states) must match the revenue of the paid orders.
 with mart as (select data, sum(receita) r, sum(pedidos) n from {{ ref('fct_mmm_vendas_regiao_diario') }} group by data),
 ped as (select data_pedido data, sum(total) r, count(*) n from {{ ref('fct_pedidos') }} where pago group by data_pedido)
 select coalesce(m.data, p.data) as data, m.r as receita_mart, p.r as receita_pedidos, m.n, p.n

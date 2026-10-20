@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: raw
     schema: tecidos
-    description: Banco transacional + tracking + mídia carregado pelo docker-compose.
+    description: Transactional + tracking + media database loaded by docker-compose.
     tables:
       - {name: categorias}
       - {name: fornecedores}

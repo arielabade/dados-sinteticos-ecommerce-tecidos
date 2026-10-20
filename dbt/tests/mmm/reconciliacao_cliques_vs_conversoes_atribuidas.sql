@@ -1,7 +1,7 @@
--- Cliques pagos >= pedidos atribuídos por último clique ao mesmo canal, por dia.
--- 'Paid Social' junta Meta e TikTok (o agrupamento de canais do site não os separa).
--- E-mail fica de fora: sessões de e-mail também vêm de e-mails transacionais, que
--- não estão em crm_disparos, então não há 1 clique de campanha por sessão.
+-- Paid clicks >= orders attributed by last click to the same channel, per day.
+-- 'Paid Social' combines Meta and TikTok (the website's channel grouping does not separate them).
+-- E-mail is left out: e-mail sessions also come from transactional e-mails, which
+-- are not in crm_disparos, so there is not 1 campaign click per session.
 with cliques as (
     select data,
            case when canal_mmm in ('meta', 'tiktok') then 'Paid Social'

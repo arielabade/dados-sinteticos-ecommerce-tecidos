@@ -1,6 +1,6 @@
 -- =====================================================================
--- Curva ABC de produtos (receita dos últimos 12 meses)
--- A = até 80% da receita acumulada, B = 80-95%, C = resto.
+-- ABC curve of products (revenue over the last 12 months)
+-- A = up to 80% of cumulative revenue, B = 80-95%, C = the rest.
 -- =====================================================================
 WITH ult12 AS (
     SELECT i.variante_id, i.total_item, i.quantidade, i.custo_unitario
@@ -37,5 +37,5 @@ SELECT
 FROM acum
 ORDER BY ranking;
 
--- Resumo por classe (rode separadamente):
--- SELECT classe, COUNT(*) produtos, SUM(receita) receita FROM (<consulta acima>) x GROUP BY classe;
+-- Summary by class (run separately):
+-- SELECT classe, COUNT(*) produtos, SUM(receita) receita FROM (<query above>) x GROUP BY classe;

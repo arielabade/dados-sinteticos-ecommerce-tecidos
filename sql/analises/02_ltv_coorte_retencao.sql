@@ -1,11 +1,11 @@
 -- =====================================================================
--- LTV por coorte e retenção
--- Coorte = mês da primeira compra paga. Clientes unificados pelo CPF
--- (contas duplicadas da mesma pessoa contam como uma).
--- A base legada (origem_cadastro = 'importacao_legado') fica de fora: a
--- primeira compra dela no período não é a primeira compra de verdade.
--- Saída: para cada coorte, % de clientes ativos e receita acumulada por
--- cliente nos meses 0, 1, 2, 3, 6 e 12 após a primeira compra.
+-- LTV by cohort and retention
+-- Cohort = month of the first paid purchase. Customers unified by CPF
+-- (duplicate accounts of the same person count as one).
+-- The legacy base (origem_cadastro = 'importacao_legado') is left out: its
+-- first purchase in the period is not its real first purchase.
+-- Output: for each cohort, % of active customers and cumulative revenue per
+-- customer in months 0, 1, 2, 3, 6 and 12 after the first purchase.
 -- =====================================================================
 WITH clientes_unif AS (
     SELECT cliente_id, IF(cpf IS NULL, cliente_id, MIN(cliente_id) OVER (PARTITION BY cpf)) AS cliente_unif,
@@ -31,7 +31,7 @@ base AS (
 tam AS (
     SELECT coorte, COUNT(DISTINCT cliente_unif) AS clientes FROM base GROUP BY coorte
 ),
-idade AS (  -- meses observáveis de cada coorte até o fim dos dados
+idade AS (  -- observable months of each cohort until the end of the data
     SELECT coorte, TIMESTAMPDIFF(MONTH, CONCAT(coorte, '-01'), (SELECT DATE_FORMAT(MAX(criado_em), '%Y-%m-01') FROM pedidos)) AS meses_obs
     FROM tam
 )

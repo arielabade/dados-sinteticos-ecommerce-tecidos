@@ -3,10 +3,10 @@ version: 2
 models:
   - name: stg_eventos
     description: >
-      Eventos deduplicados (event_id e transaction_id) e com fuso corrigido.
-      A unicidade de evento_id e event_id é garantida pela construção do modelo
-      (um MIN(evento_id) por event_id); testá-la exigiria ordenar ~15 milhões de
-      linhas em disco, por isso não há teste unique aqui.
+      Events deduplicated (event_id and transaction_id) and with the time zone fixed.
+      The uniqueness of evento_id and event_id is guaranteed by how the model is built
+      (one MIN(evento_id) per event_id); testing it would require sorting ~15 million
+      rows on disk, so there is no unique test here.
     columns:
       - name: evento_id
         tests: [not_null]

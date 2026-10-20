@@ -1,6 +1,6 @@
 -- =====================================================================
--- Ruptura de estoque: dias sem saldo e demanda perdida por subcategoria
--- e mês. Mostra o efeito do fornecedor pouco confiável de chita no São João.
+-- Stockouts: days without stock and lost demand by subcategory
+-- and month. Shows the effect of the unreliable chita supplier during the June festivals.
 -- =====================================================================
 SELECT
     DATE_FORMAT(ed.data, '%Y-%m')             AS mes,

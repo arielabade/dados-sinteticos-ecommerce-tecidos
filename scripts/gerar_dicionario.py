@@ -1,207 +1,252 @@
-"""Gera docs/dicionario_dados.md a partir do banco carregado + descrições abaixo.
+"""Generates docs/dicionario_dados.md (the data dictionary) from the loaded database plus the descriptions below.
 
-Uso: python scripts/gerar_dicionario.py
+Usage:
+    python scripts/gerar_dicionario.py                  # types, keys and % nulls read from MySQL
+    python scripts/gerar_dicionario.py --parquet DIR    # no database: types and keys from schema.sql,
+                                                        # row counts and % nulls from DIR/<table>.parquet
 """
 from __future__ import annotations
 
+import argparse
 import os
+import re
 from pathlib import Path
-
-import pymysql
 
 RAIZ = Path(__file__).resolve().parents[1]
 CONN = dict(host=os.environ.get("MYSQL_HOST", "127.0.0.1"), port=int(os.environ.get("MYSQL_PORT", "3336")),
             user=os.environ.get("MYSQL_USER", "analista"), password=os.environ.get("MYSQL_PASSWORD", "analista123"),
             database="tecidos")
 
-# tabela: (domínio, grão, descrição, {coluna: descrição})
+# table: (domain, grain, description, {column: description})
 D = {
-    "categorias": ("Catálogo", "1 linha por categoria", "Árvore de 2 níveis: família de fibra (Algodão, Linho, Viscose, Malha, Sintéticos, Jeans) e subcategoria.", {
-        "categoria_id": "Identificador. Famílias usam 1-6; subcategorias 100+.",
-        "categoria_pai_id": "Família à qual a subcategoria pertence. Nulo nas famílias.",
-        "nome": "Nome exibido na loja.", "slug": "Trecho de URL da categoria (/categoria/<slug>)."}),
-    "fornecedores": ("Catálogo", "1 linha por fornecedor", "Tecelagens e distribuidoras (fictícias).", {
-        "fornecedor_id": "Identificador.", "razao_social": "Razão social fictícia.", "nome_fantasia": "Nome comercial.",
-        "cnpj": "CNPJ sintético (dígitos verificadores válidos, gerado pelo Faker).", "uf": "UF da sede.", "cidade": "Cidade da sede.",
-        "prazo_reposicao_dias": "Prazo médio de entrega de reposição.",
-        "confiabilidade": "Probabilidade de entregar no prazo. Fornecedores com valor baixo causam rupturas (ex.: chita no São João).",
-        "ativo": "1 = fornecedor ativo."}),
-    "produtos": ("Catálogo", "1 linha por artigo de tecido", "Artigo (ex.: 'Linho Misto Liso Coleção Natural'). Cor, estampa e formato ficam nas variantes.", {
-        "produto_id": "Identificador.", "sku_base": "Prefixo de SKU do artigo.", "nome": "Nome do artigo.",
-        "categoria_id": "Subcategoria (FK categorias).", "fornecedor_id": "Fornecedor principal.",
-        "composicao": "Composição da fibra (ex.: 55% linho 45% viscose).", "largura_cm": "Largura útil do tecido em cm.",
-        "descricao": "Texto da vitrine. Nulo em ~12% (imperfeição: cadastro incompleto).",
-        "lancado_em": "Data de lançamento na loja.", "ativo": "0 = descontinuado durante o período."}),
-    "variantes": ("Catálogo", "1 linha por SKU", "SKU vendável: cor x estampa x formato. Venda por metro (múltiplos de 0,5 m) ou por rolo (25 m malha, 50 m planos).", {
-        "variante_id": "Identificador.", "produto_id": "Artigo.", "sku": "Código do SKU; sufixo -R indica rolo.",
-        "cor": "Cor predominante. 'Colorido' em estampas multicoloridas.", "estampa": "'Liso' quando não há estampa.",
-        "gramatura_gm2": "Gramatura em g/m². Nula em ~4% (imperfeição).", "formato_venda": "metro ou rolo.",
-        "metros_por_unidade": "1 para venda por metro; tamanho do rolo em metros.",
-        "preco_atual": "Preço de tabela vigente no fim do período (por unidade de venda).", "custo_atual": "Custo vigente no fim do período.",
-        "ativo": "0 = fora de linha.", "criado_em": "Data de criação do SKU."}),
-    "historico_precos": ("Catálogo", "1 linha por período de preço de um SKU (SCD tipo 2)", "Mudanças de preço de tabela, promoção e custo ao longo do tempo.", {
-        "historico_preco_id": "Identificador.", "variante_id": "SKU.", "preco": "Preço de tabela no período.",
-        "preco_promocional": "Preço promocional (nulo = sem promoção).", "custo": "Custo de compra no período.",
-        "vigente_de": "Início da vigência.", "vigente_ate": "Fim da vigência (nulo = vigente hoje).",
-        "motivo": "lancamento, reajuste_fornecedor, promocao, fim_promocao ou queima_estoque."}),
-    "estoque": ("Estoque", "1 linha por SKU", "Posição de estoque no fim do período.", {
-        "variante_id": "SKU.", "saldo_unidades": "Saldo em metros (formato metro) ou rolos (formato rolo).",
-        "ponto_reposicao": "Saldo que dispara pedido ao fornecedor.", "lote_reposicao": "Quantidade típica do pedido de compra.",
-        "atualizado_em": "Momento do snapshot."}),
-    "estoque_diario": ("Estoque", "1 linha por SKU e dia em que o SKU existia", "Fechamento diário de estoque. Base para estudar ruptura e demanda censurada.", {
-        "variante_id": "SKU.", "data": "Dia (horário local).", "saldo_inicial": "Saldo na abertura do dia (após chegadas de reposição).",
-        "entradas": "Entradas de compra no dia.", "saidas": "Vendas pagas no dia.", "saldo_final": "saldo_inicial + entradas - saidas.",
-        "em_ruptura": "1 = o SKU zerou em algum momento do dia ou recusou venda por falta de saldo.",
-        "demanda_perdida": "Unidades que clientes tentaram comprar sem estoque (não viraram venda)."}),
-    "movimentacoes_estoque": ("Estoque", "1 linha por movimento", "Kardex: compras, vendas, devoluções, ajustes de inventário e avarias.", {
-        "movimentacao_id": "Identificador (ordem cronológica).", "variante_id": "SKU.",
-        "tipo": "entrada_compra, saida_venda, entrada_devolucao, ajuste_inventario ou perda_avaria.",
-        "quantidade": "Positiva = entrada; negativa = saída. Unidade de venda do SKU.", "ocorrido_em": "Momento (horário local).",
-        "pedido_id": "Pedido relacionado (vendas e devoluções).", "devolucao_id": "Devolução relacionada.",
-        "fornecedor_id": "Fornecedor (entradas de compra)."}),
-    "clientes": ("Clientes", "1 linha por conta de cliente", "Dados pessoais 100% sintéticos. E-mails só em domínios reservados (example.com, *.example, *.test).", {
-        "cliente_id": "Identificador.", "tipo_cliente": "hobby, costureira, atelie ou confeccao (autodeclarado).",
-        "tipo_pessoa": "PF ou PJ.", "nome": "Nome fictício.", "razao_social": "Razão social (PJ).",
-        "email": "E-mail fictício. ~1,5% com maiúsculas ou espaço à esquerda (imperfeição).",
-        "telefone": "Celular fictício com DDD da UF. Formatos inconsistentes e ~17% nulo (imperfeição).",
-        "cpf": "CPF sintético. Repetido em ~0,6% das contas: mesma pessoa com dois cadastros (imperfeição).",
-        "cnpj": "CNPJ sintético (PJ).", "data_nascimento": "Nula em ~45%.", "genero": "F, M ou O. Nulo em ~60%.",
-        "cadastrado_em": "Data de cadastro (horário local).",
-        "origem_cadastro": "checkout, newsletter, whatsapp ou importacao_legado (base trazida da plataforma anterior; a 1ª compra no período não é a 1ª de verdade).",
-        "aceita_email_marketing": "Opt-in de e-mail (LGPD).", "aceita_whatsapp": "Opt-in de WhatsApp."}),
-    "enderecos": ("Clientes", "1 linha por endereço", "Endereços de entrega e cobrança.", {
-        "endereco_id": "Identificador.", "cliente_id": "Cliente.", "tipo": "entrega ou cobranca.", "destinatario": "Nome do destinatário.",
-        "cep": "CEP coerente com a UF; ~12% sem hífen (imperfeição).", "logradouro": "Rua fictícia.", "numero": "Número.",
-        "complemento": "Nulo em ~55%.", "bairro": "Bairro fictício.",
-        "cidade": "Cidade real da UF; ~6% sem acento ou em maiúsculas (imperfeição).", "uf": "UF.",
-        "principal": "1 = endereço principal.", "criado_em": "Data de criação."}),
-    "cupons": ("Pedidos", "1 linha por cupom", "Cupons de desconto (sazonais, primeira compra, criadoras de conteúdo fictícias, e-mail, WhatsApp, atacado).", {
-        "cupom_id": "Identificador.", "codigo": "Código digitado no checkout.", "descricao": "Descrição interna.",
-        "tipo_desconto": "percentual, valor_fixo ou frete_gratis.", "valor_desconto": "% ou R$, conforme o tipo.",
-        "pedido_minimo": "Subtotal mínimo.", "canal": "Origem do cupom.", "valido_de": "Início da validade.",
-        "valido_ate": "Fim da validade (nulo = sem fim).", "limite_usos": "Limite de usos (nulo = ilimitado)."}),
-    "pedidos": ("Pedidos", "1 linha por pedido", "Pedidos da loja. Valores em R$. Horário local (America/Sao_Paulo).", {
-        "pedido_id": "Identificador.", "numero_pedido": "Número exibido ao cliente; vira transaction_id no tracking.",
-        "cliente_id": "Cliente.", "endereco_entrega_id": "Endereço de entrega. Nulo = retirada na loja.",
-        "sessao_id": "Sessão em que a compra aconteceu. Nulo = sem rastreio (adblock, navegador sem JS, pedido via WhatsApp).",
-        "cupom_id": "Cupom aplicado.", "canal_venda": "site ou whatsapp (pedido montado pelo atendimento).",
-        "status": "aguardando_pagamento, pago, enviado, entregue, cancelado ou devolvido. Receita = pago, enviado, entregue e devolvido.",
-        "criado_em": "Criação do pedido (local).", "pago_em": "Aprovação do pagamento.", "cancelado_em": "Cancelamento (pagamento recusado/expirado, estorno).",
-        "subtotal": "Soma dos itens.", "desconto": "Desconto de cupom.", "frete": "Frete cobrado do cliente (0 = grátis).",
-        "total": "subtotal - desconto + frete (garantido por CHECK).",
-        "pedido_teste": "1 = pedido de teste da equipe (excluir das análises; alguns aparecem como pagos)."}),
-    "itens_pedido": ("Pedidos", "1 linha por SKU no pedido", "Itens comprados.", {
-        "item_pedido_id": "Identificador.", "pedido_id": "Pedido.", "variante_id": "SKU.",
-        "quantidade": "Metros (formato metro) ou rolos.", "preco_unitario": "Preço praticado (com promoção de vitrine).",
-        "preco_tabela": "Preço de tabela no dia.", "custo_unitario": "Custo no dia.", "total_item": "quantidade x preco_unitario."}),
-    "pagamentos": ("Pedidos", "1 linha por tentativa de pagamento", "Tentativas de pagamento: cartão recusado seguido de nova tentativa gera 2 linhas.", {
-        "pagamento_id": "Identificador.", "pedido_id": "Pedido.", "tentativa": "Ordem da tentativa.",
-        "metodo": "pix, cartao_credito ou boleto.", "bandeira": "Bandeira do cartão (nula em ~6% dos cartões).",
-        "parcelas": "1 a 12 (só cartão parcela).", "valor": "Valor cobrado.",
-        "status": "aprovado, recusado, pendente, expirado ou estornado.", "gateway": "Gateway de pagamento.",
-        "transacao_gateway": "ID da transação no gateway.", "criado_em": "Criação (local).", "atualizado_em": "Última atualização de status."}),
-    "fretes": ("Pedidos", "1 linha por pedido", "Envio do pedido.", {
-        "frete_id": "Identificador.", "pedido_id": "Pedido.", "transportadora": "Correios, Jadlog, Loggi ou Retirada na loja.",
-        "servico": "PAC, SEDEX, Jadlog .Package, Loggi Expresso ou Retirada.", "peso_kg": "Peso estimado (metros x gramatura x largura).",
-        "valor_cobrado": "Frete cobrado do cliente.", "custo_real": "Custo pago à transportadora.",
-        "frete_gratis": "1 = frete grátis (política por região e valor; limite subiu em mar/2025).",
-        "prazo_estimado_dias": "Prazo prometido.", "postado_em": "Postagem.",
-        "entregue_em": "Entrega. Nulo em ~2% de pedidos entregues (imperfeição: rastreio sem baixa).",
-        "codigo_rastreio": "Código de rastreio fictício."}),
-    "devolucoes": ("Pedidos", "1 linha por item devolvido", "Trocas e devoluções.", {
-        "devolucao_id": "Identificador.", "pedido_id": "Pedido.", "item_pedido_id": "Item devolvido.", "motivo": "Motivo informado.",
-        "quantidade": "Quantidade devolvida.", "valor_reembolsado": "Reembolso (0 se recusada).",
-        "status": "solicitada, aprovada, recusada ou concluida.", "solicitada_em": "Solicitação.", "concluida_em": "Conclusão."}),
-    "avaliacoes": ("Pedidos", "1 linha por pedido avaliado", "Avaliações de produto após a entrega.", {
-        "avaliacao_id": "Identificador.", "pedido_id": "Pedido.", "cliente_id": "Cliente.", "produto_id": "Produto avaliado.",
-        "nota": "1 a 5 (cai com atraso e devolução).", "titulo": "Título (pode ser nulo).", "comentario": "Comentário (pode ser nulo).",
-        "criada_em": "Data da avaliação."}),
-    "meta_contas": ("Mídia - Meta", "1 linha por conta", "Contas de anúncio.", {
-        "conta_id": "ID da conta (act_...).", "nome": "Nome.", "moeda": "BRL.", "fuso_horario": "Fuso das métricas diárias."}),
-    "meta_campanhas": ("Mídia - Meta", "1 linha por campanha", "Campanhas: prospecção, Advantage+, remarketing, catálogo, sazonais e testes.", {
-        "campanha_id": "ID da campanha (18 dígitos; use BIGINT, não float).", "conta_id": "Conta.", "nome": "Nome com prefixo [PROSP], [RMKT], [SAZ] ou [TESTE].",
-        "objetivo": "Objetivo ODAX.", "estrategia": "Classificação interna da campanha.", "status": "ACTIVE, PAUSED ou ARCHIVED.",
-        "orcamento_diario": "Orçamento de campanha (CBO); nulo quando o orçamento fica no conjunto.",
-        "inicio": "Início.", "fim": "Fim (nulo = ativa)."}),
-    "meta_conjuntos": ("Mídia - Meta", "1 linha por conjunto de anúncios", "Públicos e otimização.", {
-        "conjunto_id": "ID.", "campanha_id": "Campanha.", "nome": "Nome.", "publico": "Descrição do público.",
-        "otimizacao": "Evento de otimização.", "posicionamentos": "Posicionamentos.", "status": "Status."}),
-    "meta_anuncios": ("Mídia - Meta", "1 linha por anúncio", "Criativos. Anúncios entram e saem ao longo do tempo (renovação criativa e fadiga).", {
-        "anuncio_id": "ID.", "conjunto_id": "Conjunto.", "nome": "Nome.", "formato": "imagem, video, carrossel, catalogo ou reels.",
-        "tema_criativo": "Tema do criativo.", "url_destino": "URL com template de UTMs.", "status": "Status."}),
-    "meta_metricas_diarias": ("Mídia - Meta", "1 linha por anúncio e dia com entrega", "Insights diários como na API de Marketing.", {
-        "data": "Dia no fuso da conta.", "anuncio_id": "Anúncio.", "investimento": "Valor gasto (R$).", "impressoes": "Impressões.",
-        "alcance": "Pessoas alcançadas no dia.", "cliques_todos": "Todos os cliques.", "cliques_link": "Cliques no link.",
-        "visualizacoes_pagina_destino": "Landing page views reportadas.", "adicoes_carrinho": "Add to cart reportados.",
-        "compras": "Compras reportadas (7 dias após clique + 1 dia após visualização, inclui modeladas e pedidos depois cancelados).",
-        "valor_compras": "Valor das compras reportadas."}),
-    "google_contas": ("Mídia - Google", "1 linha por conta", "Contas Google Ads.", {
-        "conta_id": "Customer ID.", "nome": "Nome.", "moeda": "BRL.", "fuso_horario": "Fuso."}),
-    "google_campanhas": ("Mídia - Google", "1 linha por campanha", "Search (marca, genérica, concorrentes), Shopping, Performance Max e Demand Gen.", {
-        "campanha_id": "ID.", "conta_id": "Conta.", "nome": "Nome.", "tipo_canal": "SEARCH, SHOPPING, PERFORMANCE_MAX ou DEMAND_GEN.",
-        "estrategia_lance": "Estratégia de lance.", "roas_alvo": "tROAS (quando aplicável).", "campanha_marca": "1 = Search de marca.",
-        "orcamento_diario": "Orçamento diário de referência (escala 1).", "status": "ENABLED, PAUSED ou REMOVED.",
-        "inicio": "Início.", "fim": "Fim (nulo = ativa)."}),
-    "google_grupos_anuncio": ("Mídia - Google", "1 linha por grupo (ou asset group)", "Grupos de anúncios; em PMax representam asset groups.", {
-        "grupo_id": "ID.", "campanha_id": "Campanha.", "nome": "Nome.", "tipo": "Tipo de grupo.", "status": "Status."}),
-    "google_palavras_chave": ("Mídia - Google", "1 linha por palavra-chave", "Palavras-chave das campanhas Search.", {
-        "palavra_chave_id": "ID.", "grupo_id": "Grupo.", "texto": "Palavra-chave.", "tipo_correspondencia": "EXACT, PHRASE ou BROAD.",
-        "indice_qualidade": "1-10; nulo quando sem dados suficientes.", "status": "Status."}),
-    "google_metricas_diarias": ("Mídia - Google", "1 linha por grupo e dia com entrega", "Métricas diárias por grupo.", {
-        "data": "Dia no fuso da conta.", "grupo_id": "Grupo.", "investimento": "Custo (R$).", "impressoes": "Impressões.",
-        "cliques": "Cliques.", "conversoes": "Conversões reportadas (fracionadas, modelo da plataforma, janela 30 dias, por data do clique; inclui engaged-view em PMax/Demand Gen).",
-        "valor_conversao": "Valor reportado.", "parcela_impressoes": "Search impression share (só Search)."}),
-    "google_palavras_chave_metricas_diarias": ("Mídia - Google", "1 linha por palavra-chave e dia", "Métricas diárias de palavras-chave (Search). A soma de investimento bate com o grupo.", {
-        "data": "Dia.", "palavra_chave_id": "Palavra-chave.", "investimento": "Custo.", "impressoes": "Impressões.", "cliques": "Cliques.",
-        "conversoes": "Conversões atribuídas a cliques da palavra (o grupo pode ter mais, vindas de PMax/engaged-view).",
-        "valor_conversao": "Valor."}),
-    "cliques_midia": ("Tracking", "1 linha por click id capturado na entrada do site", "Elo entre a plataforma de mídia e a sessão. Plataformas reportam mais cliques do que chegam aqui (perda entre clique e carregamento).", {
-        "clique_id": "Identificador.", "plataforma": "meta ou google.", "click_id": "fbclid ou gclid.",
-        "meta_anuncio_id": "Anúncio Meta.", "google_grupo_id": "Grupo Google.", "google_palavra_chave_id": "Palavra-chave (Search).",
-        "clicado_em": "Momento do clique (UTC)."}),
-    "sessoes": ("Tracking", "1 linha por sessão", "Sessões reconstruídas pelo GTM server-side (padrão GA4). Horário em UTC.", {
-        "sessao_id": "Identificador.", "ga_session_id": "ID de sessão GA4 (timestamp unix do início).",
-        "client_id": "Cookie _ga. Nulo quando analytics_storage foi negado (cookieless ping).",
-        "cliente_id": "user_id: cliente logado/identificado na sessão.", "iniciada_em": "Início (UTC).", "duracao_seg": "Duração.",
-        "dispositivo": "mobile, desktop ou tablet (nulo em ~1%).", "sistema_operacional": "SO.", "navegador": "Navegador; inclui navegadores in-app (Instagram/Facebook).",
-        "uf": "UF por IP (nula em ~7%).", "landing_page": "URL de entrada.", "referrer": "Página de origem.",
-        "utm_source": "Origem. Grafias inconsistentes (ig, IG, Instagram, instagram).", "utm_medium": "Meio (paid_social, paid, cpc, Social, email...).",
-        "utm_campaign": "Campanha: nome antes de jun/2024, ID da campanha depois (troca de template).", "utm_content": "ID do anúncio (Meta).",
-        "utm_term": "ID do conjunto (Meta) ou palavra-chave (Google com UTM manual).",
-        "gclid": "Google click id (auto-tagging).", "fbclid": "Meta click id. Ausente em ~12% das sessões vindas de anúncio Meta (imperfeição).",
-        "fbp": "Cookie _fbp (só com ad_storage concedido).", "fbc": "Cookie _fbc derivado do fbclid.",
-        "clique_id": "Clique de mídia que originou a sessão.",
+    "categorias": ("Catalog", "1 row per category", "Two-level tree: fiber family (Cotton, Linen, Viscose, Knit, Synthetics, Denim) and subcategory.", {
+        "categoria_id": "Identifier. Families use 1-6; subcategories 100+.",
+        "categoria_pai_id": "Family the subcategory belongs to. Null for families.",
+        "nome": "Name shown in the store.", "slug": "Category URL segment (/categoria/<slug>)."}),
+    "fornecedores": ("Catalog", "1 row per supplier", "Weaving mills and distributors (fictitious).", {
+        "fornecedor_id": "Identifier.", "razao_social": "Fictitious legal name.", "nome_fantasia": "Trade name.",
+        "cnpj": "Synthetic CNPJ (Brazilian company ID; valid check digits, generated by Faker).", "uf": "State of the head office.", "cidade": "City of the head office.",
+        "prazo_reposicao_dias": "Average replenishment lead time.",
+        "confiabilidade": "Probability of delivering on time. Low-value suppliers cause stockouts (e.g. chita fabric during the June festivals).",
+        "ativo": "1 = active supplier."}),
+    "produtos": ("Catalog", "1 row per fabric article", "Article (e.g. 'Linho Misto Liso Coleção Natural'). Color, print and sales format live in the variants.", {
+        "produto_id": "Identifier.", "sku_base": "SKU prefix of the article.", "nome": "Article name.",
+        "categoria_id": "Subcategory (FK categorias).", "fornecedor_id": "Main supplier.",
+        "composicao": "Fiber composition (e.g. 55% linen 45% viscose).", "largura_cm": "Usable fabric width in cm.",
+        "descricao": "Storefront text. Null in ~12% (imperfection: incomplete product registration).",
+        "lancado_em": "Launch date in the store.", "ativo": "0 = discontinued during the period."}),
+    "variantes": ("Catalog", "1 row per SKU", "Sellable SKU: color x print x format. Sold by the meter (multiples of 0.5 m) or by the roll (25 m knit, 50 m woven).", {
+        "variante_id": "Identifier.", "produto_id": "Article.", "sku": "SKU code; the -R suffix means roll.",
+        "cor": "Main color. 'Colorido' for multicolor prints.", "estampa": "'Liso' when there is no print.",
+        "gramatura_gm2": "Fabric weight in g/m². Null in ~4% (imperfection).", "formato_venda": "metro (by the meter) or rolo (by the roll).",
+        "metros_por_unidade": "1 when sold by the meter; roll length in meters.",
+        "preco_atual": "List price at the end of the period (per sales unit).", "custo_atual": "Cost at the end of the period.",
+        "ativo": "0 = discontinued.", "criado_em": "SKU creation date."}),
+    "historico_precos": ("Catalog", "1 row per price period of a SKU (SCD type 2)", "Changes in list price, promotion and cost over time.", {
+        "historico_preco_id": "Identifier.", "variante_id": "SKU.", "preco": "List price in the period.",
+        "preco_promocional": "Promotional price (null = no promotion).", "custo": "Purchase cost in the period.",
+        "vigente_de": "Start of validity.", "vigente_ate": "End of validity (null = current).",
+        "motivo": "lancamento (launch), reajuste_fornecedor (supplier increase), promocao, fim_promocao or queima_estoque (clearance)."}),
+    "estoque": ("Inventory", "1 row per SKU", "Stock position at the end of the period.", {
+        "variante_id": "SKU.", "saldo_unidades": "Balance in meters (sold by the meter) or rolls (sold by the roll).",
+        "ponto_reposicao": "Balance that triggers a purchase order.", "lote_reposicao": "Typical purchase order quantity.",
+        "atualizado_em": "Snapshot timestamp."}),
+    "estoque_diario": ("Inventory", "1 row per SKU and day the SKU existed", "Daily stock closing. Basis for studying stockouts and censored demand.", {
+        "variante_id": "SKU.", "data": "Day (local time).", "saldo_inicial": "Opening balance (after replenishment arrivals).",
+        "entradas": "Purchase receipts on the day.", "saidas": "Paid sales on the day.", "saldo_final": "saldo_inicial + entradas - saidas.",
+        "em_ruptura": "1 = the SKU hit zero at some point in the day or refused a sale for lack of stock.",
+        "demanda_perdida": "Units customers tried to buy without stock (did not become sales)."}),
+    "movimentacoes_estoque": ("Inventory", "1 row per movement", "Stock ledger: purchases, sales, returns, inventory adjustments and damages.", {
+        "movimentacao_id": "Identifier (chronological order).", "variante_id": "SKU.",
+        "tipo": "entrada_compra (purchase), saida_venda (sale), entrada_devolucao (return), ajuste_inventario (adjustment) or perda_avaria (damage).",
+        "quantidade": "Positive = in; negative = out. In the SKU's sales unit.", "ocorrido_em": "Timestamp (local time).",
+        "pedido_id": "Related order (sales and returns).", "devolucao_id": "Related return.",
+        "fornecedor_id": "Supplier (purchase receipts)."}),
+    "clientes": ("Customers", "1 row per customer account", "100% synthetic personal data. E-mails only on reserved domains (example.com, *.example, *.test).", {
+        "cliente_id": "Identifier.", "tipo_cliente": "hobby, costureira (seamstress), atelie (studio) or confeccao (garment maker), self-declared.",
+        "tipo_pessoa": "PF (individual) or PJ (company).", "nome": "Fictitious name.", "razao_social": "Legal name (companies).",
+        "email": "Fictitious e-mail. ~1.5% with uppercase or a leading space (imperfection).",
+        "telefone": "Fictitious mobile number with the state's area code. Inconsistent formats and ~17% null (imperfection).",
+        "cpf": "Synthetic CPF (Brazilian personal ID). Repeated in ~0.6% of accounts: the same person with two registrations (imperfection).",
+        "cnpj": "Synthetic CNPJ (companies).", "data_nascimento": "Null in ~45%.", "genero": "F, M or O. Null in ~60%.",
+        "cadastrado_em": "Registration date (local time).",
+        "origem_cadastro": "checkout, newsletter, whatsapp or importacao_legado (customers migrated from the previous platform; their first order in the period is not their real first order).",
+        "aceita_email_marketing": "E-mail marketing opt-in (LGPD).", "aceita_whatsapp": "WhatsApp opt-in."}),
+    "enderecos": ("Customers", "1 row per address", "Shipping and billing addresses.", {
+        "endereco_id": "Identifier.", "cliente_id": "Customer.", "tipo": "entrega (shipping) or cobranca (billing).", "destinatario": "Recipient name.",
+        "cep": "Postal code consistent with the state; ~12% without the hyphen (imperfection).", "logradouro": "Fictitious street.", "numero": "Number.",
+        "complemento": "Null in ~55%.", "bairro": "Fictitious neighborhood.",
+        "cidade": "Real city in the state; ~6% without accents or in uppercase (imperfection).", "uf": "State.",
+        "principal": "1 = main address.", "criado_em": "Creation date."}),
+    "cupons": ("Orders", "1 row per coupon", "Discount coupons (seasonal, first purchase, fictitious content creators, e-mail, WhatsApp, wholesale).", {
+        "cupom_id": "Identifier.", "codigo": "Code typed at checkout.", "descricao": "Internal description.",
+        "tipo_desconto": "percentual, valor_fixo (fixed amount) or frete_gratis (free shipping).", "valor_desconto": "% or R$, depending on the type.",
+        "pedido_minimo": "Minimum subtotal.", "canal": "Coupon source.", "valido_de": "Start of validity.",
+        "valido_ate": "End of validity (null = no end).", "limite_usos": "Usage limit (null = unlimited)."}),
+    "pedidos": ("Orders", "1 row per order", "Store orders. Amounts in R$. Local time (America/Sao_Paulo).", {
+        "pedido_id": "Identifier.", "numero_pedido": "Number shown to the customer; becomes transaction_id in tracking.",
+        "cliente_id": "Customer.", "endereco_entrega_id": "Shipping address. Null = store pickup.",
+        "sessao_id": "Session in which the purchase happened. Null = untracked (ad blocker, browser without JS, order via WhatsApp).",
+        "cupom_id": "Coupon applied.", "canal_venda": "site or whatsapp (order placed by customer service).",
+        "status": "aguardando_pagamento (awaiting payment), pago, enviado (shipped), entregue (delivered), cancelado or devolvido (returned). Revenue = pago, enviado, entregue and devolvido.",
+        "criado_em": "Order creation (local).", "pago_em": "Payment approval.", "cancelado_em": "Cancellation (payment declined/expired, chargeback).",
+        "subtotal": "Sum of items.", "desconto": "Coupon discount.", "frete": "Shipping charged to the customer (0 = free).",
+        "total": "subtotal - desconto + frete (enforced by a CHECK).",
+        "pedido_teste": "1 = team test order (exclude from analyses; some show as paid)."}),
+    "itens_pedido": ("Orders", "1 row per SKU in the order", "Items purchased.", {
+        "item_pedido_id": "Identifier.", "pedido_id": "Order.", "variante_id": "SKU.",
+        "quantidade": "Meters (sold by the meter) or rolls.", "preco_unitario": "Price charged (with storefront promotion).",
+        "preco_tabela": "List price on the day.", "custo_unitario": "Cost on the day.", "total_item": "quantidade x preco_unitario."}),
+    "pagamentos": ("Orders", "1 row per payment attempt", "Payment attempts: a declined card followed by a new attempt produces 2 rows.", {
+        "pagamento_id": "Identifier.", "pedido_id": "Order.", "tentativa": "Attempt number.",
+        "metodo": "pix, cartao_credito (credit card) or boleto (bank slip).", "bandeira": "Card brand (null in ~6% of cards).",
+        "parcelas": "1 to 12 installments (cards only).", "valor": "Amount charged.",
+        "status": "aprovado (approved), recusado (declined), pendente, expirado or estornado (refunded).", "gateway": "Payment gateway.",
+        "transacao_gateway": "Gateway transaction ID.", "criado_em": "Creation (local).", "atualizado_em": "Last status update."}),
+    "fretes": ("Orders", "1 row per order", "Order shipment.", {
+        "frete_id": "Identifier.", "pedido_id": "Order.", "transportadora": "Correios, Jadlog, Loggi or Retirada na loja (store pickup).",
+        "servico": "PAC, SEDEX, Jadlog .Package, Loggi Expresso or Retirada.", "peso_kg": "Estimated weight (meters x fabric weight x width).",
+        "valor_cobrado": "Shipping charged to the customer.", "custo_real": "Cost paid to the carrier.",
+        "frete_gratis": "1 = free shipping (policy by region and order value; the threshold went up in Mar/2025).",
+        "prazo_estimado_dias": "Promised delivery time.", "postado_em": "Dispatch.",
+        "entregue_em": "Delivery. Null in ~2% of delivered orders (imperfection: tracking never closed).",
+        "codigo_rastreio": "Fictitious tracking code."}),
+    "devolucoes": ("Orders", "1 row per returned item", "Exchanges and returns.", {
+        "devolucao_id": "Identifier.", "pedido_id": "Order.", "item_pedido_id": "Returned item.", "motivo": "Stated reason.",
+        "quantidade": "Quantity returned.", "valor_reembolsado": "Refund (0 if rejected).",
+        "status": "solicitada (requested), aprovada, recusada (rejected) or concluida (completed).", "solicitada_em": "Request.", "concluida_em": "Completion."}),
+    "avaliacoes": ("Orders", "1 row per reviewed order", "Product reviews after delivery.", {
+        "avaliacao_id": "Identifier.", "pedido_id": "Order.", "cliente_id": "Customer.", "produto_id": "Reviewed product.",
+        "nota": "1 to 5 (drops with delays and returns).", "titulo": "Title (may be null).", "comentario": "Comment (may be null).",
+        "criada_em": "Review date."}),
+    "meta_contas": ("Media - Meta", "1 row per account", "Ad accounts.", {
+        "conta_id": "Account ID (act_...).", "nome": "Name.", "moeda": "BRL.", "fuso_horario": "Time zone of the daily metrics."}),
+    "meta_campanhas": ("Media - Meta", "1 row per campaign", "Campaigns: prospecting, Advantage+, remarketing, catalog, seasonal and tests.", {
+        "campanha_id": "Campaign ID (18 digits; use BIGINT, not float).", "conta_id": "Account.", "nome": "Name prefixed with [PROSP], [RMKT], [SAZ] or [TESTE].",
+        "objetivo": "ODAX objective.", "estrategia": "Internal campaign classification.", "status": "ACTIVE, PAUSED or ARCHIVED.",
+        "orcamento_diario": "Campaign budget (CBO); null when the budget is set at the ad set.",
+        "inicio": "Start.", "fim": "End (null = active)."}),
+    "meta_conjuntos": ("Media - Meta", "1 row per ad set", "Audiences and optimization.", {
+        "conjunto_id": "ID.", "campanha_id": "Campaign.", "nome": "Name.", "publico": "Audience description.",
+        "otimizacao": "Optimization event.", "posicionamentos": "Placements.", "status": "Status."}),
+    "meta_anuncios": ("Media - Meta", "1 row per ad", "Creatives. Ads come and go over time (creative refresh and fatigue).", {
+        "anuncio_id": "ID.", "conjunto_id": "Ad set.", "nome": "Name.", "formato": "imagem (image), video, carrossel (carousel), catalogo or reels.",
+        "tema_criativo": "Creative theme.", "url_destino": "URL with the UTM template.", "status": "Status."}),
+    "meta_metricas_diarias": ("Media - Meta", "1 row per ad and day with delivery", "Daily insights as exported by the Marketing API.", {
+        "data": "Day in the account time zone.", "anuncio_id": "Ad.", "investimento": "Amount spent (R$).", "impressoes": "Impressions.",
+        "alcance": "People reached on the day.", "cliques_todos": "All clicks.", "cliques_link": "Link clicks.",
+        "visualizacoes_pagina_destino": "Reported landing page views.", "adicoes_carrinho": "Reported adds to cart.",
+        "compras": "Reported purchases (7-day click + 1-day view; includes modeled conversions and orders later canceled).",
+        "valor_compras": "Value of the reported purchases."}),
+    "google_contas": ("Media - Google", "1 row per account", "Google Ads accounts.", {
+        "conta_id": "Customer ID.", "nome": "Name.", "moeda": "BRL.", "fuso_horario": "Time zone."}),
+    "google_campanhas": ("Media - Google", "1 row per campaign", "Search (brand, generic, competitors), Shopping, Performance Max and Demand Gen.", {
+        "campanha_id": "ID.", "conta_id": "Account.", "nome": "Name.", "tipo_canal": "SEARCH, SHOPPING, PERFORMANCE_MAX or DEMAND_GEN.",
+        "estrategia_lance": "Bidding strategy.", "roas_alvo": "tROAS (when applicable).", "campanha_marca": "1 = brand Search.",
+        "orcamento_diario": "Reference daily budget (scale 1).", "status": "ENABLED, PAUSED or REMOVED.",
+        "inicio": "Start.", "fim": "End (null = active)."}),
+    "google_grupos_anuncio": ("Media - Google", "1 row per ad group (or asset group)", "Ad groups; in PMax they represent asset groups.", {
+        "grupo_id": "ID.", "campanha_id": "Campaign.", "nome": "Name.", "tipo": "Ad group type.", "status": "Status."}),
+    "google_palavras_chave": ("Media - Google", "1 row per keyword", "Keywords of the Search campaigns.", {
+        "palavra_chave_id": "ID.", "grupo_id": "Ad group.", "texto": "Keyword.", "tipo_correspondencia": "EXACT, PHRASE or BROAD.",
+        "indice_qualidade": "1-10; null when there is not enough data.", "status": "Status."}),
+    "google_metricas_diarias": ("Media - Google", "1 row per ad group and day with delivery", "Daily metrics per ad group.", {
+        "data": "Day in the account time zone.", "grupo_id": "Ad group.", "investimento": "Cost (R$).", "impressoes": "Impressions.",
+        "cliques": "Clicks.", "conversoes": "Reported conversions (fractional, platform model, 30-day window, by click date; includes engaged-view in PMax/Demand Gen).",
+        "valor_conversao": "Reported value.", "parcela_impressoes": "Search impression share (Search only)."}),
+    "google_palavras_chave_metricas_diarias": ("Media - Google", "1 row per keyword and day", "Daily keyword metrics (Search). Spend adds up to the ad group.", {
+        "data": "Day.", "palavra_chave_id": "Keyword.", "investimento": "Cost.", "impressoes": "Impressions.", "cliques": "Clicks.",
+        "conversoes": "Conversions attributed to the keyword's clicks (the ad group may have more, from PMax/engaged-view).",
+        "valor_conversao": "Value."}),
+    "cliques_midia": ("Tracking", "1 row per click id captured on landing", "Link between the media platform and the session. Platforms report more clicks than arrive here (loss between click and page load).", {
+        "clique_id": "Identifier.", "plataforma": "meta or google.", "click_id": "fbclid or gclid.",
+        "meta_anuncio_id": "Meta ad.", "google_grupo_id": "Google ad group.", "google_palavra_chave_id": "Keyword (Search).",
+        "clicado_em": "Click time (UTC)."}),
+    "sessoes": ("Tracking", "1 row per session", "Sessions rebuilt by server-side GTM (GA4 standard). Time in UTC.", {
+        "sessao_id": "Identifier.", "ga_session_id": "GA4 session ID (unix timestamp of the start).",
+        "client_id": "_ga cookie. Null when analytics_storage was denied (cookieless ping).",
+        "cliente_id": "user_id: customer logged in/identified in the session.", "iniciada_em": "Start (UTC).", "duracao_seg": "Duration.",
+        "dispositivo": "mobile, desktop or tablet (null in ~1%).", "sistema_operacional": "OS.", "navegador": "Browser; includes in-app browsers (Instagram/Facebook).",
+        "uf": "State by IP (null in ~7%).", "landing_page": "Landing URL.", "referrer": "Referring page.",
+        "utm_source": "Source. Inconsistent spellings (ig, IG, Instagram, instagram).", "utm_medium": "Medium (paid_social, paid, cpc, Social, email...).",
+        "utm_campaign": "Campaign: name before Jun/2024, campaign ID afterwards (template change).", "utm_content": "Ad ID (Meta).",
+        "utm_term": "Ad set ID (Meta) or keyword (Google with manual UTMs).",
+        "gclid": "Google click id (auto-tagging).", "fbclid": "Meta click id. Missing in ~12% of sessions from Meta ads (imperfection).",
+        "fbp": "_fbp cookie (only with ad_storage granted).", "fbc": "_fbc cookie derived from fbclid.",
+        "clique_id": "Media click that originated the session.",
         "consent_analytics_storage": "Consent Mode v2.", "consent_ad_storage": "Consent Mode v2.",
-        "consent_ad_user_data": "Consent Mode v2 (envio de dados do usuário para anúncios).",
-        "consent_ad_personalization": "Consent Mode v2 (personalização).",
-        "primeira_visita": "1 = primeira visita do client_id.", "engajada": "Critério GA4: >10 s, 2+ page views ou conversão."}),
-    "eventos": ("Tracking", "1 linha por hit recebido pelo servidor (há duplicatas)", "Log de eventos GA4 do GTM server-side: page_view, view_item, add_to_cart, begin_checkout, add_payment_info, purchase.", {
-        "evento_id": "Chave surrogate da linha.",
-        "event_id": "ID de deduplicação. O purchase chega do navegador e do backend com o mesmo event_id; retries de rede repetem o event_id.",
-        "sessao_id": "Sessão.", "cliente_id": "user_id no momento do evento (em compras de cliente novo, só a partir do checkout).",
-        "event_name": "Nome do evento GA4.",
-        "event_timestamp": "Momento em UTC, EXCETO versao_container = 'v2.3' (01/03 a 15/06/2024), gravado em horário local (UTC-3). Imperfeição documentada.",
-        "page_location": "URL da página.", "variante_id": "Item do evento (view_item, add_to_cart).", "quantidade": "Quantidade do item.",
-        "valor": "value do evento (R$).", "moeda": "currency.", "transaction_id": "numero_pedido (purchase). Recargas da página de obrigado repetem o transaction_id com event_id novo.",
-        "pedido_id": "Pedido (purchase).", "fonte": "web = tag no navegador; server = webhook do backend.",
-        "versao_container": "Versão do container sGTM (v2.1, v2.3, v2.4, v3.0, v3.1)."}),
-    "envios_conversao": ("Tracking", "1 linha por envio a uma plataforma", "Log dos envios server-side: Meta Conversions API (add_to_cart, begin_checkout, add_payment_info, purchase) e Google Ads Enhanced Conversions (purchase).", {
-        "envio_id": "Identificador.", "evento_id": "Evento enviado.", "plataforma": "meta_capi ou google_ads_ec.",
-        "status": "enviado, erro, bloqueado_consentimento ou deduplicado.", "http_status": "Resposta HTTP. 401 = token expirado (incidente de 14 a 17/07/2025).",
-        "enviado_em": "Envio (UTC).", "email_hash_enviado": "1 = e-mail com SHA-256 enviado.", "telefone_hash_enviado": "1 = telefone com hash enviado.",
-        "fbp_enviado": "1 = _fbp enviado.", "fbc_enviado": "1 = _fbc enviado.", "gclid_enviado": "1 = gclid enviado.",
-        "event_match_quality": "EMQ estimado da Meta (0-10).", "mensagem_erro": "Mensagem de erro."}),
-    "atribuicoes": ("Atribuição", "1 linha por pedido x modelo x toque", "Crédito de cada sessão (toque) na jornada de até 30 dias antes da compra. Só pedidos rastreados.", {
-        "atribuicao_id": "Identificador.", "pedido_id": "Pedido.",
-        "modelo": "last_click (último clique não direto), first_click, linear ou data_driven (simplificado: lift do canal x decaimento de 7 dias x bônus de primeiro/último toque).",
-        "sessao_id": "Sessão (toque).", "posicao": "Ordem do toque (1 = primeiro).", "total_toques": "Toques na jornada.",
-        "canal": "Agrupamento de canais padrão pelo que é observável na sessão.",
-        "meta_campanha_id": "Campanha Meta do toque (quando o clique foi capturado).", "google_campanha_id": "Campanha Google do toque.",
-        "peso": "Crédito do toque (soma 1 por pedido e modelo).", "receita_atribuida": "peso x total do pedido."}),
+        "consent_ad_user_data": "Consent Mode v2 (sending user data for ads).",
+        "consent_ad_personalization": "Consent Mode v2 (personalization).",
+        "primeira_visita": "1 = first visit of the client_id.", "engajada": "GA4 criterion: >10 s, 2+ page views or a conversion."}),
+    "eventos": ("Tracking", "1 row per hit received by the server (duplicates exist)", "GA4 event log from server-side GTM: page_view, view_item, add_to_cart, begin_checkout, add_payment_info, purchase.", {
+        "evento_id": "Surrogate key of the row.",
+        "event_id": "Deduplication ID. The purchase arrives from the browser and from the backend with the same event_id; network retries repeat the event_id.",
+        "sessao_id": "Session.", "cliente_id": "user_id at the time of the event (for new customers' purchases, only from checkout onwards).",
+        "event_name": "GA4 event name.",
+        "event_timestamp": "Time in UTC, EXCEPT versao_container = 'v2.3' (Mar 1 to Jun 15, 2024), recorded in local time (UTC-3). Documented imperfection.",
+        "page_location": "Page URL.", "variante_id": "Event item (view_item, add_to_cart).", "quantidade": "Item quantity.",
+        "valor": "Event value (R$).", "moeda": "currency.", "transaction_id": "numero_pedido (purchase). Thank-you page reloads repeat the transaction_id with a new event_id.",
+        "pedido_id": "Order (purchase).", "fonte": "web = browser tag; server = backend webhook.",
+        "versao_container": "sGTM container version (v2.1, v2.3, v2.4, v3.0, v3.1)."}),
+    "envios_conversao": ("Tracking", "1 row per send to a platform", "Log of server-side sends: Meta Conversions API (add_to_cart, begin_checkout, add_payment_info, purchase) and Google Ads Enhanced Conversions (purchase).", {
+        "envio_id": "Identifier.", "evento_id": "Event sent.", "plataforma": "meta_capi or google_ads_ec.",
+        "status": "enviado (sent), erro, bloqueado_consentimento (blocked by consent) or deduplicado.", "http_status": "HTTP response. 401 = expired token (incident from Jul 14 to 17, 2025).",
+        "enviado_em": "Send time (UTC).", "email_hash_enviado": "1 = SHA-256 e-mail sent.", "telefone_hash_enviado": "1 = hashed phone sent.",
+        "fbp_enviado": "1 = _fbp sent.", "fbc_enviado": "1 = _fbc sent.", "gclid_enviado": "1 = gclid sent.",
+        "event_match_quality": "Meta's estimated EMQ (0-10).", "mensagem_erro": "Error message."}),
+    "atribuicoes": ("Attribution", "1 row per order x model x touchpoint", "Credit of each session (touchpoint) in the journey up to 30 days before the purchase. Tracked orders only.", {
+        "atribuicao_id": "Identifier.", "pedido_id": "Order.",
+        "modelo": "last_click (last non-direct click), first_click, linear or data_driven (simplified: channel lift x 7-day decay x first/last touch bonus).",
+        "sessao_id": "Session (touchpoint).", "posicao": "Touchpoint order (1 = first).", "total_toques": "Touchpoints in the journey.",
+        "canal": "Default channel grouping based on what is observable in the session.",
+        "meta_campanha_id": "Meta campaign of the touchpoint (when the click was captured).", "google_campanha_id": "Google campaign of the touchpoint.",
+        "peso": "Touchpoint credit (adds to 1 per order and model).", "receita_atribuida": "peso x order total."}),
+    # ---- MMM layer (gerador/regional.py)
+    "canais_midia": ("MMM", "1 row per buying channel", "Channel dimension: the channel as the platform reports it and the grouping used in the MMM.", {
+        "canal_id": "Identifier.", "canal": "Buying channel (meta_prospeccao, google_search, tiktok...).",
+        "canal_mmm": "MMM grouping: meta, tiktok, google_search (includes brand), google_shopping, youtube, afiliados, email_crm.",
+        "plataforma": "meta, google, tiktok, afiliados (affiliates) or crm.", "tipo_investimento": "pago (paid), or proprio (owned; CRM: tool cost, outside the optimizer)."}),
+    "regioes": ("MMM", "1 row per state", "States served by the store.", {
+        "uf": "State code.", "nome": "State name.", "macrorregiao": "Sudeste, Sul, Centro-Oeste, Nordeste or Norte (Brazilian macro-regions).",
+        "sigla_macrorregiao": "SE, S, CO, NE or N.", "peso_populacional": "Share of the state in the potential customer base.",
+        "entrega_disponivel": "1 = the store ships to the state. There can be no media in states without delivery."}),
+    "midia_regional_diaria": ("MMM", "1 row per day x channel x state", "Geographic report from the platforms. The sum over states matches each platform's national report.", {
+        "data": "Day (account time zone).", "canal_id": "Channel.", "uf": "State.", "investimento": "R$ spent in the state (cents reconcile with the national report).",
+        "impressoes": "Impressions in the state. Null for affiliates; for CRM, e-mails delivered.", "cliques": "Clicks in the state.",
+        "conversoes_plataforma": "Click-through conversions attributed by the platform to the state (always <= clicks; the geographic report has no view-through)."}),
+    "calendario_comercial": ("MMM", "1 row per day", "Marketing calendar: national holidays, retail dates and store promotions.", {
+        "data": "Day.", "dia_semana": "1 = Monday ... 7 = Sunday.", "feriado_nacional": "1 = national holiday.", "nome_feriado": "Holiday name.",
+        "evento_comercial": "Active retail dates (black_friday, natal, dia_das_maes, festa_junina...), separated by |.",
+        "promocao_loja": "1 = store promotion live.", "nome_promocao": "Promotion name."}),
+    "testes_geo": ("MMM", "1 row per geo test", "Register of geographic incrementality tests (geo-lift).", {
+        "teste_id": "Identifier.", "nome": "Test name.", "canal_id": "Main channel tested.", "canal_mmm": "MMM grouping tested.",
+        "tipo_mudanca": "desligar (turn off), reduzir (reduce), aumentar (increase) or dobrar (double).", "multiplicador_investimento": "Spend in the treatment states / planned (0 = off).",
+        "pre_inicio": "Start of the pre-period used in the design.", "inicio": "First day of the test.", "fim": "Last day of the test.",
+        "resfriamento_fim": "End of the carryover window after the test.", "metrica_principal": "Success metric.", "descricao": "Description."}),
+    "testes_geo_regioes": ("MMM", "1 row per test x state", "Group of each state in the test.", {
+        "teste_id": "Test.", "uf": "State.", "grupo": "tratamento (treatment: received the change) or controle (control: followed the plan)."}),
+    "tiktok_campanhas": ("Media - TikTok", "1 row per campaign", "TikTok Ads campaigns.", {
+        "campanha_id": "Campaign ID.", "conta_id": "Account.", "nome": "Name.", "objetivo": "CONVERSIONS, PRODUCT_SALES, REACH or TRAFFIC.",
+        "status": "ENABLE or DISABLE.", "inicio": "Start.", "fim": "End (null = active)."}),
+    "tiktok_metricas_diarias": ("Media - TikTok", "1 row per day x campaign", "TikTok Ads daily report. The budget follows Meta's (~32%), so the two channels are highly correlated.", {
+        "data": "Day.", "campanha_id": "Campaign.", "investimento": "R$.", "impressoes": "Impressions.", "cliques": "Clicks.",
+        "conversoes": "Reported purchases (7-day click + 1-day view, capped at clicks).", "valor_conversoes": "Reported revenue."}),
+    "afiliados_parceiros": ("Media - affiliates", "1 row per partner", "Partner sites: content blog, coupon site, price comparison.", {
+        "parceiro_id": "Identifier.", "nome": "Name (fictitious).", "tipo": "conteudo (content), cupom (coupon) or comparador (price comparison).", "comissao_pct": "Contractual commission (%).",
+        "inicio": "Partnership start.", "ativo": "1 = active."}),
+    "afiliados_metricas_diarias": ("Media - affiliates", "1 row per day x partner", "Affiliate network report.", {
+        "data": "Day.", "parceiro_id": "Partner.", "investimento": "Campaign fee negotiated for the month, prorated per day (R$).",
+        "cliques": "Clicks on the partner's link.", "pedidos_atribuidos": "Orders with the partner as last click.", "receita_atribuida": "Revenue of those orders."}),
+    "crm_disparos": ("Media - CRM", "1 row per day x campaign type", "E-mail sends: newsletter (Tue/Thu), reactivation flow and abandoned cart.", {
+        "disparo_id": "Identifier.", "data": "Day.", "tipo_campanha": "newsletter, reativacao (reactivation) or carrinho_abandonado (abandoned cart).", "enviados": "E-mails sent.",
+        "entregues": "Delivered.", "aberturas": "Opens.", "cliques": "Clicks.", "descadastros": "Unsubscribes.", "custo": "Tool cost (R$)."}),
 }
 
 
-def main():
+def colunas_mysql() -> tuple[dict, callable]:
+    """Columns, types and keys from INFORMATION_SCHEMA; statistics by query."""
+    import pymysql
+
     con = pymysql.connect(**CONN)
     cur = con.cursor()
     cur.execute("""SELECT c.table_name, c.column_name, c.column_type, c.is_nullable, c.column_key,
@@ -216,12 +261,74 @@ def main():
     for t, c, tipo, nulo, chave, rt, rc in cur.fetchall():
         cols.setdefault(t, []).append((c, tipo, nulo, chave, rt, rc))
 
-    linhas = ["# Dicionário de dados", "",
-              "Banco `tecidos` (MySQL 8.4). Gerado por `scripts/gerar_dicionario.py` a partir do banco carregado: "
-              "tipos, chaves e % de nulos são lidos do MySQL. Imperfeições propositais estão marcadas e explicadas em "
-              "[imperfeicoes.md](imperfeicoes.md).", "",
-              "**Fusos:** transacional em horário local (America/Sao_Paulo); tracking em UTC; métricas de mídia no fuso da conta.", "",
-              "## Índice", ""]
+    def estatisticas(t: str) -> tuple[int, list]:
+        cur.execute(f"SELECT COUNT(*) FROM `{t}`")
+        n = cur.fetchone()[0]
+        amostra = "" if n <= 2_000_000 else f" WHERE MOD(`{cols[t][0][0]}`, 20) = 0"
+        exprs = ", ".join(f"AVG(`{c}` IS NULL)" for c, *_ in cols[t])
+        cur.execute(f"SELECT {exprs} FROM `{t}`{amostra}")
+        return n, list(cur.fetchone())
+
+    return cols, estatisticas
+
+
+def colunas_schema(pasta: Path) -> tuple[dict, callable]:
+    """Columns, types and keys from schema.sql; row counts and nulls from Parquet statistics (no database)."""
+    import pyarrow.parquet as pq
+
+    s = (RAIZ / "schema.sql").read_text(encoding="utf-8")
+    cols: dict[str, list] = {}
+    for bloco in re.split(r"\nCREATE TABLE ", s)[1:]:
+        t = bloco.split()[0]
+        corpo = bloco[: bloco.find("ENGINE")]
+        pk = re.search(r"PRIMARY KEY \(([^)]*)\)", corpo)
+        pks = pk.group(1).replace(" ", "").split(",") if pk else []
+        uks = [g.replace(" ", "") for g in re.findall(r"UNIQUE KEY \w+ \(([^)]*)\)", corpo) if "," not in g]
+        idx = [g.replace(" ", "").split(",")[0] for g in re.findall(r"\n\s+KEY \w+ \(([^)]*)\)", corpo)]
+        fks = {c: (rt, rc) for c, rt, rc in re.findall(r"FOREIGN KEY\s*\(\s*(\w+)\s*\)\s*REFERENCES\s+(\w+)\s*\(\s*(\w+)\s*\)", corpo)}
+        for linha in corpo.split("\n")[1:]:
+            w = linha.strip().split()
+            if len(w) < 2 or not re.match(r"^[a-z_0-9]+$", w[0]):
+                continue
+            tipo = re.split(r"\s+(?:NOT NULL|NULL|DEFAULT|COMMENT|AUTO_INCREMENT|GENERATED|CHECK)\b", linha.strip()[len(w[0]):].strip())[0]
+            tipo = tipo.rstrip(",")
+            tipo = re.sub(r"^[A-Za-z ]+", lambda m: m.group(0).lower(), tipo)  # lowercase the type name only; ENUM values keep their case
+            nulo = "NO" if ("NOT NULL" in linha or w[0] in pks) else "YES"
+            chave = "PRI" if w[0] in pks else "UNI" if w[0] in uks else "MUL" if (w[0] in idx or w[0] in fks) else ""
+            rt, rc = fks.get(w[0], (None, None))
+            cols.setdefault(t, []).append((w[0], tipo, nulo, chave, rt, rc))
+
+    def estatisticas(t: str) -> tuple[int, list]:
+        md = pq.ParquetFile(pasta / f"{t}.parquet").metadata
+        n = md.num_rows
+        nomes = [md.schema.column(i).name for i in range(md.num_columns)]
+        nulos = []
+        for c, *_ in cols[t]:
+            if c not in nomes or not n:
+                nulos.append(0)
+                continue
+            j = nomes.index(c)
+            nulos.append(sum(md.row_group(g).column(j).statistics.null_count for g in range(md.num_row_groups)) / n)
+        return n, nulos
+
+    return cols, estatisticas
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--parquet", type=Path, help="folder with one <table>.parquet per table (instead of MySQL)")
+    args = ap.parse_args()
+    cols, estatisticas = colunas_schema(args.parquet) if args.parquet else colunas_mysql()
+    fonte = ("types and keys come from `schema.sql`, row counts and % nulls from the data files"
+             if args.parquet else "types, keys and % nulls are read from MySQL")
+
+    linhas = ["# Data dictionary", "",
+              f"Database `tecidos` (MySQL 8.4). Generated by `scripts/gerar_dicionario.py`: {fonte}. "
+              "Intentional imperfections are flagged and explained in [imperfeicoes.md](imperfeicoes.md). "
+              "Table and column names are in Portuguese, as in the database; the diagrams are in "
+              "[diagrama_er.md](diagrama_er.md).", "",
+              "**Time zones:** transactional data in local time (America/Sao_Paulo); tracking in UTC; media metrics in the account time zone.", "",
+              "## Index", ""]
     por_dominio: dict[str, list] = {}
     for t, (dom, *_rest) in D.items():
         por_dominio.setdefault(dom, []).append(t)
@@ -230,24 +337,19 @@ def main():
     linhas.append("")
 
     for t, (dom, grao, desc, cdesc) in D.items():
-        cur.execute(f"SELECT COUNT(*) FROM `{t}`")
-        n = cur.fetchone()[0]
-        amostra = "" if n <= 2_000_000 else f" WHERE MOD(`{cols[t][0][0]}`, 20) = 0"
-        exprs = ", ".join(f"AVG(`{c}` IS NULL)" for c, _, nulo, *_ in cols[t])
-        cur.execute(f"SELECT {exprs} FROM `{t}`{amostra}")
-        nulos = cur.fetchone()
-        linhas += [f"## {t}", "", f"{desc}", "", f"*Domínio:* {dom} · *Grão:* {grao} · *Linhas:* {n:,}".replace(",", "."), "",
-                   "| Coluna | Tipo | Chave | Nulos | Descrição |", "|---|---|---|---|---|"]
+        n, nulos = estatisticas(t)
+        linhas += [f"## {t}", "", f"{desc}", "", f"*Domain:* {dom} · *Grain:* {grao} · *Rows:* {n:,}", "",
+                   "| Column | Type | Key | Nulls | Description |", "|---|---|---|---|---|"]
         for (c, tipo, nulo, chave, rt, rc), pn in zip(cols[t], nulos):
-            k = {"PRI": "PK", "UNI": "UK", "MUL": "índice"}.get(chave, "")
+            k = {"PRI": "PK", "UNI": "UK", "MUL": "index"}.get(chave, "")
             if rt:
-                k = (k + " · " if k and k != "índice" else "") + f"FK → {rt}.{rc}"
-            pnull = "—" if nulo == "NO" else f"{float(pn or 0):.1%}".replace(".", ",")
+                k = (k + " · " if k and k != "index" else "") + f"FK → {rt}.{rc}"
+            pnull = "—" if nulo == "NO" else f"{float(pn or 0):.1%}"
             linhas.append(f"| `{c}` | {tipo} | {k} | {pnull} | {cdesc.get(c, '')} |")
         linhas.append("")
     (RAIZ / "docs" / "dicionario_dados.md").write_text("\n".join(linhas), encoding="utf-8")
     faltando = [(t, c) for t in D for c, *_ in cols.get(t, []) if c not in D[t][3]]
-    print("ok; colunas sem descrição:", faltando or "nenhuma")
+    print("ok; columns without a description:", faltando or "none")
 
 
 if __name__ == "__main__":

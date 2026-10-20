@@ -1,7 +1,7 @@
--- Uma linha por sessão: canal padrão + etapas do funil.
--- Lê a tabela bruta em vez de stg_eventos: as etapas são MAX() e não mudam com
--- eventos duplicados, e page_views conta event_id distintos. Passar pela view
--- deduplicada levaria horas nos ~15 milhões de eventos.
+-- One row per session: default channel + funnel steps.
+-- Reads the raw table instead of stg_eventos: the steps are MAX() and do not change with
+-- duplicate events, and page_views counts distinct event_ids. Going through the
+-- deduplicated view would take hours over the ~15 million events.
 with ev as (
     select
         sessao_id,

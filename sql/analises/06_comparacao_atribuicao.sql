@@ -1,8 +1,8 @@
 -- =====================================================================
--- Comparação entre modelos de atribuição (receita de pedidos pagos)
--- e o que cada plataforma reporta no mesmo período.
--- Pedidos sem rastreio (adblock, WhatsApp) não entram em nenhum modelo:
--- aparecem na linha "(não rastreado)" para fechar a conta com a receita real.
+-- Comparison between attribution models (revenue from paid orders)
+-- and what each platform reports in the same period.
+-- Untracked orders (ad blocker, WhatsApp) are not in any model:
+-- they appear in the "(não rastreado)" (untracked) row to reconcile with real revenue.
 -- =====================================================================
 SET @inicio = '2025-10-01', @fim = '2026-10-14';
 
@@ -35,7 +35,7 @@ SELECT
 FROM por_modelo
 ORDER BY last_click DESC;
 
--- O que as plataformas dizem no mesmo período (some com a receita real para ver a sobreposição)
+-- What the platforms report for the same period (add it to real revenue to see the overlap)
 SELECT 'Meta (7d clique + 1d view)' AS fonte, ROUND(SUM(valor_compras), 0) AS receita_reportada
 FROM meta_metricas_diarias WHERE data >= @inicio AND data < @fim
 UNION ALL

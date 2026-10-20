@@ -1,98 +1,98 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1522" height="1040" viewBox="0 0 1522 1040" font-family="Helvetica, Arial, sans-serif" role="img" aria-label="2. Clientes, pedidos e pós-venda">
+<svg xmlns="http://www.w3.org/2000/svg" width="1522" height="1040" viewBox="0 0 1522 1040" font-family="Helvetica, Arial, sans-serif" role="img" aria-label="2. Customers, orders and after-sales">
 <rect width="100%" height="100%" fill="#FFFFFF"/>
-<text x="36" y="32" font-size="19" font-weight="700" fill="#1F2328">2. Clientes, pedidos e pós-venda</text>
-<text x="36" y="52" font-size="12.5" fill="#59636E">Cadastro, pedido com itens, tentativas de pagamento, frete, devoluções e avaliações.</text>
+<text x="36" y="32" font-size="19" font-weight="700" fill="#1F2328">2. Customers, orders and after-sales</text>
+<text x="36" y="52" font-size="12.5" fill="#59636E">Customer registration, orders with items, payment attempts, shipping, returns and reviews.</text>
 <polyline points="436.0,116.2 286.0,116.2" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="428.0" y1="123.2" x2="428.0" y2="109.2"/><line x1="422.0" y1="123.2" x2="422.0" y2="109.2"/>
 <line x1="286.0" y1="109.2" x2="299.0" y2="116.2"/><line x1="286.0" y1="116.2" x2="299.0" y2="116.2"/><line x1="286.0" y1="123.2" x2="299.0" y2="116.2"/><line x1="303.0" y1="109.2" x2="303.0" y2="123.2"/>
 </g>
-<rect x="336.8" y="108.2" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="361.0" y="119.7" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">possui</text>
+<rect x="346.4" y="108.2" width="29.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="119.7" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">has</text>
 <polyline points="686.0,110.5 836.0,110.5" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="694.0" y1="103.5" x2="694.0" y2="117.5"/><line x1="700.0" y1="103.5" x2="700.0" y2="117.5"/>
 <line x1="836.0" y1="117.5" x2="823.0" y2="110.5"/><line x1="836.0" y1="110.5" x2="823.0" y2="110.5"/><line x1="836.0" y1="103.5" x2="823.0" y2="110.5"/><circle cx="814.0" cy="110.5" r="4.5" fill="#FFFFFF"/>
 </g>
-<rect x="733.6" y="102.5" width="54.8" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="761.0" y="114.0" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">escreve</text>
+<rect x="736.8" y="102.5" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="114.0" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">writes</text>
 <polyline points="1236.0,80.4 1086.0,80.4" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="1228.0" y1="87.4" x2="1228.0" y2="73.4"/><line x1="1222.0" y1="87.4" x2="1222.0" y2="73.4"/>
 <line x1="1086.0" y1="73.4" x2="1099.0" y2="80.4"/><line x1="1086.0" y1="80.4" x2="1099.0" y2="80.4"/><line x1="1086.0" y1="87.4" x2="1099.0" y2="80.4"/><circle cx="1108.0" cy="80.4" r="4.5" fill="#FFFFFF"/>
 </g>
 <rect x="1120.8" y="72.4" width="80.4" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="1161.0" y="83.9" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">avaliado em</text>
+<text x="1161.0" y="83.9" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">reviewed in</text>
 <polyline points="561.0,243.0 561.0,339.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="568.0" y1="251.0" x2="554.0" y2="251.0"/><line x1="568.0" y1="257.0" x2="554.0" y2="257.0"/>
 <line x1="554.0" y1="339.0" x2="561.0" y2="326.0"/><line x1="561.0" y1="339.0" x2="561.0" y2="326.0"/><line x1="568.0" y1="339.0" x2="561.0" y2="326.0"/><circle cx="561.0" cy="317.0" r="4.5" fill="#FFFFFF"/>
 </g>
-<rect x="546.4" y="283.0" width="29.2" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="561.0" y="294.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">faz</text>
+<rect x="536.8" y="283.0" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="294.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">places</text>
 <polyline points="161.0,224.0 161.0,291.0 498.5,291.0 498.5,339.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="168.0" y1="232.0" x2="154.0" y2="232.0"/><circle cx="161.0" cy="243.0" r="4.5" fill="#FFFFFF"/>
 <line x1="491.5" y1="339.0" x2="498.5" y2="326.0"/><line x1="498.5" y1="339.0" x2="498.5" y2="326.0"/><line x1="505.5" y1="339.0" x2="498.5" y2="326.0"/><circle cx="498.5" cy="317.0" r="4.5" fill="#FFFFFF"/>
 </g>
-<rect x="292.8" y="283.0" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="329.8" y="294.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">entrega em</text>
+<rect x="299.1" y="283.0" width="61.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="329.8" y="294.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">ships to</text>
 <polyline points="623.5,339.0 623.5,291.0 961.0,291.0 961.0,205.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="616.5" y1="331.0" x2="630.5" y2="331.0"/><line x1="616.5" y1="325.0" x2="630.5" y2="325.0"/>
 <line x1="968.0" y1="205.0" x2="961.0" y2="218.0"/><line x1="961.0" y1="205.0" x2="961.0" y2="218.0"/><line x1="954.0" y1="205.0" x2="961.0" y2="218.0"/><circle cx="961.0" cy="227.0" r="4.5" fill="#FFFFFF"/>
 </g>
-<rect x="768.0" y="283.0" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="792.2" y="294.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">recebe</text>
+<rect x="761.6" y="283.0" width="61.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="792.2" y="294.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">receives</text>
 <polyline points="286.0,379.5 436.0,379.5" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="294.0" y1="372.5" x2="294.0" y2="386.5"/><circle cx="305.0" cy="379.5" r="4.5" fill="#FFFFFF"/>
 <line x1="436.0" y1="386.5" x2="423.0" y2="379.5"/><line x1="436.0" y1="379.5" x2="423.0" y2="379.5"/><line x1="436.0" y1="372.5" x2="423.0" y2="379.5"/><circle cx="414.0" cy="379.5" r="4.5" fill="#FFFFFF"/>
 </g>
-<rect x="320.8" y="371.5" width="80.4" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="361.0" y="383.0" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">aplicado em</text>
+<rect x="324.0" y="371.5" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="361.0" y="383.0" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">applied to</text>
 <polyline points="686.0,385.2 836.0,385.2" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="694.0" y1="378.2" x2="694.0" y2="392.2"/><line x1="700.0" y1="378.2" x2="700.0" y2="392.2"/>
 <line x1="828.0" y1="392.2" x2="828.0" y2="378.2"/><line x1="822.0" y1="392.2" x2="822.0" y2="378.2"/>
 </g>
 <rect x="740.0" y="377.2" width="42.0" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="761.0" y="388.7" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">envia</text>
+<text x="761.0" y="388.7" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">ships</text>
 <polyline points="486.0,550.0 486.0,598.0 161.0,598.0 161.0,646.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="493.0" y1="558.0" x2="479.0" y2="558.0"/><line x1="493.0" y1="564.0" x2="479.0" y2="564.0"/>
 <line x1="154.0" y1="646.0" x2="161.0" y2="633.0"/><line x1="161.0" y1="646.0" x2="161.0" y2="633.0"/><line x1="168.0" y1="646.0" x2="161.0" y2="633.0"/><line x1="154.0" y1="629.0" x2="168.0" y2="629.0"/>
 </g>
-<rect x="286.5" y="590.0" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="323.5" y="601.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">tentativas</text>
+<rect x="292.9" y="590.0" width="61.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="323.5" y="601.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">attempts</text>
 <polyline points="561.0,550.0 561.0,646.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="568.0" y1="558.0" x2="554.0" y2="558.0"/><line x1="568.0" y1="564.0" x2="554.0" y2="564.0"/>
 <line x1="554.0" y1="646.0" x2="561.0" y2="633.0"/><line x1="561.0" y1="646.0" x2="561.0" y2="633.0"/><line x1="568.0" y1="646.0" x2="561.0" y2="633.0"/><line x1="554.0" y1="629.0" x2="568.0" y2="629.0"/>
 </g>
-<rect x="536.8" y="590.0" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="561.0" y="601.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">contém</text>
+<rect x="530.4" y="590.0" width="61.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="601.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">contains</text>
 <polyline points="636.0,550.0 636.0,598.0 961.0,598.0 961.0,646.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="643.0" y1="558.0" x2="629.0" y2="558.0"/><line x1="643.0" y1="564.0" x2="629.0" y2="564.0"/>
 <line x1="954.0" y1="646.0" x2="961.0" y2="633.0"/><line x1="961.0" y1="646.0" x2="961.0" y2="633.0"/><line x1="968.0" y1="646.0" x2="961.0" y2="633.0"/><circle cx="961.0" cy="624.0" r="4.5" fill="#FFFFFF"/>
 </g>
-<rect x="780.7" y="590.0" width="35.6" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="798.5" y="601.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">gera</text>
+<rect x="764.7" y="590.0" width="67.6" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="798.5" y="601.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">generates</text>
 <polyline points="686.0,686.5 836.0,686.5" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="694.0" y1="679.5" x2="694.0" y2="693.5"/><line x1="700.0" y1="679.5" x2="700.0" y2="693.5"/>
 <line x1="836.0" y1="693.5" x2="823.0" y2="686.5"/><line x1="836.0" y1="686.5" x2="823.0" y2="686.5"/><line x1="836.0" y1="679.5" x2="823.0" y2="686.5"/><circle cx="814.0" cy="686.5" r="4.5" fill="#FFFFFF"/>
 </g>
-<rect x="727.2" y="678.5" width="67.6" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="761.0" y="690.0" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">devolvido</text>
+<rect x="730.4" y="678.5" width="61.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="690.0" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">returned</text>
 <polyline points="561.0,896.0 561.0,800.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="554.0" y1="888.0" x2="568.0" y2="888.0"/><line x1="554.0" y1="882.0" x2="568.0" y2="882.0"/>
 <line x1="568.0" y1="800.0" x2="561.0" y2="813.0"/><line x1="561.0" y1="800.0" x2="561.0" y2="813.0"/><line x1="554.0" y1="800.0" x2="561.0" y2="813.0"/><circle cx="561.0" cy="822.0" r="4.5" fill="#FFFFFF"/>
 </g>
-<rect x="524.0" y="840.0" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="561.0" y="851.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">vendida em</text>
+<rect x="533.6" y="840.0" width="54.8" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="851.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">sold in</text>
 <rect x="36" y="70" width="250" height="154" rx="6" fill="#FFFFFF" stroke="#8250DF" stroke-width="1.6"/>
 <path d="M36 100 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#8250DF"/>
 <text x="48" y="90" font-size="13.5" font-weight="700" fill="#FFFFFF">enderecos</text>
@@ -148,7 +148,7 @@
 <text x="1076" y="192" font-size="11" fill="#59636E" text-anchor="end">tinyint</text>
 <rect x="1236" y="70" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
 <text x="1248" y="90" font-size="13" font-weight="700" fill="#59636E">produtos</text>
-<text x="1248" y="108" font-size="11" fill="#59636E">ver diagrama 1</text>
+<text x="1248" y="108" font-size="11" fill="#59636E">see diagram 1</text>
 <rect x="36" y="339" width="250" height="135" rx="6" fill="#FFFFFF" stroke="#8250DF" stroke-width="1.6"/>
 <path d="M36 369 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#8250DF"/>
 <text x="48" y="359" font-size="13.5" font-weight="700" fill="#FFFFFF">cupons</text>
@@ -258,6 +258,6 @@
 <text x="1076" y="768" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
 <rect x="436" y="896" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
 <text x="448" y="916" font-size="13" font-weight="700" fill="#59636E">variantes</text>
-<text x="448" y="934" font-size="11" fill="#59636E">ver diagrama 1</text>
-<g font-size="11.5" fill="#59636E"><line x1="36" y1="1006" x2="80" y2="1006" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="72.0" y1="1013.0" x2="72.0" y2="999.0"/><line x1="66.0" y1="1013.0" x2="66.0" y2="999.0"/></g><text x="88" y="1010">exatamente um</text><line x1="205" y1="1006" x2="249" y2="1006" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="241.0" y1="1013.0" x2="241.0" y2="999.0"/><circle cx="230.0" cy="1006.0" r="4.5" fill="#FFFFFF"/></g><text x="257" y="1010">zero ou um</text><line x1="353" y1="1006" x2="397" y2="1006" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="397.0" y1="1013.0" x2="384.0" y2="1006.0"/><line x1="397.0" y1="1006.0" x2="384.0" y2="1006.0"/><line x1="397.0" y1="999.0" x2="384.0" y2="1006.0"/><line x1="380.0" y1="1013.0" x2="380.0" y2="999.0"/></g><text x="405" y="1010">um ou mais</text><line x1="501" y1="1006" x2="545" y2="1006" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="545.0" y1="1013.0" x2="532.0" y2="1006.0"/><line x1="545.0" y1="1006.0" x2="532.0" y2="1006.0"/><line x1="545.0" y1="999.0" x2="532.0" y2="1006.0"/><circle cx="523.0" cy="1006.0" r="4.5" fill="#FFFFFF"/></g><text x="553" y="1010">zero ou mais</text><rect x="663" y="997" width="26" height="18" rx="4" fill="#F6F8FA" stroke="#8C959F" stroke-dasharray="4 3"/><text x="697" y="1010">tabela de outra área</text><text x="857" y="1010">campo? = aceita nulo</text></g>
+<text x="448" y="934" font-size="11" fill="#59636E">see diagram 1</text>
+<g font-size="11.5" fill="#59636E"><line x1="36" y1="1006" x2="80" y2="1006" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="72.0" y1="1013.0" x2="72.0" y2="999.0"/><line x1="66.0" y1="1013.0" x2="66.0" y2="999.0"/></g><text x="88" y="1010">exactly one</text><line x1="191" y1="1006" x2="235" y2="1006" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="227.0" y1="1013.0" x2="227.0" y2="999.0"/><circle cx="216.0" cy="1006.0" r="4.5" fill="#FFFFFF"/></g><text x="243" y="1010">zero or one</text><line x1="346" y1="1006" x2="390" y2="1006" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="390.0" y1="1013.0" x2="377.0" y2="1006.0"/><line x1="390.0" y1="1006.0" x2="377.0" y2="1006.0"/><line x1="390.0" y1="999.0" x2="377.0" y2="1006.0"/><line x1="373.0" y1="1013.0" x2="373.0" y2="999.0"/></g><text x="398" y="1010">one or more</text><line x1="501" y1="1006" x2="545" y2="1006" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="545.0" y1="1013.0" x2="532.0" y2="1006.0"/><line x1="545.0" y1="1006.0" x2="532.0" y2="1006.0"/><line x1="545.0" y1="999.0" x2="532.0" y2="1006.0"/><circle cx="523.0" cy="1006.0" r="4.5" fill="#FFFFFF"/></g><text x="553" y="1010">zero or more</text><rect x="663" y="997" width="26" height="18" rx="4" fill="#F6F8FA" stroke="#8C959F" stroke-dasharray="4 3"/><text x="697" y="1010">table from another area</text><text x="857" y="1010">field? = nullable</text></g>
 </svg>

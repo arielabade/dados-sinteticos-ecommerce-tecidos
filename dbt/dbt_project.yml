@@ -10,8 +10,8 @@ target-path: target
 clean-targets: [target, dbt_packages, logs]
 
 vars:
-  # Fuso da loja. MySQL sem tabelas de fuso carregadas: usamos deslocamento fixo
-  # (o Brasil não tem horário de verão desde 2019).
+  # Store time zone. MySQL has no time zone tables loaded, so we use a fixed offset
+  # (Brazil has had no daylight saving time since 2019).
   utc_offset_horas: -3
 
 models:

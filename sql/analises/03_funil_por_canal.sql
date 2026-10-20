@@ -1,9 +1,9 @@
 -- =====================================================================
--- Funil GA4 por canal (sessões que atingiram cada etapa)
--- Limpeza aplicada: eventos deduplicados por event_id (o purchase chega do
--- navegador e do servidor com o mesmo event_id). Canal pela regra padrão de
--- agrupamento (UTM normalizada, click id e referrer).
--- Filtre o período em @inicio / @fim (horário UTC das sessões).
+-- GA4 funnel by channel (sessions that reached each step)
+-- Cleaning applied: events deduplicated by event_id (the purchase arrives from
+-- the browser and from the server with the same event_id). Channel by the default
+-- grouping rule (normalized UTM, click id and referrer).
+-- Filter the period in @inicio / @fim (UTC time of the sessions).
 -- =====================================================================
 SET @inicio = '2025-10-01', @fim = '2026-10-01';
 
@@ -32,7 +32,7 @@ WITH sess AS (
     LEFT JOIN google_campanhas gc      ON gc.campanha_id = gg.campanha_id
     WHERE s.iniciada_em >= @inicio AND s.iniciada_em < @fim
 ),
-ev AS (  -- um registro por (sessão, etapa), já sem duplicatas
+ev AS (  -- one record per (session, step), already without duplicates
     SELECT DISTINCT e.sessao_id, e.event_name
     FROM eventos e JOIN sess USING (sessao_id)
     WHERE e.event_name <> 'page_view'

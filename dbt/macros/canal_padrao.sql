@@ -1,8 +1,8 @@
 {#
-  Agrupamento de canais a partir do que é observável na sessão (UTM, click id,
-  referrer). Mesma regra do gerador (gerador/tracking.py::canal_padrao).
-  Espera as colunas: utm_source_norm, utm_medium_norm, referrer, gclid, fbclid,
-  tipo_campanha_google (via clique -> grupo -> campanha).
+  Channel grouping from what is observable in the session (UTM, click id,
+  referrer). Same rule as the generator (gerador/tracking.py::canal_padrao).
+  Expects the columns: utm_source_norm, utm_medium_norm, referrer, gclid, fbclid,
+  tipo_campanha_google (via click -> ad group -> campaign).
 #}
 {% macro canal_padrao() -%}
 case

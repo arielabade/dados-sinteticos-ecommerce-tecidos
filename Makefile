@@ -1,42 +1,42 @@
-# Atalhos. `make` (alvo padrão `banco`) gera os dados, recria o MySQL do zero,
-# carrega tudo (inclusive a camada de MMM), roda o dbt e as validações.
+# Shortcuts. `make` (default target `banco`) generates the data, recreates MySQL from scratch,
+# loads everything (including the MMM layer), runs dbt and the validations.
 PY ?= .venv/bin/python
 ESCALA ?= 1.0
 
 .DEFAULT_GOAL := banco
 .PHONY: banco ambiente dados mysql recarregar dbt validar notebooks dicionario diagramas tudo limpar
 
-banco: dados recarregar dbt validar   ## do zero: gera, carrega, transforma e valida
+banco: dados recarregar dbt validar   ## from scratch: generate, load, transform and validate
 
-ambiente:            ## cria o ambiente Python
+ambiente:            ## creates the Python environment
 	python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 
-dados:               ## gera os CSVs em data/csv e o ground truth em data/ground_truth (ESCALA=0.05 para amostra)
+dados:               ## generates the CSVs in data/csv and the ground truth in data/ground_truth (ESCALA=0.05 for a sample)
 	ESCALA=$(ESCALA) $(PY) -m gerador
 
-mysql:               ## sobe o MySQL e carrega os CSVs (só na primeira vez; espera ficar saudável)
+mysql:               ## starts MySQL and loads the CSVs (first time only; waits until healthy)
 	docker compose up -d --wait mysql
 
-recarregar:          ## apaga o volume do MySQL e carrega os CSVs atuais do zero
+recarregar:          ## deletes the MySQL volume and loads the current CSVs from scratch
 	docker compose down -v
 	docker compose up -d --wait mysql
 
-dbt:                 ## roda os modelos e testes do dbt dentro de um container
+dbt:                 ## runs the dbt models and tests inside a container
 	docker compose --profile dbt run --rm -T --build dbt build
 
-validar:             ## integridade, regras de negócio, reconciliações do MMM e distribuições preservadas
+validar:             ## integrity, business rules, MMM reconciliations and preserved distributions
 	ESCALA=$(ESCALA) $(PY) scripts/validar.py
 
-notebooks:           ## executa os 5 notebooks do início ao fim
+notebooks:           ## runs the 5 notebooks from start to finish
 	cd notebooks && for nb in 0*.ipynb; do OMP_NUM_THREADS=4 POLARS_MAX_THREADS=4 ../.venv/bin/jupyter nbconvert --to notebook --execute --inplace $$nb || exit 1; done
 
-dicionario:          ## regenera docs/dicionario_dados.md a partir do banco
+dicionario:          ## regenerates docs/dicionario_dados.md from the database (--parquet DIR works without it)
 	$(PY) scripts/gerar_dicionario.py
 
-diagramas:           ## regenera docs/diagramas/*.svg a partir do schema.sql (falha se alguma linha cruzar)
+diagramas:           ## regenerates docs/diagramas/*.svg from schema.sql (fails if any line crosses)
 	$(PY) scripts/gerar_diagramas.py
 
 tudo: banco notebooks
 
-limpar:              ## derruba o MySQL e apaga o volume (os CSVs ficam)
+limpar:              ## stops MySQL and deletes the volume (the CSVs stay)
 	docker compose down -v

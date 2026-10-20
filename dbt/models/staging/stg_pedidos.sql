@@ -1,5 +1,5 @@
--- Pedidos reais (sem pedidos de teste), com horário local e UTC lado a lado.
--- A plataforma grava em America/Sao_Paulo; o tracking grava em UTC.
+-- Real orders (no test orders), with local time and UTC side by side.
+-- The platform writes in America/Sao_Paulo; tracking writes in UTC.
 select
     p.pedido_id,
     p.numero_pedido,

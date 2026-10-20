@@ -1,8 +1,8 @@
--- Mart do MMM, grão: data. Variáveis de controle que não são mídia:
--- calendário (feriados, datas comerciais, promoções) e preço.
---   indice_preco     = preço pago / preço de tabela nos itens vendidos no dia
---                      (1 = sem desconto de catálogo; 0,90 = 10% abaixo da tabela)
---   desconto_cupom   = desconto de cupom / subtotal dos pedidos pagos do dia
+-- MMM mart, grain: date. Control variables that are not media:
+-- calendar (holidays, retail dates, promotions) and price.
+--   indice_preco     = price paid / list price of the items sold on the day
+--                      (1 = no catalog discount; 0.90 = 10% below list price)
+--   desconto_cupom   = coupon discount / subtotal of the day's paid orders
 with itens as (
     select p.data_pedido as data,
            sum(i.total_item) / nullif(sum(i.quantidade * i.preco_tabela), 0) as indice_preco,

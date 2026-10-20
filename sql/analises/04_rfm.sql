@@ -1,6 +1,6 @@
 -- =====================================================================
--- Segmentação RFM (recência, frequência, valor) em quintis
--- Data de referência = dia seguinte ao último pedido da base.
+-- RFM segmentation (recency, frequency, monetary) in quintiles
+-- Reference date = day after the last order in the base.
 -- =====================================================================
 WITH ref AS (SELECT DATE(MAX(criado_em)) + INTERVAL 1 DAY AS dia FROM pedidos),
 cli AS (
@@ -14,7 +14,7 @@ cli AS (
 ),
 notas AS (
     SELECT c.*,
-           6 - NTILE(5) OVER (ORDER BY recencia_dias)   AS r,  -- 5 = comprou há pouco
+           6 - NTILE(5) OVER (ORDER BY recencia_dias)   AS r,  -- 5 = bought recently
            NTILE(5) OVER (ORDER BY frequencia, valor)   AS f,
            NTILE(5) OVER (ORDER BY valor)               AS m
     FROM cli c

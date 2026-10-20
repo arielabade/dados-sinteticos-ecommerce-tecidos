@@ -1,4 +1,4 @@
--- KPIs de negócio por dia: receita, pedidos, novos clientes, investimento, MER e CAC.
+-- Business KPIs by day: revenue, orders, new customers, spend, MER and CAC.
 with ped as (
     select data_pedido as data,
            count(*)                         as pedidos,

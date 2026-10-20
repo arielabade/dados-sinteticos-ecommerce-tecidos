@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1522" height="1404" viewBox="0 0 1522 1404" font-family="Helvetica, Arial, sans-serif" role="img" aria-label="3. Tracking do site e atribuição">
+<svg xmlns="http://www.w3.org/2000/svg" width="1522" height="1404" viewBox="0 0 1522 1404" font-family="Helvetica, Arial, sans-serif" role="img" aria-label="3. Website tracking and attribution">
 <rect width="100%" height="100%" fill="#FFFFFF"/>
-<text x="36" y="32" font-size="19" font-weight="700" fill="#1F2328">3. Tracking do site e atribuição</text>
-<text x="36" y="52" font-size="12.5" fill="#59636E">Clique no anúncio → sessão → eventos GA4 (GTM server-side) → envio à Meta CAPI / Google; crédito por toque.</text>
+<text x="36" y="32" font-size="19" font-weight="700" fill="#1F2328">3. Website tracking and attribution</text>
+<text x="36" y="52" font-size="12.5" fill="#59636E">Ad click → session → GA4 events (server-side GTM) → sends to Meta CAPI / Google; credit per touchpoint.</text>
 <polyline points="161.0,122.0 161.0,170.0 486.0,170.0 486.0,218.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="168.0" y1="130.0" x2="154.0" y2="130.0"/><circle cx="161.0" cy="141.0" r="4.5" fill="#FFFFFF"/>
@@ -22,14 +22,14 @@
 <line x1="629.0" y1="218.0" x2="636.0" y2="205.0"/><line x1="636.0" y1="218.0" x2="636.0" y2="205.0"/><line x1="643.0" y1="218.0" x2="636.0" y2="205.0"/><circle cx="636.0" cy="196.0" r="4.5" fill="#FFFFFF"/>
 </g>
 <rect x="771.1" y="162.0" width="54.8" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="798.5" y="173.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">palavra</text>
+<text x="798.5" y="173.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">keyword</text>
 <polyline points="561.0,391.0 561.0,487.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="568.0" y1="399.0" x2="554.0" y2="399.0"/><circle cx="561.0" cy="410.0" r="4.5" fill="#FFFFFF"/>
 <line x1="554.0" y1="479.0" x2="568.0" y2="479.0"/><circle cx="561.0" cy="468.0" r="4.5" fill="#FFFFFF"/>
 </g>
-<rect x="543.2" y="431.0" width="35.6" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="561.0" y="442.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">abre</text>
+<rect x="540.0" y="431.0" width="42.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="442.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">opens</text>
 <polyline points="286.0,502.6 436.0,502.6" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="294.0" y1="495.6" x2="294.0" y2="509.6"/><circle cx="305.0" cy="502.6" r="4.5" fill="#FFFFFF"/>
@@ -42,29 +42,29 @@
 <line x1="694.0" y1="543.3" x2="694.0" y2="557.3"/><line x1="700.0" y1="543.3" x2="700.0" y2="557.3"/>
 <line x1="836.0" y1="557.3" x2="823.0" y2="550.3"/><line x1="836.0" y1="550.3" x2="823.0" y2="550.3"/><line x1="836.0" y1="543.3" x2="823.0" y2="550.3"/><circle cx="814.0" cy="550.3" r="4.5" fill="#FFFFFF"/>
 </g>
-<rect x="740.0" y="542.3" width="42.0" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="761.0" y="553.8" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">toque</text>
+<rect x="724.0" y="542.3" width="74.0" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="761.0" y="553.8" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">touchpoint</text>
 <polyline points="1236.0,502.6 1086.0,502.6" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="1228.0" y1="509.6" x2="1228.0" y2="495.6"/><circle cx="1217.0" cy="502.6" r="4.5" fill="#FFFFFF"/>
 <line x1="1086.0" y1="495.6" x2="1099.0" y2="502.6"/><line x1="1086.0" y1="502.6" x2="1099.0" y2="502.6"/><line x1="1086.0" y1="509.6" x2="1099.0" y2="502.6"/><circle cx="1108.0" cy="502.6" r="4.5" fill="#FFFFFF"/>
 </g>
-<rect x="1127.2" y="494.6" width="67.6" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="1161.0" y="506.1" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">creditada</text>
+<rect x="1130.4" y="494.6" width="61.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1161.0" y="506.1" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">credited</text>
 <polyline points="1361.0,270.0 1361.0,439.0 1011.0,439.0 1011.0,487.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="1368.0" y1="278.0" x2="1354.0" y2="278.0"/><circle cx="1361.0" cy="289.0" r="4.5" fill="#FFFFFF"/>
 <line x1="1004.0" y1="487.0" x2="1011.0" y2="474.0"/><line x1="1011.0" y1="487.0" x2="1011.0" y2="474.0"/><line x1="1018.0" y1="487.0" x2="1011.0" y2="474.0"/><circle cx="1011.0" cy="465.0" r="4.5" fill="#FFFFFF"/>
 </g>
-<rect x="1152.2" y="431.0" width="67.6" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="1186.0" y="442.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">creditada</text>
+<rect x="1155.4" y="431.0" width="61.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1186.0" y="442.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">credited</text>
 <polyline points="561.0,736.0 561.0,832.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="568.0" y1="744.0" x2="554.0" y2="744.0"/><line x1="568.0" y1="750.0" x2="554.0" y2="750.0"/>
 <line x1="554.0" y1="832.0" x2="561.0" y2="819.0"/><line x1="561.0" y1="832.0" x2="561.0" y2="819.0"/><line x1="568.0" y1="832.0" x2="561.0" y2="819.0"/><line x1="554.0" y1="815.0" x2="568.0" y2="815.0"/>
 </g>
-<rect x="536.8" y="776.0" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="561.0" y="787.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">contém</text>
+<rect x="530.4" y="776.0" width="61.2" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="561.0" y="787.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">contains</text>
 <polyline points="161.0,539.0 161.0,784.0 486.0,784.0 486.0,832.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="168.0" y1="547.0" x2="154.0" y2="547.0"/><circle cx="161.0" cy="558.0" r="4.5" fill="#FFFFFF"/>
@@ -78,14 +78,14 @@
 <line x1="879.0" y1="832.0" x2="886.0" y2="819.0"/><line x1="886.0" y1="832.0" x2="886.0" y2="819.0"/><line x1="893.0" y1="832.0" x2="886.0" y2="819.0"/><circle cx="886.0" cy="810.0" r="4.5" fill="#FFFFFF"/>
 </g>
 <rect x="704.8" y="776.0" width="112.4" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="761.0" y="787.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">sessão da compra</text>
+<text x="761.0" y="787.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">purchase session</text>
 <polyline points="1011.0,832.0 1011.0,698.0" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="1004.0" y1="824.0" x2="1018.0" y2="824.0"/><line x1="1004.0" y1="818.0" x2="1018.0" y2="818.0"/>
 <line x1="1018.0" y1="698.0" x2="1011.0" y2="711.0"/><line x1="1011.0" y1="698.0" x2="1011.0" y2="711.0"/><line x1="1004.0" y1="698.0" x2="1011.0" y2="711.0"/><line x1="1018.0" y1="715.0" x2="1004.0" y2="715.0"/>
 </g>
-<rect x="983.6" y="757.0" width="54.8" height="16.0" rx="3" fill="#FFFFFF"/>
-<text x="1011.0" y="768.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">crédito</text>
+<rect x="986.8" y="757.0" width="48.4" height="16.0" rx="3" fill="#FFFFFF"/>
+<text x="1011.0" y="768.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">credit</text>
 <polyline points="286.0,847.6 436.0,847.6" fill="none" stroke="#57606A" stroke-width="1.5"/>
 <g stroke="#57606A" stroke-width="1.5" fill="none">
 <line x1="294.0" y1="840.6" x2="294.0" y2="854.6"/><circle cx="305.0" cy="847.6" r="4.5" fill="#FFFFFF"/>
@@ -109,13 +109,13 @@
 <text x="561.0" y="1113.5" font-size="11" font-style="italic" fill="#59636E" text-anchor="middle">CAPI / EC</text>
 <rect x="36" y="70" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
 <text x="48" y="90" font-size="13" font-weight="700" fill="#59636E">meta_anuncios</text>
-<text x="48" y="108" font-size="11" fill="#59636E">ver diagrama 4</text>
+<text x="48" y="108" font-size="11" fill="#59636E">see diagram 4</text>
 <rect x="436" y="70" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
 <text x="448" y="90" font-size="13" font-weight="700" fill="#59636E">google_grupos_anuncio</text>
-<text x="448" y="108" font-size="11" fill="#59636E">ver diagrama 5</text>
+<text x="448" y="108" font-size="11" fill="#59636E">see diagram 5</text>
 <rect x="836" y="70" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
 <text x="848" y="90" font-size="13" font-weight="700" fill="#59636E">google_palavras_chave</text>
-<text x="848" y="108" font-size="11" fill="#59636E">ver diagrama 5</text>
+<text x="848" y="108" font-size="11" fill="#59636E">see diagram 5</text>
 <rect x="436" y="218" width="250" height="173" rx="6" fill="#FFFFFF" stroke="#BF3989" stroke-width="1.6"/>
 <path d="M436 248 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#BF3989"/>
 <text x="448" y="238" font-size="13.5" font-weight="700" fill="#FFFFFF">cliques_midia</text>
@@ -140,10 +140,10 @@
 <text x="676" y="378" font-size="11" fill="#59636E" text-anchor="end">datetime</text>
 <rect x="1236" y="218" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
 <text x="1248" y="238" font-size="13" font-weight="700" fill="#59636E">meta_campanhas</text>
-<text x="1248" y="256" font-size="11" fill="#59636E">ver diagrama 4</text>
+<text x="1248" y="256" font-size="11" fill="#59636E">see diagram 4</text>
 <rect x="36" y="487" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
 <text x="48" y="507" font-size="13" font-weight="700" fill="#59636E">clientes</text>
-<text x="48" y="525" font-size="11" fill="#59636E">ver diagrama 2</text>
+<text x="48" y="525" font-size="11" fill="#59636E">see diagram 2</text>
 <rect x="436" y="487" width="250" height="249" rx="6" fill="#FFFFFF" stroke="#BF3989" stroke-width="1.6"/>
 <path d="M436 517 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#BF3989"/>
 <text x="448" y="507" font-size="13.5" font-weight="700" fill="#FFFFFF">sessoes</text>
@@ -200,10 +200,10 @@
 <text x="1076" y="685" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
 <rect x="1236" y="487" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
 <text x="1248" y="507" font-size="13" font-weight="700" fill="#59636E">google_campanhas</text>
-<text x="1248" y="525" font-size="11" fill="#59636E">ver diagrama 5</text>
+<text x="1248" y="525" font-size="11" fill="#59636E">see diagram 5</text>
 <rect x="36" y="832" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
 <text x="48" y="852" font-size="13" font-weight="700" fill="#59636E">variantes</text>
-<text x="48" y="870" font-size="11" fill="#59636E">ver diagrama 1</text>
+<text x="48" y="870" font-size="11" fill="#59636E">see diagram 1</text>
 <rect x="436" y="832" width="250" height="230" rx="6" fill="#FFFFFF" stroke="#BF3989" stroke-width="1.6"/>
 <path d="M436 862 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#BF3989"/>
 <text x="448" y="852" font-size="13.5" font-weight="700" fill="#FFFFFF">eventos</text>
@@ -234,7 +234,7 @@
 <text x="676" y="1049" font-size="11" fill="#59636E" text-anchor="end">varchar</text>
 <rect x="836" y="832" width="250" height="52" rx="6" fill="#F6F8FA" stroke="#8C959F" stroke-width="1.2" stroke-dasharray="5 4"/>
 <text x="848" y="852" font-size="13" font-weight="700" fill="#59636E">pedidos</text>
-<text x="848" y="870" font-size="11" fill="#59636E">ver diagrama 2</text>
+<text x="848" y="870" font-size="11" fill="#59636E">see diagram 2</text>
 <rect x="436" y="1158" width="250" height="154" rx="6" fill="#FFFFFF" stroke="#BF3989" stroke-width="1.6"/>
 <path d="M436 1188 v-24 a6 6 0 0 1 6 -6 h238 a6 6 0 0 1 6 6 v24 z" fill="#BF3989"/>
 <text x="448" y="1178" font-size="13.5" font-weight="700" fill="#FFFFFF">envios_conversao</text>
@@ -252,5 +252,5 @@
 <text x="676" y="1280" font-size="11" fill="#59636E" text-anchor="end">smallint</text>
 <text x="482" y="1299" font-size="12" fill="#1F2328">event_match_quality?</text>
 <text x="676" y="1299" font-size="11" fill="#59636E" text-anchor="end">decimal</text>
-<g font-size="11.5" fill="#59636E"><line x1="36" y1="1370" x2="80" y2="1370" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="72.0" y1="1377.0" x2="72.0" y2="1363.0"/><line x1="66.0" y1="1377.0" x2="66.0" y2="1363.0"/></g><text x="88" y="1374">exatamente um</text><line x1="205" y1="1370" x2="249" y2="1370" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="241.0" y1="1377.0" x2="241.0" y2="1363.0"/><circle cx="230.0" cy="1370.0" r="4.5" fill="#FFFFFF"/></g><text x="257" y="1374">zero ou um</text><line x1="353" y1="1370" x2="397" y2="1370" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="397.0" y1="1377.0" x2="384.0" y2="1370.0"/><line x1="397.0" y1="1370.0" x2="384.0" y2="1370.0"/><line x1="397.0" y1="1363.0" x2="384.0" y2="1370.0"/><line x1="380.0" y1="1377.0" x2="380.0" y2="1363.0"/></g><text x="405" y="1374">um ou mais</text><line x1="501" y1="1370" x2="545" y2="1370" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="545.0" y1="1377.0" x2="532.0" y2="1370.0"/><line x1="545.0" y1="1370.0" x2="532.0" y2="1370.0"/><line x1="545.0" y1="1363.0" x2="532.0" y2="1370.0"/><circle cx="523.0" cy="1370.0" r="4.5" fill="#FFFFFF"/></g><text x="553" y="1374">zero ou mais</text><rect x="663" y="1361" width="26" height="18" rx="4" fill="#F6F8FA" stroke="#8C959F" stroke-dasharray="4 3"/><text x="697" y="1374">tabela de outra área</text><text x="857" y="1374">campo? = aceita nulo</text></g>
+<g font-size="11.5" fill="#59636E"><line x1="36" y1="1370" x2="80" y2="1370" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="72.0" y1="1377.0" x2="72.0" y2="1363.0"/><line x1="66.0" y1="1377.0" x2="66.0" y2="1363.0"/></g><text x="88" y="1374">exactly one</text><line x1="191" y1="1370" x2="235" y2="1370" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="227.0" y1="1377.0" x2="227.0" y2="1363.0"/><circle cx="216.0" cy="1370.0" r="4.5" fill="#FFFFFF"/></g><text x="243" y="1374">zero or one</text><line x1="346" y1="1370" x2="390" y2="1370" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="390.0" y1="1377.0" x2="377.0" y2="1370.0"/><line x1="390.0" y1="1370.0" x2="377.0" y2="1370.0"/><line x1="390.0" y1="1363.0" x2="377.0" y2="1370.0"/><line x1="373.0" y1="1377.0" x2="373.0" y2="1363.0"/></g><text x="398" y="1374">one or more</text><line x1="501" y1="1370" x2="545" y2="1370" stroke="#57606A" stroke-width="1.5"/><g stroke="#57606A" stroke-width="1.5" fill="none"><line x1="545.0" y1="1377.0" x2="532.0" y2="1370.0"/><line x1="545.0" y1="1370.0" x2="532.0" y2="1370.0"/><line x1="545.0" y1="1363.0" x2="532.0" y2="1370.0"/><circle cx="523.0" cy="1370.0" r="4.5" fill="#FFFFFF"/></g><text x="553" y="1374">zero or more</text><rect x="663" y="1361" width="26" height="18" rx="4" fill="#F6F8FA" stroke="#8C959F" stroke-dasharray="4 3"/><text x="697" y="1374">table from another area</text><text x="857" y="1374">field? = nullable</text></g>
 </svg>

@@ -1,21 +1,21 @@
-"""Gera os diagramas entidade-relacionamento de docs/diagramas/*.svg a partir do schema.sql.
+"""Generates the entity-relationship diagrams in docs/diagramas/*.svg from schema.sql.
 
-Por que não Mermaid: o layout automático do Mermaid não deixa controlar posição, e o diagrama
-único cruzava linhas. Aqui cada área do banco vira um diagrama pequeno, com as tabelas numa
-grade fixa e conectores ortogonais, seguindo as diretrizes de diagramação de UML/ER:
+Why not Mermaid: Mermaid's automatic layout gives no control over positions, and the single
+diagram crossed lines. Here each area of the database becomes a small diagram, with tables on a
+fixed grid and orthogonal connectors, following UML/ER diagramming guidelines:
 
-- nenhuma linha cruza outra e nenhuma atravessa uma tabela (verificado em `validar`, que
-  interrompe a geração se encontrar cruzamento);
-- só segmentos horizontais e verticais, cada relacionamento com o seu próprio traçado;
-- pai acima ou à esquerda do filho, leitura de cima para baixo e da esquerda para a direita;
-- modelo grande quebrado em áreas de 5 a 13 tabelas, com espaço em branco;
-- notação pé de galinha nas pontas, sem setas (relacionamento é bidirecional);
-- tabela de outra área aparece tracejada, só com o nome, para mostrar a ligação sem repetir.
+- no line crosses another and none goes through a table (checked in `validar`, which stops the
+  build if it finds a crossing);
+- horizontal and vertical segments only, each relationship with its own path;
+- parent above or to the left of the child, read top-down and left-to-right;
+- the large model split into areas of 5 to 13 tables, with white space;
+- crow's foot notation at the ends, no arrows (a relationship goes both ways);
+- a table from another area appears dashed, name only, to show the link without repeating it.
 
-PK, FK, UK, tipos e nulabilidade vêm do schema.sql; a lista de atributos exibidos é curada
-(a tabela completa está em docs/dicionario_dados.md).
+PK, FK, UK, types and nullability come from schema.sql; the list of attributes shown is curated
+(the full table is in docs/dicionario_dados.md).
 
-Uso: python scripts/gerar_diagramas.py
+Usage: python scripts/gerar_diagramas.py
 """
 
 from __future__ import annotations
@@ -111,7 +111,7 @@ def ler_schema() -> dict[str, dict[str, Coluna]]:
     return out
 
 
-# --------------------------------------------------------------------------- geometria
+# --------------------------------------------------------------------------- geometry
 LARG, CAB, LINHA = 250, 30, 19
 GAP_X, GAP_Y, MARGEM, TOPO = 150, 96, 36, 70
 FONTE = "Helvetica, Arial, sans-serif"
@@ -126,7 +126,7 @@ class Caixa:
     fantasma: bool = False
     nota: str = ""
     largura: float = LARG
-    itens: list = field(default_factory=list)   # caixa de área (visão geral): lista de tabelas
+    itens: list = field(default_factory=list)   # area box (overview): list of tables
     x: float = 0
     y: float = 0
     h: float = 0
@@ -151,15 +151,15 @@ class Rel:
     filho: str
     rotulo: str
     rota: str                 # h, v, vhv, hvh, laco
-    sp: tuple[str, float]     # lado/fração na caixa do pai
-    sf: tuple[str, float]     # lado/fração na caixa do filho
-    min_pai: str = "1"        # "1" (FK obrigatória) ou "0" (FK pode ser nula)
-    max_filho: str = "N"      # "N" ou "1"
-    min_filho: str = "0"      # "0" ou "1"
-    faixa: float = 0.5        # posição da faixa (0-1) no vão entre linhas/colunas
-    tracejada: bool = False   # ligação lógica, sem FK física
+    sp: tuple[str, float]     # side/fraction on the parent box
+    sf: tuple[str, float]     # side/fraction on the child box
+    min_pai: str = "1"        # "1" (mandatory FK) or "0" (nullable FK)
+    max_filho: str = "N"      # "N" or "1"
+    min_filho: str = "0"      # "0" or "1"
+    faixa: float = 0.5        # lane position (0-1) in the gap between rows/columns
+    tracejada: bool = False   # logical link, no physical FK
     pos_rotulo: float = 0.5
-    sem_marcador: bool = False  # visão geral: ligação entre áreas, sem cardinalidade
+    sem_marcador: bool = False  # overview: link between areas, no cardinality
     pontos: list = field(default_factory=list)
 
 
@@ -214,7 +214,7 @@ def montar(d: Diagrama, schema: dict) -> None:
             esq = a if a.x < b.x else b
             xfaixa = esq.x + esq.w + r.faixa * GAP_X
             r.pontos = [p0, (xfaixa, p0[1]), (xfaixa, p1[1]), p1]
-        elif r.rota == "laco":       # autorrelacionamento: laço ortogonal no vão abaixo da tabela
+        elif r.rota == "laco":       # self-relationship: orthogonal loop in the gap below the table
             ybase = a.y + a.h + r.faixa * GAP_Y
             q0, q1 = a.lado("b", r.sp[1]), a.lado("b", r.sf[1])
             r.pontos = [q0, (q0[0], ybase), (q1[0], ybase), q1]
@@ -222,7 +222,7 @@ def montar(d: Diagrama, schema: dict) -> None:
             raise ValueError(r.rota)
 
 
-# --------------------------------------------------------------------------- validação
+# --------------------------------------------------------------------------- validation
 def _segmentos(r: Rel):
     return list(zip(r.pontos[:-1], r.pontos[1:]))
 
@@ -261,35 +261,35 @@ def validar(d: Diagrama) -> None:
     for i, r in enumerate(d.rels):
         for s in _segmentos(r):
             if s[0][0] != s[1][0] and s[0][1] != s[1][1]:
-                erros.append(f"{r.pai}-{r.filho}: segmento diagonal")
+                erros.append(f"{r.pai}-{r.filho}: diagonal segment")
             for c in d.caixas:
                 if _atravessa(s, c):
-                    erros.append(f"{r.pai}-{r.filho}: atravessa a tabela {c.nome}")
+                    erros.append(f"{r.pai}-{r.filho}: goes through table {c.nome}")
         for q in d.rels[i + 1:]:
             if any(_cruza(s1, s2) for s1 in _segmentos(r) for s2 in _segmentos(q)):
-                erros.append(f"{r.pai}-{r.filho} cruza {q.pai}-{q.filho}")
-    # rótulos não podem cobrir outra linha, uma tabela nem o pé de galinha da própria linha
+                erros.append(f"{r.pai}-{r.filho} crosses {q.pai}-{q.filho}")
+    # labels may not cover another line, a table or their own line's crow's foot
     for r in d.rels:
         _, (x0, y0, x1, y1) = _rotulo_rect(r)
         for p in ([] if r.sem_marcador else (r.pontos[0], r.pontos[-1])):
             if x0 - 26 < p[0] < x1 + 26 and y0 - 26 < p[1] < y1 + 26:
-                erros.append(f"rótulo '{r.rotulo}' cobre a ponta de {r.pai}-{r.filho}")
+                erros.append(f"label '{r.rotulo}' covers the end of {r.pai}-{r.filho}")
         for q in d.rels:
             if q is r:
                 continue
             for (a, b) in _segmentos(q):
                 if max(a[0], b[0]) >= x0 and min(a[0], b[0]) <= x1 and max(a[1], b[1]) >= y0 and min(a[1], b[1]) <= y1:
-                    erros.append(f"rótulo '{r.rotulo}' encosta na linha {q.pai}-{q.filho}")
+                    erros.append(f"label '{r.rotulo}' touches line {q.pai}-{q.filho}")
         for c in d.caixas:
             if x1 > c.x and x0 < c.x + c.w and y1 > c.y and y0 < c.y + c.h:
-                erros.append(f"rótulo '{r.rotulo}' cobre a tabela {c.nome}")
+                erros.append(f"label '{r.rotulo}' covers table {c.nome}")
     if erros:
-        raise SystemExit(f"{d.arquivo}: diagrama inválido\n  " + "\n  ".join(erros))
+        raise SystemExit(f"{d.arquivo}: invalid diagram\n  " + "\n  ".join(erros))
 
 
-# --------------------------------------------------------------------------- desenho
+# --------------------------------------------------------------------------- drawing
 def _marcador(p, direcao, minimo: str, maximo: str) -> str:
-    """Pé de galinha na ponta p. `direcao` aponta da caixa para fora, ao longo da linha."""
+    """Crow's foot at end p. `direcao` points away from the box, along the line."""
     (x, y), (dx, dy) = p, direcao
     nx, ny = -dy, dx
     at = lambda d, o=0: (x + dx * d + nx * o, y + dy * d + ny * o)  # noqa: E731
@@ -317,7 +317,7 @@ def desenhar(d: Diagrama, schema: dict) -> str:
          f'<rect width="100%" height="100%" fill="{FUNDO}"/>',
          f'<text x="{MARGEM}" y="32" font-size="19" font-weight="700" fill="{TINTA}">{escape(d.titulo)}</text>',
          f'<text x="{MARGEM}" y="52" font-size="12.5" fill="{MUDO}">{escape(d.subtitulo)}</text>']
-    # linhas primeiro, caixas por cima
+    # lines first, boxes on top
     for r in d.rels:
         pts = " ".join(f"{x:.1f},{y:.1f}" for x, y in r.pontos)
         dash = ' stroke-dasharray="6 4"' if r.tracejada else ""
@@ -368,10 +368,10 @@ def desenhar(d: Diagrama, schema: dict) -> str:
 def _legenda(d: Diagrama) -> str:
     y = d.altura - 34
     if all(r.sem_marcador for r in d.rels):
-        return (f'<text x="{MARGEM}" y="{y + 4}" font-size="11.5" fill="{MUDO}">Rótulos: chaves que ligam as áreas. '
-                f'Linha tracejada: ligação lógica (sem FK física) ou reconciliação de totais. Detalhes nos diagramas 1 a 6.</text>')
+        return (f'<text x="{MARGEM}" y="{y + 4}" font-size="11.5" fill="{MUDO}">Labels: keys that link the areas. '
+                f'Dashed line: logical link (no physical FK) or reconciliation of totals. Details in diagrams 1 to 6.</text>')
     x = MARGEM
-    itens = [("1", "1", "exatamente um"), ("0", "1", "zero ou um"), ("1", "N", "um ou mais"), ("0", "N", "zero ou mais")]
+    itens = [("1", "1", "exactly one"), ("0", "1", "zero or one"), ("1", "N", "one or more"), ("0", "N", "zero or more")]
     o = [f'<g font-size="11.5" fill="{MUDO}">']
     for mn, mx, txt in itens:
         o.append(f'<line x1="{x}" y1="{y}" x2="{x + 44}" y2="{y}" stroke="{LINHA_COR}" stroke-width="1.5"/>')
@@ -379,151 +379,151 @@ def _legenda(d: Diagrama) -> str:
         o.append(f'<text x="{x + 52}" y="{y + 4}">{txt}</text>')
         x += 52 + 7 * len(txt) + 26
     o.append(f'<rect x="{x}" y="{y - 9}" width="26" height="18" rx="4" fill="#F6F8FA" stroke="#8C959F" stroke-dasharray="4 3"/>')
-    o.append(f'<text x="{x + 34}" y="{y + 4}">tabela de outra área</text>')
+    o.append(f'<text x="{x + 34}" y="{y + 4}">table from another area</text>')
     x += 34 + 7 * 20 + 20
-    o.append(f'<text x="{x}" y="{y + 4}">campo? = aceita nulo</text>')
+    o.append(f'<text x="{x}" y="{y + 4}">field? = nullable</text>')
     o.append("</g>")
     return "".join(o)
 
 
-# --------------------------------------------------------------------------- os diagramas
+# --------------------------------------------------------------------------- the diagrams
 G = lambda nome, col, lin, nota="": Caixa(nome, col, lin, fantasma=True, nota=nota)  # noqa: E731
 T = Caixa
 
 DIAGRAMAS = [
     Diagrama(
-        "01_catalogo_estoque.svg", "1. Catálogo e estoque",
-        "Produto, SKU (variante), preço com histórico (SCD2), saldo e fechamento diário de estoque.", "#1F6FEB",
+        "01_catalogo_estoque.svg", "1. Catalog and inventory",
+        "Product, SKU (variant), price history (SCD2), stock balance and daily stock closing.", "#1F6FEB",
         [T("categorias", 0, 0), T("produtos", 1, 0), T("fornecedores", 2, 0),
          T("historico_precos", 0, 1), T("variantes", 1, 1), T("movimentacoes_estoque", 2, 1),
-         G("devolucoes", 3, 1, "ver diagrama 2"),
-         T("estoque", 0, 2), T("estoque_diario", 1, 2), G("pedidos", 2, 2, "ver diagrama 2")],
-        [Rel("categorias", "categorias", "pai de", "laco", ("b", .3), ("b", .75), min_pai="0", faixa=.32),
-         Rel("categorias", "produtos", "classifica", "h", ("r", .5), ("l", .5)),
-         Rel("fornecedores", "produtos", "fornece", "h", ("l", .5), ("r", .5)),
-         Rel("produtos", "variantes", "tem SKUs", "v", ("b", .5), ("t", .5), min_filho="1"),
-         Rel("variantes", "historico_precos", "preço vigente", "h", ("l", .3), ("r", .3)),
-         Rel("variantes", "movimentacoes_estoque", "movimenta", "h", ("r", .3), ("l", .3)),
-         Rel("fornecedores", "movimentacoes_estoque", "entrada de compra", "v", ("b", .5), ("t", .5), min_pai="0"),
-         Rel("variantes", "estoque_diario", "fechamento", "v", ("b", .5), ("t", .5)),
-         Rel("variantes", "estoque", "saldo atual", "vhv", ("b", .2), ("t", .5), max_filho="1", min_filho="1"),
-         Rel("pedidos", "movimentacoes_estoque", "baixa", "v", ("t", .5), ("b", .5), min_pai="0"),
-         Rel("devolucoes", "movimentacoes_estoque", "retorno", "h", ("l", .5), ("r", .3), min_pai="0")],
+         G("devolucoes", 3, 1, "see diagram 2"),
+         T("estoque", 0, 2), T("estoque_diario", 1, 2), G("pedidos", 2, 2, "see diagram 2")],
+        [Rel("categorias", "categorias", "parent of", "laco", ("b", .15), ("b", .85), min_pai="0", faixa=.32),
+         Rel("categorias", "produtos", "classifies", "h", ("r", .5), ("l", .5)),
+         Rel("fornecedores", "produtos", "supplies", "h", ("l", .5), ("r", .5)),
+         Rel("produtos", "variantes", "has SKUs", "v", ("b", .5), ("t", .5), min_filho="1"),
+         Rel("variantes", "historico_precos", "prices", "h", ("l", .3), ("r", .3)),
+         Rel("variantes", "movimentacoes_estoque", "moves", "h", ("r", .3), ("l", .3)),
+         Rel("fornecedores", "movimentacoes_estoque", "purchase receipt", "v", ("b", .5), ("t", .5), min_pai="0"),
+         Rel("variantes", "estoque_diario", "daily close", "v", ("b", .5), ("t", .5)),
+         Rel("variantes", "estoque", "current stock", "vhv", ("b", .2), ("t", .5), max_filho="1", min_filho="1"),
+         Rel("pedidos", "movimentacoes_estoque", "sale", "v", ("t", .5), ("b", .5), min_pai="0"),
+         Rel("devolucoes", "movimentacoes_estoque", "return", "h", ("l", .5), ("r", .3), min_pai="0")],
     ),
     Diagrama(
-        "02_clientes_pedidos.svg", "2. Clientes, pedidos e pós-venda",
-        "Cadastro, pedido com itens, tentativas de pagamento, frete, devoluções e avaliações.", "#8250DF",
-        [T("enderecos", 0, 0), T("clientes", 1, 0), T("avaliacoes", 2, 0), G("produtos", 3, 0, "ver diagrama 1"),
+        "02_clientes_pedidos.svg", "2. Customers, orders and after-sales",
+        "Customer registration, orders with items, payment attempts, shipping, returns and reviews.", "#8250DF",
+        [T("enderecos", 0, 0), T("clientes", 1, 0), T("avaliacoes", 2, 0), G("produtos", 3, 0, "see diagram 1"),
          T("cupons", 0, 1), T("pedidos", 1, 1), T("fretes", 2, 1),
          T("pagamentos", 0, 2), T("itens_pedido", 1, 2), T("devolucoes", 2, 2),
-         G("variantes", 1, 3, "ver diagrama 1")],
-        [Rel("clientes", "enderecos", "possui", "h", ("l", .3), ("r", .3), min_filho="1"),
-         Rel("clientes", "avaliacoes", "escreve", "h", ("r", .3), ("l", .3)),
-         Rel("produtos", "avaliacoes", "avaliado em", "h", ("l", .2), ("r", .2)),
-         Rel("clientes", "pedidos", "faz", "v", ("b", .5), ("t", .5)),
-         Rel("enderecos", "pedidos", "entrega em", "vhv", ("b", .5), ("t", .25), min_pai="0"),
-         Rel("pedidos", "avaliacoes", "recebe", "vhv", ("t", .75), ("b", .5)),
-         Rel("cupons", "pedidos", "aplicado em", "h", ("r", .3), ("l", .3), min_pai="0"),
-         Rel("pedidos", "fretes", "envia", "h", ("r", .3), ("l", .3), max_filho="1", min_filho="1"),
-         Rel("pedidos", "pagamentos", "tentativas", "vhv", ("b", .2), ("t", .5), min_filho="1"),
-         Rel("pedidos", "itens_pedido", "contém", "v", ("b", .5), ("t", .5), min_filho="1"),
-         Rel("pedidos", "devolucoes", "gera", "vhv", ("b", .8), ("t", .5)),
-         Rel("itens_pedido", "devolucoes", "devolvido", "h", ("r", .3), ("l", .3)),
-         Rel("variantes", "itens_pedido", "vendida em", "v", ("t", .5), ("b", .5))],
+         G("variantes", 1, 3, "see diagram 1")],
+        [Rel("clientes", "enderecos", "has", "h", ("l", .3), ("r", .3), min_filho="1"),
+         Rel("clientes", "avaliacoes", "writes", "h", ("r", .3), ("l", .3)),
+         Rel("produtos", "avaliacoes", "reviewed in", "h", ("l", .2), ("r", .2)),
+         Rel("clientes", "pedidos", "places", "v", ("b", .5), ("t", .5)),
+         Rel("enderecos", "pedidos", "ships to", "vhv", ("b", .5), ("t", .25), min_pai="0"),
+         Rel("pedidos", "avaliacoes", "receives", "vhv", ("t", .75), ("b", .5)),
+         Rel("cupons", "pedidos", "applied to", "h", ("r", .3), ("l", .3), min_pai="0"),
+         Rel("pedidos", "fretes", "ships", "h", ("r", .3), ("l", .3), max_filho="1", min_filho="1"),
+         Rel("pedidos", "pagamentos", "attempts", "vhv", ("b", .2), ("t", .5), min_filho="1"),
+         Rel("pedidos", "itens_pedido", "contains", "v", ("b", .5), ("t", .5), min_filho="1"),
+         Rel("pedidos", "devolucoes", "generates", "vhv", ("b", .8), ("t", .5)),
+         Rel("itens_pedido", "devolucoes", "returned", "h", ("r", .3), ("l", .3)),
+         Rel("variantes", "itens_pedido", "sold in", "v", ("t", .5), ("b", .5))],
     ),
 
     Diagrama(
-        "03_tracking_atribuicao.svg", "3. Tracking do site e atribuição",
-        "Clique no anúncio → sessão → eventos GA4 (GTM server-side) → envio à Meta CAPI / Google; crédito por toque.", "#BF3989",
-        [G("meta_anuncios", 0, 0, "ver diagrama 4"), G("google_grupos_anuncio", 1, 0, "ver diagrama 5"),
-         G("google_palavras_chave", 2, 0, "ver diagrama 5"),
-         T("cliques_midia", 1, 1), G("meta_campanhas", 3, 1, "ver diagrama 4"),
-         G("clientes", 0, 2, "ver diagrama 2"), T("sessoes", 1, 2), T("atribuicoes", 2, 2), G("google_campanhas", 3, 2, "ver diagrama 5"),
-         G("variantes", 0, 3, "ver diagrama 1"), T("eventos", 1, 3), G("pedidos", 2, 3, "ver diagrama 2"),
+        "03_tracking_atribuicao.svg", "3. Website tracking and attribution",
+        "Ad click → session → GA4 events (server-side GTM) → sends to Meta CAPI / Google; credit per touchpoint.", "#BF3989",
+        [G("meta_anuncios", 0, 0, "see diagram 4"), G("google_grupos_anuncio", 1, 0, "see diagram 5"),
+         G("google_palavras_chave", 2, 0, "see diagram 5"),
+         T("cliques_midia", 1, 1), G("meta_campanhas", 3, 1, "see diagram 4"),
+         G("clientes", 0, 2, "see diagram 2"), T("sessoes", 1, 2), T("atribuicoes", 2, 2), G("google_campanhas", 3, 2, "see diagram 5"),
+         G("variantes", 0, 3, "see diagram 1"), T("eventos", 1, 3), G("pedidos", 2, 3, "see diagram 2"),
          T("envios_conversao", 1, 4)],
         [Rel("meta_anuncios", "cliques_midia", "fbclid", "vhv", ("b", .5), ("t", .2), min_pai="0"),
          Rel("google_grupos_anuncio", "cliques_midia", "gclid", "v", ("b", .5), ("t", .5), min_pai="0"),
-         Rel("google_palavras_chave", "cliques_midia", "palavra", "vhv", ("b", .5), ("t", .8), min_pai="0"),
-         Rel("cliques_midia", "sessoes", "abre", "v", ("b", .5), ("t", .5), min_pai="0", max_filho="1"),
+         Rel("google_palavras_chave", "cliques_midia", "keyword", "vhv", ("b", .5), ("t", .8), min_pai="0"),
+         Rel("cliques_midia", "sessoes", "opens", "v", ("b", .5), ("t", .5), min_pai="0", max_filho="1"),
          Rel("clientes", "sessoes", "user_id", "h", ("r", .3), ("l", .3), min_pai="0"),
-         Rel("sessoes", "atribuicoes", "toque", "h", ("r", .3), ("l", .3)),
-         Rel("google_campanhas", "atribuicoes", "creditada", "h", ("l", .3), ("r", .3), min_pai="0"),
-         Rel("meta_campanhas", "atribuicoes", "creditada", "vhv", ("b", .5), ("t", .7), min_pai="0"),
-         Rel("sessoes", "eventos", "contém", "v", ("b", .5), ("t", .5), min_filho="1"),
+         Rel("sessoes", "atribuicoes", "touchpoint", "h", ("r", .3), ("l", .3)),
+         Rel("google_campanhas", "atribuicoes", "credited", "h", ("l", .3), ("r", .3), min_pai="0"),
+         Rel("meta_campanhas", "atribuicoes", "credited", "vhv", ("b", .5), ("t", .7), min_pai="0"),
+         Rel("sessoes", "eventos", "contains", "v", ("b", .5), ("t", .5), min_filho="1"),
          Rel("clientes", "eventos", "user_id", "vhv", ("b", .5), ("t", .2), min_pai="0"),
-         Rel("sessoes", "pedidos", "sessão da compra", "vhv", ("b", .8), ("t", .2), min_pai="0"),
-         Rel("pedidos", "atribuicoes", "crédito", "v", ("t", .7), ("b", .7), min_filho="1"),
+         Rel("sessoes", "pedidos", "purchase session", "vhv", ("b", .8), ("t", .2), min_pai="0"),
+         Rel("pedidos", "atribuicoes", "credit", "v", ("t", .7), ("b", .7), min_filho="1"),
          Rel("variantes", "eventos", "item", "h", ("r", .3), ("l", .3), min_pai="0"),
          Rel("pedidos", "eventos", "purchase", "h", ("l", .3), ("r", .3), min_pai="0"),
          Rel("eventos", "envios_conversao", "CAPI / EC", "v", ("b", .5), ("t", .5))],
     ),
     Diagrama(
         "04_meta_ads.svg", "4. Meta Ads",
-        "Conta → campanha → conjunto → anúncio, com insights diários por anúncio (como a API de Marketing exporta).", "#0969DA",
+        "Account → campaign → ad set → ad, with daily insights per ad (as the Marketing API exports them).", "#0969DA",
         [T("meta_contas", 1, 0),
-         G("atribuicoes", 0, 1, "ver diagrama 3"), T("meta_campanhas", 1, 1), T("meta_conjuntos", 2, 1), T("meta_anuncios", 3, 1),
-         G("cliques_midia", 2, 2, "ver diagrama 3"), T("meta_metricas_diarias", 3, 2)],
-        [Rel("meta_contas", "meta_campanhas", "contém", "v", ("b", .5), ("t", .5), min_filho="1"),
-         Rel("meta_campanhas", "meta_conjuntos", "contém", "h", ("r", .3), ("l", .3), min_filho="1"),
-         Rel("meta_conjuntos", "meta_anuncios", "contém", "h", ("r", .3), ("l", .3), min_filho="1"),
-         Rel("meta_campanhas", "atribuicoes", "creditada", "h", ("l", .3), ("r", .3), min_pai="0"),
-         Rel("meta_anuncios", "meta_metricas_diarias", "insights/dia", "v", ("b", .5), ("t", .5)),
+         G("atribuicoes", 0, 1, "see diagram 3"), T("meta_campanhas", 1, 1), T("meta_conjuntos", 2, 1), T("meta_anuncios", 3, 1),
+         G("cliques_midia", 2, 2, "see diagram 3"), T("meta_metricas_diarias", 3, 2)],
+        [Rel("meta_contas", "meta_campanhas", "contains", "v", ("b", .5), ("t", .5), min_filho="1"),
+         Rel("meta_campanhas", "meta_conjuntos", "contains", "h", ("r", .3), ("l", .3), min_filho="1"),
+         Rel("meta_conjuntos", "meta_anuncios", "contains", "h", ("r", .3), ("l", .3), min_filho="1"),
+         Rel("meta_campanhas", "atribuicoes", "credited", "h", ("l", .3), ("r", .3), min_pai="0"),
+         Rel("meta_anuncios", "meta_metricas_diarias", "daily insights", "v", ("b", .5), ("t", .5)),
          Rel("meta_anuncios", "cliques_midia", "fbclid", "vhv", ("b", .2), ("t", .5), min_pai="0")],
     ),
     Diagrama(
         "05_google_ads.svg", "5. Google Ads",
-        "Conta → campanha (Search, Shopping, PMax, Demand Gen) → grupo/asset group → palavra-chave, com métricas diárias.", "#1A7F37",
+        "Account → campaign (Search, Shopping, PMax, Demand Gen) → ad group/asset group → keyword, with daily metrics.", "#1A7F37",
         [T("google_contas", 1, 0), T("google_palavras_chave_metricas_diarias", 3, 0, largura=300),
-         G("atribuicoes", 0, 1, "ver diagrama 3"), T("google_campanhas", 1, 1), T("google_grupos_anuncio", 2, 1), T("google_palavras_chave", 3, 1),
-         T("google_metricas_diarias", 2, 2), G("cliques_midia", 3, 2, "ver diagrama 3")],
-        [Rel("google_contas", "google_campanhas", "contém", "v", ("b", .5), ("t", .5), min_filho="1"),
-         Rel("google_campanhas", "google_grupos_anuncio", "contém", "h", ("r", .3), ("l", .3), min_filho="1"),
-         Rel("google_grupos_anuncio", "google_palavras_chave", "contém", "h", ("r", .3), ("l", .3)),
-         Rel("google_campanhas", "atribuicoes", "creditada", "h", ("l", .3), ("r", .3), min_pai="0"),
-         Rel("google_palavras_chave", "google_palavras_chave_metricas_diarias", "métricas/dia", "v", ("t", .5), ("b", .5)),
-         Rel("google_grupos_anuncio", "google_metricas_diarias", "métricas/dia", "v", ("b", .5), ("t", .5)),
-         Rel("google_palavras_chave", "cliques_midia", "palavra", "v", ("b", .6), ("t", .6), min_pai="0"),
+         G("atribuicoes", 0, 1, "see diagram 3"), T("google_campanhas", 1, 1), T("google_grupos_anuncio", 2, 1), T("google_palavras_chave", 3, 1),
+         T("google_metricas_diarias", 2, 2), G("cliques_midia", 3, 2, "see diagram 3")],
+        [Rel("google_contas", "google_campanhas", "contains", "v", ("b", .5), ("t", .5), min_filho="1"),
+         Rel("google_campanhas", "google_grupos_anuncio", "contains", "h", ("r", .3), ("l", .3), min_filho="1"),
+         Rel("google_grupos_anuncio", "google_palavras_chave", "contains", "h", ("r", .3), ("l", .3)),
+         Rel("google_campanhas", "atribuicoes", "credited", "h", ("l", .3), ("r", .3), min_pai="0"),
+         Rel("google_palavras_chave", "google_palavras_chave_metricas_diarias", "daily metrics", "v", ("t", .5), ("b", .5)),
+         Rel("google_grupos_anuncio", "google_metricas_diarias", "daily metrics", "v", ("b", .5), ("t", .5)),
+         Rel("google_palavras_chave", "cliques_midia", "keyword", "v", ("b", .6), ("t", .6), min_pai="0"),
          Rel("google_grupos_anuncio", "cliques_midia", "gclid", "vhv", ("b", .85), ("t", .2), min_pai="0")],
     ),
     Diagrama(
-        "06_mmm_outros_canais.svg", "6. MMM regional, testes geográficos e outros canais",
-        "Mídia de todas as plataformas por dia × canal × UF; geo-lift; TikTok, afiliados e CRM. Linhas tracejadas: ligação lógica, sem FK física.", "#9A6700",
-        [T("canais_midia", 0, 0), T("midia_regional_diaria", 1, 0), T("regioes", 2, 0), G("enderecos", 3, 0, "ver diagrama 2"),
-         T("testes_geo", 0, 1), T("testes_geo_regioes", 1, 1), T("calendario_comercial", 2, 1), G("pedidos", 3, 1, "ver diagrama 2"),
+        "06_mmm_outros_canais.svg", "6. Regional MMM, geo tests and other channels",
+        "Media from every platform by day × channel × state; geo-lift; TikTok, affiliates and CRM. Dashed lines: logical link, no physical FK.", "#9A6700",
+        [T("canais_midia", 0, 0), T("midia_regional_diaria", 1, 0), T("regioes", 2, 0), G("enderecos", 3, 0, "see diagram 2"),
+         T("testes_geo", 0, 1), T("testes_geo_regioes", 1, 1), T("calendario_comercial", 2, 1), G("pedidos", 3, 1, "see diagram 2"),
          T("tiktok_campanhas", 0, 2), T("tiktok_metricas_diarias", 1, 2), T("crm_disparos", 2, 2),
          T("afiliados_parceiros", 0, 3), T("afiliados_metricas_diarias", 1, 3)],
-        [Rel("canais_midia", "midia_regional_diaria", "investe em", "h", ("r", .3), ("l", .3)),
-         Rel("regioes", "midia_regional_diaria", "na UF", "h", ("l", .3), ("r", .3)),
-         Rel("canais_midia", "testes_geo", "testado em", "v", ("b", .5), ("t", .5)),
-         Rel("testes_geo", "testes_geo_regioes", "grupos por UF", "h", ("r", .3), ("l", .3), min_filho="1"),
-         Rel("regioes", "testes_geo_regioes", "UF", "vhv", ("b", .3), ("t", .7)),
+        [Rel("canais_midia", "midia_regional_diaria", "spends on", "h", ("r", .3), ("l", .3)),
+         Rel("regioes", "midia_regional_diaria", "in state", "h", ("l", .3), ("r", .3)),
+         Rel("canais_midia", "testes_geo", "tested in", "v", ("b", .5), ("t", .5)),
+         Rel("testes_geo", "testes_geo_regioes", "by state", "h", ("r", .3), ("l", .3), min_filho="1"),
+         Rel("regioes", "testes_geo_regioes", "state", "vhv", ("b", .3), ("t", .7)),
          Rel("regioes", "enderecos", "uf", "h", ("r", .3), ("l", .3), tracejada=True),
-         Rel("calendario_comercial", "pedidos", "data", "h", ("r", .3), ("l", .3), tracejada=True),
-         Rel("tiktok_campanhas", "tiktok_metricas_diarias", "métricas/dia", "h", ("r", .3), ("l", .3)),
-         Rel("afiliados_parceiros", "afiliados_metricas_diarias", "métricas/dia", "h", ("r", .3), ("l", .3))],
+         Rel("calendario_comercial", "pedidos", "date", "h", ("r", .3), ("l", .3), tracejada=True),
+         Rel("tiktok_campanhas", "tiktok_metricas_diarias", "daily metrics", "h", ("r", .3), ("l", .3)),
+         Rel("afiliados_parceiros", "afiliados_metricas_diarias", "daily metrics", "h", ("r", .3), ("l", .3))],
     ),
 ]
 
 
 A = lambda nome, col, lin, itens: Caixa(nome, col, lin, itens=itens)  # noqa: E731
 VISAO_GERAL = Diagrama(
-    "00_visao_geral.svg", "Visão geral: 44 tabelas em 7 áreas",
-    "Cada área tem um diagrama próprio (1 a 6). As linhas mostram por quais chaves as áreas se ligam.", "#24292F",
-    [A("1 · Catálogo e estoque", 0, 0, ["categorias · fornecedores", "produtos · variantes", "historico_precos (SCD2)", "estoque · estoque_diario", "movimentacoes_estoque"]),
-     A("2 · Clientes e pedidos", 1, 0, ["clientes · enderecos · cupons", "pedidos · itens_pedido", "pagamentos · fretes", "devolucoes · avaliacoes"]),
-     A("6 · MMM regional", 2, 0, ["midia_regional_diaria", "canais_midia · regioes", "calendario_comercial", "testes_geo · testes_geo_regioes"]),
-     A("6 · TikTok, afiliados, CRM", 3, 0, ["tiktok_campanhas", "tiktok_metricas_diarias", "afiliados_parceiros", "afiliados_metricas_diarias", "crm_disparos"]),
+    "00_visao_geral.svg", "Overview: 44 tables in 7 areas",
+    "Each area has its own diagram (1 to 6). The lines show which keys link the areas.", "#24292F",
+    [A("1 · Catalog and inventory", 0, 0, ["categorias · fornecedores", "produtos · variantes", "historico_precos (SCD2)", "estoque · estoque_diario", "movimentacoes_estoque"]),
+     A("2 · Customers and orders", 1, 0, ["clientes · enderecos · cupons", "pedidos · itens_pedido", "pagamentos · fretes", "devolucoes · avaliacoes"]),
+     A("6 · Regional MMM", 2, 0, ["midia_regional_diaria", "canais_midia · regioes", "calendario_comercial", "testes_geo · testes_geo_regioes"]),
+     A("6 · TikTok, affiliates, CRM", 3, 0, ["tiktok_campanhas", "tiktok_metricas_diarias", "afiliados_parceiros", "afiliados_metricas_diarias", "crm_disparos"]),
      A("4 · Meta Ads", 0, 1, ["meta_contas · meta_campanhas", "meta_conjuntos · meta_anuncios", "meta_metricas_diarias"]),
-     A("3 · Tracking e atribuição", 1, 1, ["cliques_midia · sessoes", "eventos (GA4)", "envios_conversao (CAPI/EC)", "atribuicoes"]),
+     A("3 · Tracking and attribution", 1, 1, ["cliques_midia · sessoes", "eventos (GA4)", "envios_conversao (CAPI/EC)", "atribuicoes"]),
      A("5 · Google Ads", 2, 1, ["google_contas · google_campanhas", "google_grupos_anuncio", "google_palavras_chave", "*_metricas_diarias"])],
-    [Rel("1 · Catálogo e estoque", "2 · Clientes e pedidos", "variante_id", "h", ("r", .3), ("l", .3), sem_marcador=True),
-     Rel("2 · Clientes e pedidos", "3 · Tracking e atribuição", "sessao_id · pedido_id", "v", ("b", .5), ("t", .5), sem_marcador=True),
-     Rel("1 · Catálogo e estoque", "3 · Tracking e atribuição", "variante_id", "vhv", ("b", .8), ("t", .2), sem_marcador=True),
-     Rel("2 · Clientes e pedidos", "6 · MMM regional", "uf · data", "h", ("r", .3), ("l", .3), sem_marcador=True, tracejada=True),
-     Rel("6 · MMM regional", "6 · TikTok, afiliados, CRM", "reconcilia", "h", ("r", .3), ("l", .3), sem_marcador=True, tracejada=True),
-     Rel("6 · MMM regional", "5 · Google Ads", "reconcilia", "v", ("b", .5), ("t", .5), sem_marcador=True, tracejada=True),
-     Rel("4 · Meta Ads", "3 · Tracking e atribuição", "anúncio · campanha", "h", ("r", .3), ("l", .3), sem_marcador=True),
-     Rel("5 · Google Ads", "3 · Tracking e atribuição", "grupo · palavra", "h", ("l", .3), ("r", .3), sem_marcador=True)],
+    [Rel("1 · Catalog and inventory", "2 · Customers and orders", "variante_id", "h", ("r", .3), ("l", .3), sem_marcador=True),
+     Rel("2 · Customers and orders", "3 · Tracking and attribution", "sessao_id · pedido_id", "v", ("b", .5), ("t", .5), sem_marcador=True),
+     Rel("1 · Catalog and inventory", "3 · Tracking and attribution", "variante_id", "vhv", ("b", .8), ("t", .2), sem_marcador=True),
+     Rel("2 · Customers and orders", "6 · Regional MMM", "uf · date", "h", ("r", .3), ("l", .3), sem_marcador=True, tracejada=True),
+     Rel("6 · Regional MMM", "6 · TikTok, affiliates, CRM", "reconciles", "h", ("r", .3), ("l", .3), sem_marcador=True, tracejada=True),
+     Rel("6 · Regional MMM", "5 · Google Ads", "reconciles", "v", ("b", .5), ("t", .5), sem_marcador=True, tracejada=True),
+     Rel("4 · Meta Ads", "3 · Tracking and attribution", "ad · campaign", "h", ("r", .3), ("l", .3), sem_marcador=True),
+     Rel("5 · Google Ads", "3 · Tracking and attribution", "ad group · keyword", "h", ("l", .3), ("r", .3), sem_marcador=True)],
 )
 
 
@@ -531,7 +531,7 @@ def gerar() -> list[Path]:
     schema = ler_schema()
     cobertas = {c.nome for d in DIAGRAMAS for c in d.caixas if not c.fantasma and not c.itens}
     faltando = set(schema) - cobertas
-    assert not faltando, f"tabelas fora dos diagramas: {sorted(faltando)}"
+    assert not faltando, f"tables missing from the diagrams: {sorted(faltando)}"
     for d in DIAGRAMAS:
         for c in d.caixas:
             if not c.fantasma and not c.itens:
@@ -544,13 +544,13 @@ def gerar() -> list[Path]:
         p = SAIDA / d.arquivo
         p.write_text(desenhar(d, schema), encoding="utf-8")
         feitos.append(p)
-        print(f"{p.relative_to(RAIZ)}: {sum(not c.fantasma and not c.itens for c in d.caixas)} tabelas, {len(d.rels)} relacionamentos, 0 cruzamentos")
+        print(f"{p.relative_to(RAIZ)}: {sum(not c.fantasma and not c.itens for c in d.caixas)} tables, {len(d.rels)} relationships, 0 crossings")
     return feitos
 
 
 # --------------------------------------------------------------------------- one-pager
-DESTAQUES = [("44", "tabelas"), ("144 mil", "pedidos"), ("7,0 mi", "sessões"), ("20,5 mi", "eventos GA4"),
-             ("R$ 38,9 mi", "receita paga"), ("R$ 6,0 mi", "mídia paga")]
+DESTAQUES = [("44", "tables"), ("144k", "orders"), ("7.0M", "sessions"), ("20.5M", "GA4 events"),
+             ("R$ 38.9M", "paid revenue"), ("R$ 6.0M", "paid media")]
 
 
 def _interno(svg: str) -> tuple[float, float, str]:
@@ -559,14 +559,14 @@ def _interno(svg: str) -> tuple[float, float, str]:
 
 
 def one_pager(arquivos: list[Path]) -> Path:
-    """Junta a visão geral e os 6 diagramas de área numa única imagem (topo do README)."""
+    """Puts the overview and the 6 area diagrams together in a single image (top of the README)."""
     visao, *areas = [_interno(p.read_text(encoding="utf-8")) for p in arquivos]
     esc, gap, m = 0.62, 40, 40
     larg_painel = max(w for w, _, _ in areas) * esc
     largura = 2 * larg_painel + gap + 2 * m
     o_svg = []
     y = 150
-    # visão geral ocupa a largura toda
+    # the overview takes the full width
     ev = (largura - 2 * m) / visao[0]
     o_svg.append(f'<svg x="{m}" y="{y}" width="{visao[0] * ev:.0f}" height="{visao[1] * ev:.0f}" viewBox="0 0 {visao[0]:.0f} {visao[1]:.0f}">{visao[2]}</svg>')
     y += visao[1] * ev + gap
@@ -586,21 +586,21 @@ def one_pager(arquivos: list[Path]) -> Path:
                      f'<text x="{cx + 18}" y="112" font-size="20" font-weight="700" fill="{TINTA}">{escape(valor)}'
                      f'<tspan font-size="14" font-weight="400" fill="{MUDO}"> {escape(rotulo)}</tspan></text>')
         cx += wv + 14
-    topo = (f'<text x="{m}" y="48" font-size="30" font-weight="700" fill="{TINTA}">Tecelã Tecidos · modelo de dados do e-commerce</text>'
-            f'<text x="{m}" y="74" font-size="16" fill="{MUDO}">Loja de tecidos fictícia, out/2023 a out/2026: catálogo, pedidos, tracking GA4 (GTM server-side), '
-            f'Meta, Google e TikTok Ads, atribuição e MMM regional. Dados 100% sintéticos.</text>')
+    topo = (f'<text x="{m}" y="48" font-size="30" font-weight="700" fill="{TINTA}">Tecelã Tecidos · e-commerce data model</text>'
+            f'<text x="{m}" y="74" font-size="16" fill="{MUDO}">Fictitious fabric store, Oct/2023 to Oct/2026: catalog, orders, GA4 tracking (server-side GTM), '
+            f'Meta, Google and TikTok Ads, attribution and regional MMM. 100% synthetic data.</text>')
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{largura:.0f}" height="{altura_total:.0f}" '
            f'viewBox="0 0 {largura:.0f} {altura_total:.0f}" font-family="{FONTE}" role="img" '
-           f'aria-label="Modelo de dados da Tecelã Tecidos: visão geral e diagramas de cada área">'
+           f'aria-label="Tecelã Tecidos data model: overview and the diagram of each area">'
            f'<rect width="100%" height="100%" fill="{FUNDO}"/>{topo}{"".join(chips)}{"".join(o_svg)}</svg>')
     destino = SAIDA / "modelo_de_dados_one_pager.svg"
     destino.write_text(svg, encoding="utf-8")
-    print(f"{destino.relative_to(RAIZ)}: one-pager com {len(arquivos)} diagramas")
+    print(f"{destino.relative_to(RAIZ)}: one-pager with {len(arquivos)} diagrams")
     return destino
 
 
 def _pares(itens: list) -> list[list]:
-    """Todas as formas de agrupar os painéis em linhas de dois (a ordem dentro da linha segue o número)."""
+    """Every way of grouping the panels in rows of two (order within a row follows the number)."""
     if not itens:
         return [[]]
     a, resto = itens[0], itens[1:]
@@ -612,9 +612,9 @@ def _pares(itens: list) -> list[list]:
 
 
 def one_pager_3x4(arquivos: list[Path]) -> Path:
-    """Versão 3:4 para o LinkedIn: tela 1500 x 2000, com cabeçalho, visão geral, as 6 áreas e rodapé.
-    Testa os arranjos (agrupamento das áreas em linhas e largura da visão geral) e fica com o que
-    deixa os diagramas maiores."""
+    """3:4 version for LinkedIn: 1500 x 2000 canvas with header, overview, the 6 areas and a footer.
+    Tries the arrangements (how areas are grouped in rows and the overview width) and keeps the one
+    that makes the diagrams largest."""
     W, H, m, gap = 1500, 2000, 50, 28
     visao, *areas = [_interno(p.read_text(encoding="utf-8")) for p in arquivos]
     topo_h, rodape_h = 250, 80
@@ -652,20 +652,20 @@ def one_pager_3x4(arquivos: list[Path]) -> Path:
                      f'<text x="{cx + 20:.1f}" y="199" font-size="23" font-weight="700" fill="{TINTA}">{escape(valor)}'
                      f'<tspan font-size="16" font-weight="400" fill="{MUDO}"> {escape(rotulo)}</tspan></text>')
         cx += wv + 12
-    topo = (f'<text x="{m}" y="78" font-size="46" font-weight="700" fill="{TINTA}">Tecelã Tecidos: o modelo de dados</text>'
-            f'<text x="{m}" y="120" font-size="21" fill="{MUDO}">E-commerce fictício, 3 anos de operação: pedidos, tracking GA4, Meta, Google e TikTok Ads,</text>'
-            f'<text x="{m}" y="148" font-size="21" fill="{MUDO}">atribuição e MMM regional. 44 tabelas em 7 áreas. Dados 100% sintéticos.</text>')
+    topo = (f'<text x="{m}" y="78" font-size="46" font-weight="700" fill="{TINTA}">Tecelã Tecidos: the data model</text>'
+            f'<text x="{m}" y="120" font-size="21" fill="{MUDO}">Fictitious e-commerce, 3 years of operations: orders, GA4 tracking, Meta, Google and TikTok Ads,</text>'
+            f'<text x="{m}" y="148" font-size="21" fill="{MUDO}">attribution and regional MMM. 44 tables in 7 areas. 100% synthetic data.</text>')
     rodape = (f'<line x1="{m}" y1="{H - rodape_h + 10}" x2="{W - m}" y2="{H - rodape_h + 10}" stroke="#D0D7DE"/>'
-              f'<text x="{m}" y="{H - 34}" font-size="19" fill="{MUDO}">Código e diagramas: '
+              f'<text x="{m}" y="{H - 34}" font-size="19" fill="{MUDO}">Code and diagrams: '
               f'<tspan font-weight="700" fill="{TINTA}">github.com/arielabade/dados-sinteticos-ecommerce-tecidos</tspan></text>'
               f'<text x="{W - m}" y="{H - 34}" font-size="19" fill="{MUDO}" text-anchor="end">Dataset: '
               f'<tspan font-weight="700" fill="{TINTA}">kaggle.com/arielabade</tspan></text>')
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="{FONTE}" '
-           f'role="img" aria-label="Modelo de dados da Tecelã Tecidos em formato 3:4">'
+           f'role="img" aria-label="Tecelã Tecidos data model, 3:4 format">'
            f'<rect width="100%" height="100%" fill="{FUNDO}"/>{topo}{"".join(chips)}{"".join(o)}{rodape}</svg>')
     destino = SAIDA / "modelo_de_dados_one_pager_3x4.svg"
     destino.write_text(svg, encoding="utf-8")
-    print(f"{destino.relative_to(RAIZ)}: 3:4, escala dos diagramas {s:.2f}, visão geral em {frac:.0%} da largura, linhas {linhas}")
+    print(f"{destino.relative_to(RAIZ)}: 3:4, diagram scale {s:.2f}, overview at {frac:.0%} of the width, rows {linhas}")
     return destino
 
 

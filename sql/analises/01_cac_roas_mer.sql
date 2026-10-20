@@ -1,12 +1,12 @@
 -- =====================================================================
--- CAC, ROAS e MER por mês
--- * MER  = receita paga total / investimento total (visão "blended", não
---          depende de atribuição).
--- * ROAS plataforma = valor de conversão reportado / investimento.
--- * ROAS last click = receita atribuída pelo site (último clique não direto)
---          / investimento.
--- * CAC blended = investimento total / clientes novos no mês.
--- Pedidos de teste excluídos; receita só de pedidos pagos.
+-- CAC, ROAS and MER by month
+-- * MER  = total paid revenue / total spend ("blended" view, does not
+--          depend on attribution).
+-- * Platform ROAS = reported conversion value / spend.
+-- * Last-click ROAS = revenue attributed by the website (last non-direct click)
+--          / spend.
+-- * Blended CAC = total spend / new customers in the month.
+-- Test orders excluded; revenue from paid orders only.
 -- =====================================================================
 WITH pedidos_pagos AS (
     SELECT p.pedido_id, p.cliente_id, p.total, DATE_FORMAT(p.criado_em, '%Y-%m') AS mes,

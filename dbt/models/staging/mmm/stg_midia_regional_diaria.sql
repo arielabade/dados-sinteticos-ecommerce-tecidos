@@ -1,4 +1,4 @@
--- Relatório geográfico das plataformas: um registro por dia, canal e UF.
+-- Platforms' geographic report: one record per day, channel and state.
 select
     m.data,
     m.canal_id,

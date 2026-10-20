@@ -1,4 +1,4 @@
--- UTMs normalizadas (minúsculas, sem espaços) + tipo da campanha Google via clique.
+-- Normalized UTMs (lowercase, no spaces) + Google campaign type via the click.
 select
     s.sessao_id,
     s.client_id,

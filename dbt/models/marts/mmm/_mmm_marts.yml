@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: fct_mmm_midia_canal_regiao_diario
-    description: Mídia por dia, canal e UF (fonte de mídia do repositório marketing-mix-modeling).
+    description: Media by day, channel and state (media source for the marketing-mix-modeling repository).
     tests:
       - dbt_utils_like_unique_combination:
           columns: [data, canal_id, uf]
@@ -32,7 +32,7 @@ models:
           - not_null
           - expressao_verdadeira: {expressao: "impressoes is null or cliques <= impressoes"}
   - name: fct_mmm_vendas_regiao_diario
-    description: Pedidos e receita paga por dia e UF, grade completa.
+    description: Orders and paid revenue by day and state, complete grid.
     tests:
       - dbt_utils_like_unique_combination:
           columns: [data, uf]
@@ -52,7 +52,7 @@ models:
           - not_null
           - valor_entre: {minimo: 0, maximo: 100000000}
   - name: fct_mmm_controles_diario
-    description: Controles diários do MMM (calendário e preço).
+    description: Daily MMM controls (calendar and price).
     columns:
       - name: data
         tests: [unique, not_null]

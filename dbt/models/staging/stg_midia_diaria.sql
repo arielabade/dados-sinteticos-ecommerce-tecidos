@@ -1,5 +1,5 @@
--- Meta, Google, TikTok e afiliados empilhados no mesmo grão: data x plataforma x campanha
--- (para afiliados, a "campanha" é o parceiro).
+-- Meta, Google, TikTok and affiliates stacked at the same grain: date x platform x campaign
+-- (for affiliates, the "campaign" is the partner).
 select
     m.data,
     'meta'                          as plataforma,

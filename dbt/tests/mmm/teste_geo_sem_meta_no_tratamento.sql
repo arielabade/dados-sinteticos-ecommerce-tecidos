@@ -1,4 +1,4 @@
--- Durante o teste, o canal testado não pode ter investimento nas UFs de tratamento.
+-- During the test, the tested channel cannot have spend in the treatment states.
 select m.data, m.uf, m.canal, m.investimento
 from {{ ref('fct_mmm_midia_canal_regiao_diario') }} m
 join {{ ref('dim_testes_geo') }} t

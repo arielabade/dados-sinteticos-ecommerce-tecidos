@@ -1,8 +1,8 @@
--- Mart do MMM, grão: data x canal x UF.
--- Investimento, impressões, cliques e conversões reportadas por clique, como o
--- relatório geográfico das plataformas entrega. É a única fonte de mídia que o
--- repositório de modelagem lê. Os efeitos verdadeiros de cada canal NÃO estão
--- no banco (ficam em data/ground_truth/, fora do MySQL).
+-- MMM mart, grain: date x channel x state.
+-- Spend, impressions, clicks and click-through conversions, as the platforms'
+-- geographic report delivers them. It is the only media source the modeling
+-- repository reads. The true effects of each channel are NOT in the
+-- database (they live in data/ground_truth/, outside MySQL).
 select
     m.data,
     m.uf,

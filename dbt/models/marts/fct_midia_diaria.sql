@@ -1,5 +1,5 @@
--- Grão: data x plataforma x campanha. Investimento sempre ao lado das
--- conversões reportadas pela plataforma e das atribuídas pelo site (pedidos pagos).
+-- Grain: date x platform x campaign. Spend always next to the conversions
+-- reported by the platform and those attributed by the website (paid orders).
 with atrib as (
     select
         p.data_pedido as data,

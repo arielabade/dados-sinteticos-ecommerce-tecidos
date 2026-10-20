@@ -1,7 +1,7 @@
 -- =====================================================================
--- Investimento ao lado de conversões e valor de conversão, por campanha
--- (Meta e Google). Compara o reportado pela plataforma com os pedidos
--- pagos atribuídos pelo site (last click e data-driven).
+-- Spend next to conversions and conversion value, by campaign
+-- (Meta and Google). Compares what the platform reports with the paid
+-- orders attributed by the website (last click and data-driven).
 -- =====================================================================
 WITH midia AS (
     SELECT 'meta' AS plataforma, cp.campanha_id, cp.nome AS campanha, cp.estrategia AS tipo,

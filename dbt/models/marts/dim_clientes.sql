@@ -1,4 +1,4 @@
--- Grão: cliente unificado (contas com o mesmo CPF viram uma só).
+-- Grain: unified customer (accounts with the same CPF become one).
 with pedidos as (
     select * from {{ ref('fct_pedidos') }} where pago
 ),

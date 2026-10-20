@@ -12,7 +12,7 @@ services:
       TZ: UTC
     command:
       - --default-time-zone=+00:00
-      - --secure-file-priv=  # vazio: permite LOAD DATA de /dados (montado só leitura)
+      - --secure-file-priv=  # empty: allows LOAD DATA from /dados (mounted read-only)
       - --innodb-buffer-pool-size=${MYSQL_BUFFER_POOL:-1G}
       - --innodb-redo-log-capacity=1G
       - --max-allowed-packet=256M
@@ -26,7 +26,7 @@ services:
       - ./docker/mysql/03_permissoes.sql:/docker-entrypoint-initdb.d/03_permissoes.sql:ro
       - ${DADOS_CSV:-./data/csv}:/dados:ro
     healthcheck:
-      # só fica saudável depois que a carga inicial terminou
+      # only becomes healthy after the initial load has finished
       test: ["CMD-SHELL", "mysql -uroot -p$$MYSQL_ROOT_PASSWORD -h127.0.0.1 -N -e 'SELECT 1 FROM tecidos._carga_concluida' | grep -q 1"]
       interval: 15s
       timeout: 10s

@@ -1,15 +1,15 @@
--- Limpeza do log de eventos:
---   1) remove duplicatas pelo event_id (mesmo evento chegando do navegador e do
---      servidor, ou retry de rede), mantendo a primeira ocorrência;
---   2) em purchase, mantém um evento por transaction_id (a recarga da página de
---      obrigado gera event_id novo para a mesma compra);
---   3) corrige o fuso do container v2.3 (gravou horário local em vez de UTC).
+-- Event log cleanup:
+--   1) removes duplicates by event_id (the same event arriving from the browser and the
+--      server, or a network retry), keeping the first occurrence;
+--   2) for purchases, keeps one event per transaction_id (reloading the thank-you
+--      page generates a new event_id for the same purchase);
+--   3) fixes the time zone of container v2.3 (it wrote local time instead of UTC).
 --
--- Desempenho: MIN(evento_id) por event_id usa o índice ix_eventos_event_id
--- (event_id, evento_id) sem ordenar a tabela inteira em disco. evento_id segue a
--- ordem de chegada dentro da sessão, então o menor id é a primeira ocorrência.
--- Uma janela ROW_NUMBER() sobre os ~15 milhões de linhas completas exigiria
--- vários GB de arquivo temporário.
+-- Performance: MIN(evento_id) per event_id uses the ix_eventos_event_id index
+-- (event_id, evento_id) without sorting the whole table on disk. evento_id follows
+-- arrival order within the session, so the smallest id is the first occurrence.
+-- A ROW_NUMBER() window over the full ~15 million rows would require
+-- several GB of temporary files.
 with primeiros as (
     select min(evento_id) as evento_id
     from {{ source('raw', 'eventos') }}

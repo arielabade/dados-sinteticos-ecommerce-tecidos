@@ -1,5 +1,5 @@
--- Grão: pedido. Inclui sequência do cliente (novo x recorrente), coorte,
--- margem bruta e canal de last click (atribuição).
+-- Grain: order. Includes the customer's sequence (new vs. returning), cohort,
+-- gross margin and last-click channel (attribution).
 with itens as (
     select pedido_id,
            count(*)                as linhas,

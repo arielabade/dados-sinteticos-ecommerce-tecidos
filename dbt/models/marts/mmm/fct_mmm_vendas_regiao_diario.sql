@@ -1,7 +1,7 @@
--- Mart do MMM, grão: data x UF (grade completa: UF sem venda no dia = 0).
--- Receita = total dos pedidos pagos (sem pedidos de teste), pela data local de
--- criação, a mesma definição de fct_kpis_diarios. A UF é a do endereço de
--- entrega; retirada na loja (sem endereço) conta para SP, onde fica a loja.
+-- MMM mart, grain: date x state (complete grid: a state with no sales on the day = 0).
+-- Revenue = total of paid orders (no test orders), by local creation
+-- date, the same definition as fct_kpis_diarios. The state is the shipping
+-- address's; store pickup (no address) counts for SP, where the store is.
 with vendas as (
     select
         data_pedido                as data,
