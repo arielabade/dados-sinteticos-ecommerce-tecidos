@@ -11,6 +11,9 @@ TABELAS=(
   google_metricas_diarias google_palavras_chave_metricas_diarias
   cliques_midia sessoes pedidos itens_pedido pagamentos fretes devolucoes
   movimentacoes_estoque avaliacoes eventos envios_conversao atribuicoes
+  canais_midia regioes calendario_comercial testes_geo testes_geo_regioes
+  tiktok_campanhas tiktok_metricas_diarias afiliados_parceiros afiliados_metricas_diarias
+  crm_disparos midia_regional_diaria
 )
 
 if [ ! -f /dados/pedidos.csv ]; then

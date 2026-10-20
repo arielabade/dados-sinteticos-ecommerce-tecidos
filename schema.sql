@@ -1,8 +1,9 @@
 -- =====================================================================
 -- Tecelã Tecidos (loja fictícia) - schema MySQL 8.4
 -- E-commerce brasileiro de tecidos: transacional + tracking (GTM
--- server-side, padrão GA4) + mídia paga (Meta Ads e Google Ads) +
--- atribuição.
+-- server-side, padrão GA4) + mídia paga (Meta Ads, Google Ads, TikTok Ads,
+-- afiliados e CRM) + atribuição + camada de MMM (mídia por UF, calendário
+-- comercial e registro de testes geográficos).
 --
 -- Convenções
 --   * Nomes em português, snake_case. IDs surrogate INT/BIGINT.
@@ -644,5 +645,160 @@ CREATE TABLE atribuicoes (
   CONSTRAINT fk_atrib_google  FOREIGN KEY (google_campanha_id) REFERENCES google_campanhas (campanha_id),
   CONSTRAINT ck_atrib_peso CHECK (peso > 0 AND peso <= 1)
 ) ENGINE=InnoDB COMMENT='Crédito por toque (lookback 30 dias). A soma dos pesos por pedido e modelo é 1';
+
+-- ---------------------------------------------------------------------
+-- 11. CAMADA DE MMM: CANAIS, REGIÕES, MÍDIA POR UF, CALENDÁRIO E TESTE GEO
+--     (gerador/regional.py; parâmetros em gerador/parametros_mmm.yaml)
+-- ---------------------------------------------------------------------
+
+CREATE TABLE canais_midia (
+  canal_id           TINYINT UNSIGNED NOT NULL,
+  canal              VARCHAR(30) NOT NULL COMMENT 'Canal de compra (grão do relatório da plataforma)',
+  canal_mmm          VARCHAR(30) NOT NULL COMMENT 'Agrupamento usado no MMM (orçamento decidido em conjunto)',
+  plataforma         VARCHAR(20) NOT NULL,
+  tipo_investimento  ENUM('pago','proprio') NOT NULL COMMENT 'proprio = custo de ferramenta (CRM), fora do otimizador',
+  PRIMARY KEY (canal_id),
+  UNIQUE KEY uq_canais_midia_canal (canal),
+  KEY ix_canais_midia_mmm (canal_mmm)
+) ENGINE=InnoDB COMMENT='Dimensão de canais de mídia';
+
+CREATE TABLE regioes (
+  uf                  CHAR(2)      NOT NULL,
+  nome                VARCHAR(40)  NOT NULL,
+  macrorregiao        VARCHAR(20)  NOT NULL,
+  sigla_macrorregiao  CHAR(2)      NOT NULL,
+  peso_populacional   DECIMAL(8,6) NOT NULL COMMENT 'Participação da UF na base de clientes potenciais',
+  entrega_disponivel  TINYINT(1)   NOT NULL DEFAULT 1 COMMENT '0 = a loja não entrega na UF (não pode haver mídia)',
+  PRIMARY KEY (uf),
+  CONSTRAINT ck_regioes_peso CHECK (peso_populacional > 0 AND peso_populacional < 1),
+  CONSTRAINT ck_regioes_macro CHECK (sigla_macrorregiao IN ('SE','S','CO','NE','N'))
+) ENGINE=InnoDB COMMENT='UFs atendidas pela loja';
+
+CREATE TABLE midia_regional_diaria (
+  data                   DATE NOT NULL COMMENT 'Fuso da conta',
+  canal_id               TINYINT UNSIGNED NOT NULL,
+  uf                     CHAR(2) NOT NULL,
+  investimento           DECIMAL(12,2) NOT NULL,
+  impressoes             INT UNSIGNED NULL COMMENT 'Nulo = canal sem impressões (afiliados). CRM: e-mails entregues',
+  cliques                INT UNSIGNED NOT NULL,
+  conversoes_plataforma  DECIMAL(10,2) NULL COMMENT 'Conversões por clique reportadas no relatório geográfico',
+  PRIMARY KEY (data, canal_id, uf),
+  KEY ix_mrd_uf_data (uf, data),
+  KEY ix_mrd_canal_data (canal_id, data),
+  CONSTRAINT fk_mrd_canal FOREIGN KEY (canal_id) REFERENCES canais_midia (canal_id),
+  CONSTRAINT fk_mrd_uf    FOREIGN KEY (uf)       REFERENCES regioes (uf),
+  CONSTRAINT ck_mrd_investimento CHECK (investimento >= 0),
+  CONSTRAINT ck_mrd_conversoes CHECK (conversoes_plataforma IS NULL OR (conversoes_plataforma >= 0 AND conversoes_plataforma <= cliques))
+) ENGINE=InnoDB COMMENT='Relatório geográfico das plataformas: investimento, impressões e cliques por dia, canal e UF';
+
+CREATE TABLE calendario_comercial (
+  data              DATE NOT NULL,
+  dia_semana        TINYINT UNSIGNED NOT NULL COMMENT '1 = segunda ... 7 = domingo',
+  feriado_nacional  TINYINT(1) NOT NULL DEFAULT 0,
+  nome_feriado      VARCHAR(60)  NULL,
+  evento_comercial  VARCHAR(120) NULL COMMENT 'Datas comerciais (black_friday, dia_das_maes, natal...), separadas por |',
+  promocao_loja     TINYINT(1) NOT NULL DEFAULT 0,
+  nome_promocao     VARCHAR(60)  NULL,
+  PRIMARY KEY (data),
+  CONSTRAINT ck_cal_dia CHECK (dia_semana BETWEEN 1 AND 7),
+  CONSTRAINT ck_cal_feriado CHECK ((feriado_nacional = 1) = (nome_feriado IS NOT NULL)),
+  CONSTRAINT ck_cal_promo CHECK ((promocao_loja = 1) = (nome_promocao IS NOT NULL))
+) ENGINE=InnoDB COMMENT='Calendário de marketing: feriados nacionais, datas comerciais e promoções da loja';
+
+CREATE TABLE testes_geo (
+  teste_id                    SMALLINT UNSIGNED NOT NULL,
+  nome                        VARCHAR(80) NOT NULL,
+  canal_id                    TINYINT UNSIGNED NOT NULL COMMENT 'Canal principal testado',
+  canal_mmm                   VARCHAR(30) NOT NULL,
+  tipo_mudanca                ENUM('desligar','reduzir','aumentar','dobrar') NOT NULL,
+  multiplicador_investimento  DECIMAL(4,2) NOT NULL COMMENT 'Investimento nas UFs de tratamento / planejado (0 = desligado)',
+  pre_inicio                  DATE NOT NULL COMMENT 'Início do pré-período usado no desenho',
+  inicio                      DATE NOT NULL,
+  fim                         DATE NOT NULL,
+  resfriamento_fim            DATE NOT NULL COMMENT 'Fim da janela de carryover depois do teste',
+  metrica_principal           VARCHAR(30) NOT NULL,
+  descricao                   VARCHAR(400) NULL,
+  PRIMARY KEY (teste_id),
+  CONSTRAINT fk_tg_canal FOREIGN KEY (canal_id) REFERENCES canais_midia (canal_id),
+  CONSTRAINT ck_tg_mult CHECK (multiplicador_investimento >= 0),
+  CONSTRAINT ck_tg_datas CHECK (pre_inicio < inicio AND inicio <= fim AND fim <= resfriamento_fim)
+) ENGINE=InnoDB COMMENT='Registro dos testes de incrementalidade geográfica';
+
+CREATE TABLE testes_geo_regioes (
+  teste_id  SMALLINT UNSIGNED NOT NULL,
+  uf        CHAR(2) NOT NULL,
+  grupo     ENUM('tratamento','controle') NOT NULL,
+  PRIMARY KEY (teste_id, uf),
+  CONSTRAINT fk_tgr_teste FOREIGN KEY (teste_id) REFERENCES testes_geo (teste_id),
+  CONSTRAINT fk_tgr_uf    FOREIGN KEY (uf)       REFERENCES regioes (uf)
+) ENGINE=InnoDB COMMENT='UFs de cada teste: tratamento recebeu a mudança, controle seguiu o plano';
+
+-- ---------------------------------------------------------------------
+-- 12. MÍDIA PAGA - TIKTOK ADS, AFILIADOS E CRM
+-- ---------------------------------------------------------------------
+
+CREATE TABLE tiktok_campanhas (
+  campanha_id  BIGINT UNSIGNED NOT NULL,
+  conta_id     VARCHAR(24)  NOT NULL,
+  nome         VARCHAR(120) NOT NULL,
+  objetivo     ENUM('CONVERSIONS','PRODUCT_SALES','REACH','TRAFFIC') NOT NULL,
+  status       ENUM('ENABLE','DISABLE') NOT NULL,
+  inicio       DATE NOT NULL,
+  fim          DATE NULL,
+  PRIMARY KEY (campanha_id),
+  CONSTRAINT ck_tkc_datas CHECK (fim IS NULL OR fim >= inicio)
+) ENGINE=InnoDB;
+
+CREATE TABLE tiktok_metricas_diarias (
+  data              DATE NOT NULL COMMENT 'Fuso da conta',
+  campanha_id       BIGINT UNSIGNED NOT NULL,
+  investimento      DECIMAL(12,2) NOT NULL,
+  impressoes        INT UNSIGNED NOT NULL,
+  cliques           INT UNSIGNED NOT NULL,
+  conversoes        INT UNSIGNED NOT NULL COMMENT 'Reportado (7d clique + 1d visualização)',
+  valor_conversoes  DECIMAL(12,2) NOT NULL,
+  PRIMARY KEY (data, campanha_id),
+  CONSTRAINT fk_tkm_campanha FOREIGN KEY (campanha_id) REFERENCES tiktok_campanhas (campanha_id),
+  CONSTRAINT ck_tkm_valores CHECK (investimento >= 0 AND cliques <= impressoes AND conversoes <= cliques)
+) ENGINE=InnoDB COMMENT='Relatório diário por campanha, como exportado da API do TikTok';
+
+CREATE TABLE afiliados_parceiros (
+  parceiro_id   SMALLINT UNSIGNED NOT NULL,
+  nome          VARCHAR(80) NOT NULL,
+  tipo          ENUM('conteudo','cupom','comparador') NOT NULL,
+  comissao_pct  DECIMAL(4,2) NOT NULL,
+  inicio        DATE NOT NULL,
+  ativo         TINYINT(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (parceiro_id),
+  CONSTRAINT ck_afp_comissao CHECK (comissao_pct BETWEEN 0 AND 30)
+) ENGINE=InnoDB COMMENT='Sites parceiros (conteúdo, cupom, comparador de preços)';
+
+CREATE TABLE afiliados_metricas_diarias (
+  data                DATE NOT NULL,
+  parceiro_id         SMALLINT UNSIGNED NOT NULL,
+  investimento        DECIMAL(12,2) NOT NULL COMMENT 'Fee de campanha negociado no mês, rateado por dia',
+  cliques             INT UNSIGNED NOT NULL,
+  pedidos_atribuidos  INT UNSIGNED NOT NULL COMMENT 'Último clique no link do parceiro (relatório da rede)',
+  receita_atribuida   DECIMAL(12,2) NOT NULL,
+  PRIMARY KEY (data, parceiro_id),
+  CONSTRAINT fk_afm_parceiro FOREIGN KEY (parceiro_id) REFERENCES afiliados_parceiros (parceiro_id),
+  CONSTRAINT ck_afm_valores CHECK (investimento >= 0 AND pedidos_atribuidos <= cliques)
+) ENGINE=InnoDB;
+
+CREATE TABLE crm_disparos (
+  disparo_id     INT UNSIGNED NOT NULL,
+  data           DATE NOT NULL,
+  tipo_campanha  ENUM('newsletter','reativacao','carrinho_abandonado') NOT NULL,
+  enviados       INT UNSIGNED NOT NULL,
+  entregues      INT UNSIGNED NOT NULL,
+  aberturas      INT UNSIGNED NOT NULL,
+  cliques        INT UNSIGNED NOT NULL,
+  descadastros   INT UNSIGNED NOT NULL,
+  custo          DECIMAL(10,2) NOT NULL COMMENT 'Custo da ferramenta de disparo',
+  PRIMARY KEY (disparo_id),
+  UNIQUE KEY uq_crm_data_tipo (data, tipo_campanha),
+  CONSTRAINT ck_crm_funil CHECK (entregues <= enviados AND aberturas <= entregues AND cliques <= aberturas),
+  CONSTRAINT ck_crm_custo CHECK (custo >= 0)
+) ENGINE=InnoDB COMMENT='Disparos de e-mail por dia e tipo de campanha';
 
 SET FOREIGN_KEY_CHECKS = 1;
